@@ -1,7 +1,9 @@
 {
   "name": "ebikelaw",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Neutral compliance checker for NJ S4834 (e-bike law). Cites the statute directly, never sells you a policy.",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
