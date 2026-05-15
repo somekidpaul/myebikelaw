@@ -182,14 +182,14 @@ function HowItWorks() {
         <Reveal delay={0}>
           <Step
             n="1"
-            title="Tell us about your bike"
+            title="Describe your bike"
             body="Motor wattage, top assisted speed, throttle or pedal-assist. We classify it under the statutory categories."
           />
         </Reveal>
         <Reveal delay={100}>
           <Step
             n="2"
-            title="Tell us about your coverage"
+            title="Describe your coverage"
             body="Specialty e-bike policy, auto, homeowners, renters, or nothing. Most homeowners policies exclude motorized vehicles — we say so."
           />
         </Reveal>
