@@ -148,14 +148,29 @@ function Logo() {
     <svg
       width="28"
       height="28"
-      viewBox="0 0 28 28"
-      fill="none"
+      viewBox="0 0 48 48"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <circle cx="14" cy="14" r="13" stroke="currentColor" strokeOpacity="0.18" />
-      <circle cx="14" cy="14" r="6" stroke="var(--color-brand)" strokeWidth="2" />
-      <circle cx="14" cy="14" r="1.5" fill="var(--color-brand)" />
+      <path
+        d="M24 4 L42 10 L42 24 Q42 38 24 44 Q6 38 6 24 L6 10 Z"
+        fill="var(--color-brand)"
+      />
+      <g transform="translate(8, 12)" stroke="#fafaf9" fill="none">
+        <circle cx="6.5" cy="14" r="4.5" strokeWidth="1.4" />
+        <circle cx="25.5" cy="14" r="4.5" strokeWidth="1.4" />
+        <path d="M11 7 L21 7" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M6.5 14 L11 7" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M25.5 14 L22 7" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M19 5 L23 6" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M9 7 L13 7" strokeWidth="1.4" strokeLinecap="round" />
+        <path
+          d="M17 7 L12.5 14 L15.5 14 L13 18.5 L19 11 L16 11 Z"
+          fill="#fafaf9"
+          strokeWidth="0.4"
+          strokeLinejoin="round"
+        />
+      </g>
     </svg>
   )
 }
