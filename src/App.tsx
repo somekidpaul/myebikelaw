@@ -34,7 +34,7 @@ function App() {
 
   const handleReset = () => {
     window.history.pushState({}, '', window.location.pathname)
-    setState({ phase: 'splash' })
+    setState({ phase: 'form' })
   }
 
   useEffect(() => {
