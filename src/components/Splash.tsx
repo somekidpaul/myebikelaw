@@ -58,7 +58,7 @@ function StateGrid({ onCheckNJ }: { onCheckNJ: () => void }) {
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
             <span className="eyebrow">Other states to watch</span>
-            <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
+            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
               Bills in motion elsewhere
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm text-[var(--color-ink-soft)]">
@@ -116,7 +116,7 @@ function NJCard({ onClick }: { onClick: () => void }) {
         </span>
       </div>
 
-      <h2 className="mt-4 text-[36px] font-bold leading-[1.05] tracking-tight sm:text-[52px]">
+      <h2 className="mt-4 text-[28px] font-bold leading-[1.05] tracking-tight sm:text-[52px]">
         New Jersey
       </h2>
 
@@ -175,10 +175,7 @@ function PendingStateCard({ bill }: { bill: PendingStateBill }) {
     >
       <div className="flex items-center gap-2">
         <span className="dot" style={{ background: dotColor }} />
-        <span
-          className="eyebrow"
-          style={{ color: labelColor, fontSize: 10 }}
-        >
+        <span className="eyebrow" style={{ color: labelColor }}>
           {bill.statusLabel}
         </span>
       </div>

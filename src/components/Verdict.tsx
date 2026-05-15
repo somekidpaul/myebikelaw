@@ -265,7 +265,12 @@ function Body({ compliance }: { compliance: Compliance }) {
   return (
     <div className="space-y-8">
       <section>
-        <h3 className="eyebrow">Gaps</h3>
+        <h3
+          className="text-xl font-bold sm:text-2xl"
+          style={{ color: 'var(--color-brand-soft)' }}
+        >
+          Gaps
+        </h3>
         <ul className="mt-3 space-y-3">
           {compliance.gaps.map((g, i) => (
             <li key={i} className="card">
@@ -277,7 +282,12 @@ function Body({ compliance }: { compliance: Compliance }) {
 
       {visibleRemedies.length > 0 && (
         <section>
-          <h3 className="eyebrow">Suggested remedies</h3>
+          <h3
+            className="text-xl font-bold sm:text-2xl"
+            style={{ color: 'var(--color-brand-soft)' }}
+          >
+            Suggested remedies
+          </h3>
           <ul className="mt-3 space-y-3">
             {visibleRemedies.map((r, i) => (
               <li
@@ -303,7 +313,7 @@ function GapItem({ gap }: { gap: Gap }) {
     case 'license-required':
       return (
         <>
-          <p className="font-bold text-[var(--color-ink)]">License required</p>
+          <h4 className="text-base font-bold sm:text-lg">License required</h4>
           <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
             Accepted: {gap.accepted.join(' or ')}. Operating without one is a
             statutory violation.
@@ -313,7 +323,7 @@ function GapItem({ gap }: { gap: Gap }) {
     case 'registration-required':
       return (
         <>
-          <p className="font-bold text-[var(--color-ink)]">Registration required</p>
+          <h4 className="text-base font-bold sm:text-lg">Registration required</h4>
           <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
             Your bike must be registered with the NJ MVC. Fees are waived through
             Jan 19, 2027.
@@ -323,9 +333,9 @@ function GapItem({ gap }: { gap: Gap }) {
     case 'insurance':
       return (
         <>
-          <p className="font-bold text-[var(--color-ink)]">
+          <h4 className="text-base font-bold sm:text-lg">
             Insurance coverage shortfall
-          </p>
+          </h4>
           <ul className="mt-3 space-y-2 text-sm">
             {gap.gaps.map((g, i) => (
               <li
@@ -378,7 +388,12 @@ function Citations({ compliance }: { compliance: Compliance }) {
   })
   return (
     <section className="border-t border-white/5 pt-8">
-      <h3 className="eyebrow">Citations</h3>
+      <h3
+        className="text-xl font-bold sm:text-2xl"
+        style={{ color: 'var(--color-brand-soft)' }}
+      >
+        Citations
+      </h3>
       <ul className="mt-4 space-y-4">
         {unique.map((c, i) => (
           <li key={i} className="text-sm">

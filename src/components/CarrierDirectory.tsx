@@ -13,7 +13,12 @@ export function CarrierDirectory() {
   return (
     <section className="space-y-5 border-t border-white/5 pt-8">
       <header className="space-y-3">
-        <h3 className="eyebrow">Where to get an S4834-compliant policy</h3>
+        <h3
+          className="text-xl font-bold sm:text-2xl"
+          style={{ color: 'var(--color-brand-soft)' }}
+        >
+          Where to get an S4834-compliant policy
+        </h3>
         <p className="text-sm text-[var(--color-ink-soft)]">
           Carriers don't publish liability limits publicly. When you get a quote,
           verify it covers at least{' '}
