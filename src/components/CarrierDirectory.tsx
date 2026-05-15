@@ -49,6 +49,8 @@ function CarrierCard({ carrier }: { carrier: CarrierEntry }) {
     carrier.pricing.kind === 'quote-only'
       ? 'Quote required — pricing not published'
       : carrier.pricing.display
+  const isWaitlist = carrier.status === 'waitlist'
+  const ctaLabel = isWaitlist ? 'Join the waitlist ↗' : 'Get a quote ↗'
 
   return (
     <article
@@ -56,7 +58,20 @@ function CarrierCard({ carrier }: { carrier: CarrierEntry }) {
       style={{ background: 'rgba(255, 255, 255, 0.025)' }}
     >
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h4 className="text-base font-bold sm:text-lg">{carrier.name}</h4>
+        <div className="flex items-baseline gap-2">
+          <h4 className="text-base font-bold sm:text-lg">{carrier.name}</h4>
+          {isWaitlist && (
+            <span
+              className="rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wider"
+              style={{
+                background: 'rgba(245, 158, 11, 0.12)',
+                color: 'var(--color-warn)',
+              }}
+            >
+              Waitlist
+            </span>
+          )}
+        </div>
         <a
           href={carrier.quoteUrl}
           target="_blank"
@@ -64,7 +79,7 @@ function CarrierCard({ carrier }: { carrier: CarrierEntry }) {
           className="text-sm font-semibold"
           style={{ color: 'var(--color-brand-soft)' }}
         >
-          Get a quote ↗
+          {ctaLabel}
         </a>
       </div>
 

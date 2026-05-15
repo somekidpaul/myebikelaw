@@ -12,6 +12,8 @@ export type CarrierPricing =
 
 export type S4834ComplianceClaim = 'explicit' | 'implicit' | 'unclear'
 
+export type CarrierStatus = 'active' | 'waitlist'
+
 export type CarrierEntry = {
   readonly id: CarrierId
   readonly name: string
@@ -23,6 +25,7 @@ export type CarrierEntry = {
   readonly complianceClaim: S4834ComplianceClaim
   readonly coverageHighlights: ReadonlyArray<string>
   readonly quoteUrl: string
+  readonly status?: CarrierStatus
   readonly source: {
     readonly url: string
     readonly lastVerified: string

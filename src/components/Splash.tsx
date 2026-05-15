@@ -75,6 +75,21 @@ function StateGrid({ onCheckNJ }: { onCheckNJ: () => void }) {
             </Reveal>
           ))}
         </div>
+
+        <Reveal>
+          <p
+            className="mx-auto mt-10 max-w-2xl text-center text-sm"
+            style={{ color: 'var(--color-ink-soft)' }}
+          >
+            <span className="dot dot-good mr-2 inline-block align-middle" />
+            <span className="align-middle">
+              Don't see your state? You're in the clear — no other US states
+              currently require a license, registration, or insurance to ride
+              an e-bike. We're watching all 50 and will add a card the moment
+              that changes.
+            </span>
+          </p>
+        </Reveal>
       </div>
     </section>
   )

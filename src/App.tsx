@@ -61,8 +61,10 @@ function App() {
 
   return (
     <div className="min-h-svh">
+      <a href="#main" className="skip-link">Skip to content</a>
       <SiteHeader />
 
+      <main id="main">
       {state.phase === 'splash' && (
         <Splash onCheckNJ={() => setState({ phase: 'form' })} />
       )}
@@ -70,7 +72,16 @@ function App() {
       <div ref={workRef}>
         {state.phase === 'form' && (
           <section className="mx-auto max-w-2xl px-6 py-16 lift-in">
-            <SectionEyebrow>Step 2 · Your situation</SectionEyebrow>
+            <button
+              type="button"
+              onClick={() => setState({ phase: 'splash' })}
+              className="text-sm text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]"
+            >
+              ← Back
+            </button>
+            <div className="mt-6">
+              <SectionEyebrow>Step 2 · Your situation</SectionEyebrow>
+            </div>
             <h2 className="mt-2 text-3xl font-bold sm:text-4xl">
               A few questions about your bike.
             </h2>
@@ -102,6 +113,7 @@ function App() {
           </Reveal>
         </>
       )}
+      </main>
 
       <SiteFooter />
     </div>
