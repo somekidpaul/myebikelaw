@@ -15,10 +15,10 @@
     <text x="58" y="29" font-family="ui-rounded, -apple-system, 'Helvetica Neue', sans-serif" font-size="26" font-weight="700" fill="#fafaf9">MyEBikeLaw</text>
   </g>
 
-  <text x="80" y="260" font-family="'Oswald', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif" font-size="22" font-weight="600" letter-spacing="4" fill="#fb923c">NJ · S4834 · COMPLIANCE CHECKER</text>
+  <text x="80" y="260" font-family="'Oswald', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif" font-size="22" font-weight="600" letter-spacing="4" fill="#fb923c">E-BIKE LAW · COMPLIANCE BY STATE</text>
 
-  <text x="80" y="370" font-family="'Oswald', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif" font-size="92" font-weight="700" fill="#fafaf9" letter-spacing="2">ARE YOU LEGAL</text>
-  <text x="80" y="460" font-family="'Oswald', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif" font-size="92" font-weight="700" fill="#fafaf9" letter-spacing="2">TO RIDE YOUR E-BIKE?</text>
+  <text x="80" y="370" font-family="'Oswald', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif" font-size="92" font-weight="700" fill="#fafaf9" letter-spacing="2">YOUR E-BIKE IS LEGAL.</text>
+  <text x="80" y="460" font-family="'Oswald', 'Helvetica Neue Condensed', 'Arial Narrow', sans-serif" font-size="92" font-weight="700" fill="#fafaf9" letter-spacing="2">ARE YOU COMPLIANT?</text>
 
   <text x="80" y="540" font-family="-apple-system, 'Helvetica Neue', sans-serif" font-size="22" fill="#a8a29e">Reads the statute. Cites the law. Doesn't sell you a policy.</text>
 </svg>

@@ -70,8 +70,10 @@ export const NJ_S4834: StatutoryRequirement = {
           '$35,000 bodily injury per person / $70,000 per accident / $25,000 property damage for policies issued on or after January 1, 2026.',
       },
       {
-        statute: 'N.J.S.A. 39:6A — AICRA (PIP coverage and auto insurance reform)',
+        statute: 'N.J.S.A. 39:6A — AICRA (PIP coverage)',
         url: 'https://www.nj.gov/oag/insurancefraud/pdfs/aicra-act.pdf',
+        quote:
+          '$15,000 PIP per person is the NJ basic-policy floor. Standard policies offer $50k–$250k. The figure your specialty e-bike policy carries depends on the policy tier — confirm with your carrier; the $15k cited here is a conservative minimum, not a ceiling.',
       },
     ],
   },

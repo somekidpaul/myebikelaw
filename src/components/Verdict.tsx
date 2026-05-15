@@ -1,13 +1,23 @@
 import { useState } from 'react'
-import type { ClassificationNote, Compliance, Gap, Remedy, USD } from '../types'
+import type {
+  BikeProfile,
+  ClassificationNote,
+  Compliance,
+  Gap,
+  Remedy,
+  USD,
+} from '../types'
 import { CarrierDirectory } from './CarrierDirectory'
 import { buildIcs, downloadIcs, NJ_S4834_DEADLINE_EVENT } from '../lib/calendar'
+import { NJ_S4834 } from '../data/statutes/nj'
 
 export function Verdict({
   compliance,
+  bike,
   onReset,
 }: {
   compliance: Compliance
+  bike?: BikeProfile
   onReset: () => void
 }) {
   const hasGaps = compliance.status === 'gaps'
@@ -16,6 +26,9 @@ export function Verdict({
       <VerdictHeader compliance={compliance} />
       {compliance.classificationNote && (
         <ClassificationCallout note={compliance.classificationNote} />
+      )}
+      {bike && compliance.status !== 'prohibited' && (
+        <PendingExtensionCallout bike={bike} />
       )}
       <Body compliance={compliance} />
       <Citations compliance={compliance} />
@@ -27,6 +40,42 @@ export function Verdict({
           ← Start over
         </button>
       </div>
+    </div>
+  )
+}
+
+function PendingExtensionCallout({ bike }: { bike: BikeProfile }) {
+  // Only relevant when the NJ engine classified this bike as low-speed-electric —
+  // the category currently exempt from insurance, which two pending NJ bills
+  // (A2093, S3156) would close.
+  const category = NJ_S4834.appliesTo(bike)
+  if (category !== 'low-speed-electric') return null
+  return (
+    <div
+      className="rounded-lg border p-5"
+      style={{
+        background: 'rgba(127, 163, 200, 0.06)',
+        borderColor: 'rgba(127, 163, 200, 0.22)',
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <span className="dot" style={{ background: 'var(--color-ink-soft)' }} />
+        <span
+          className="eyebrow"
+          style={{ color: 'var(--color-ink-soft)' }}
+        >
+          Heads up · pending NJ legislation
+        </span>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-[var(--color-ink-soft)]">
+        Two pending NJ bills —{' '}
+        <strong className="text-[var(--color-ink)]">A2093</strong> and{' '}
+        <strong className="text-[var(--color-ink)]">S3156</strong> — would extend
+        insurance and registration to low-speed electric bicycles too, closing the
+        current exemption that applies to your bike. Both are in their respective
+        Transportation Committees. Most committee bills don't advance, but worth
+        knowing about so you're not caught off guard if they do.
+      </p>
     </div>
   )
 }
