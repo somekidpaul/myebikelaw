@@ -342,6 +342,67 @@ describe('motorized bicycle compliance', () => {
 })
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Registration status (bike.isRegistered) — gates the registration-required gap
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('registration status', () => {
+  it('motorized bike registered + insured + licensed → compliant', () => {
+    const result = checkCompliance({
+      bike: { ...throttleBikeFast, isRegistered: true },
+      operator: adultLicensed,
+      policies: [compliantSpecialty],
+      statute: NJ_S4834,
+    })
+    expect(result.status).toBe('compliant')
+  })
+
+  it('motorized bike registered but uninsured → only insurance gap remains', () => {
+    const result = checkCompliance({
+      bike: { ...throttleBikeFast, isRegistered: true },
+      operator: adultLicensed,
+      policies: [{ kind: 'none' }],
+      statute: NJ_S4834,
+    })
+    expect(result.status).toBe('gaps')
+    if (result.status !== 'gaps') return
+    expect(result.gaps.some((g) => g.kind === 'registration-required')).toBe(false)
+    expect(result.gaps.some((g) => g.kind === 'insurance')).toBe(true)
+  })
+
+  it('low-speed bike registered + licensed → compliant (no insurance needed)', () => {
+    const result = checkCompliance({
+      bike: { ...lowSpeedPedalAssist, isRegistered: true },
+      operator: adultLicensed,
+      policies: [{ kind: 'none' }],
+      statute: NJ_S4834,
+    })
+    expect(result.status).toBe('compliant')
+  })
+
+  it('isRegistered explicitly false → registration gap still surfaces', () => {
+    const result = checkCompliance({
+      bike: { ...throttleBikeFast, isRegistered: false },
+      operator: adultLicensed,
+      policies: [compliantSpecialty],
+      statute: NJ_S4834,
+    })
+    expect(result.status).toBe('gaps')
+    if (result.status !== 'gaps') return
+    expect(result.gaps.some((g) => g.kind === 'registration-required')).toBe(true)
+  })
+
+  it('registered makes no difference when category is exempt (standard bike)', () => {
+    const result = checkCompliance({
+      bike: { ...standardBike, isRegistered: true },
+      operator: adultLicensed,
+      policies: [{ kind: 'none' }],
+      statute: NJ_S4834,
+    })
+    expect(result.status).toBe('not-applicable')
+  })
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Operator age — universal across categories
 // ─────────────────────────────────────────────────────────────────────────────
 

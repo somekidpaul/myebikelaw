@@ -80,7 +80,7 @@ export function checkCompliance(input: ComplianceInput): Compliance {
       statute.registration.rentalExemption &&
       bike.isRentalFromSharedSystem &&
       category === 'low-speed-electric'
-    if (!isExemptRental) {
+    if (!isExemptRental && !bike.isRegistered) {
       gaps.push({ kind: 'registration-required' })
       remedies.push({ kind: 'register-with-mvc' })
     }

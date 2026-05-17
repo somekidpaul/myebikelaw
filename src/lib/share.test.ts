@@ -8,6 +8,7 @@ const baseline: SharedAnswers = {
     topMotorAssistedSpeed: mph(20),
     motorWatts: watts(500),
     isRentalFromSharedSystem: false,
+    isRegistered: false,
   },
   operator: { age: years(35), license: 'basic-drivers' },
   policies: [{ kind: 'none' }],
@@ -37,6 +38,20 @@ describe('share encode/decode', () => {
     }
     const decoded = decodeAnswers(encodeAnswers(input))
     expect(decoded).toEqual(input)
+  })
+
+  it('round-trips the isRegistered flag', () => {
+    const input: SharedAnswers = {
+      ...baseline,
+      bike: { ...baseline.bike, isRegistered: true },
+    }
+    const decoded = decodeAnswers(encodeAnswers(input))
+    expect(decoded?.bike.isRegistered).toBe(true)
+  })
+
+  it('defaults isRegistered to false when the g param is absent', () => {
+    const decoded = decodeAnswers('a=35')
+    expect(decoded?.bike.isRegistered).toBe(false)
   })
 
   it('returns null for invalid input (missing age)', () => {

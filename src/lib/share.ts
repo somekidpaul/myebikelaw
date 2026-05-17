@@ -16,6 +16,7 @@ import { mph, usd, watts, years } from '../types'
  *   s = top motor-assisted speed (mph)
  *   w = motor wattage
  *   r = rental: 0 | 1
+ *   g = registered with the state: 0 | 1
  *   a = operator age
  *   l = license: b (basic-drivers) | m (motorized-bicycle) | n (none)
  *   p = policy:  n (none) | s (specialty) | a (auto) | h (homeowners) | r (renters)
@@ -26,6 +27,7 @@ const QuerySchema = z.object({
   s: z.coerce.number().int().min(0).max(50).default(20),
   w: z.coerce.number().int().min(0).max(5000).default(500),
   r: z.enum(['0', '1']).default('0'),
+  g: z.enum(['0', '1']).default('0'),
   a: z.coerce.number().int().min(1).max(120),
   l: z.enum(['b', 'm', 'n']).default('b'),
   p: z.enum(['n', 's', 'a', 'h', 'r']).default('n'),
@@ -69,6 +71,7 @@ export function encodeAnswers(a: SharedAnswers): string {
   params.set('s', String(a.bike.topMotorAssistedSpeed))
   params.set('w', String(a.bike.motorWatts))
   params.set('r', a.bike.isRentalFromSharedSystem ? '1' : '0')
+  params.set('g', a.bike.isRegistered ? '1' : '0')
   params.set('a', String(a.operator.age))
   params.set('l', licenseToWire[a.operator.license])
 
@@ -106,6 +109,7 @@ export function decodeAnswers(query: string): SharedAnswers | null {
     topMotorAssistedSpeed: mph(q.s),
     motorWatts: watts(q.w),
     isRentalFromSharedSystem: q.r === '1',
+    isRegistered: q.g === '1',
   }
   const operator: OperatorProfile = {
     age: years(q.a),

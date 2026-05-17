@@ -13,6 +13,7 @@ type FormState = {
   topSpeed: string
   motorWatts: string
   isRental: boolean
+  isRegistered: boolean
   age: string
   license: LicenseKind
   policy: 'specialty' | 'homeowners' | 'renters' | 'auto' | 'none'
@@ -27,6 +28,7 @@ const initialState: FormState = {
   topSpeed: '20',
   motorWatts: '500',
   isRental: false,
+  isRegistered: false,
   age: '',
   license: 'basic-drivers',
   policy: 'none',
@@ -57,6 +59,7 @@ export function Form({ onSubmit }: { onSubmit: (r: FormResult) => void }) {
         topMotorAssistedSpeed: mph(Number(s.topSpeed) || 0),
         throttle: s.throttle,
         isRentalFromSharedSystem: s.isRental,
+        isRegistered: s.isRegistered,
       },
       operator: {
         age: years(ageNum),
@@ -108,6 +111,13 @@ export function Form({ onSubmit }: { onSubmit: (r: FormResult) => void }) {
                 checked={s.isRental}
                 onChange={(v) => set('isRental', v)}
                 label="This is a rental from a shared system (Citi Bike, Lime, etc.)"
+              />
+            </Field>
+            <Field label="">
+              <Checkbox
+                checked={s.isRegistered}
+                onChange={(v) => set('isRegistered', v)}
+                label="This bike is already registered with the NJ MVC"
               />
             </Field>
           </>
