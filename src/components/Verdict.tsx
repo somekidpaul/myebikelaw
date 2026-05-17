@@ -23,6 +23,7 @@ export function Verdict({
   const hasGaps = compliance.status === 'gaps'
   return (
     <div className="space-y-8">
+      <PrintHeader />
       <VerdictHeader compliance={compliance} />
       {compliance.classificationNote && (
         <ClassificationCallout note={compliance.classificationNote} />
@@ -33,14 +34,44 @@ export function Verdict({
       <Body compliance={compliance} />
       <Citations compliance={compliance} />
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="no-print flex flex-wrap items-center gap-3">
         <ShareButton />
+        <SaveAsPdfButton />
         {hasGaps && <AddToCalendarButton />}
         <button type="button" onClick={onReset} className="btn btn-ghost">
           ← Start over
         </button>
       </div>
     </div>
+  )
+}
+
+// Letterhead shown only when the results page is printed / saved as PDF.
+function PrintHeader() {
+  const today = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+  return (
+    <div className="print-only print-header">
+      <strong className="font-rounded text-lg font-bold">MyEBikeLaw.com</strong>
+      <span className="text-sm text-[var(--color-ink-soft)]">
+        New Jersey S4834 compliance check · generated {today}
+      </span>
+    </div>
+  )
+}
+
+function SaveAsPdfButton() {
+  return (
+    <button
+      type="button"
+      onClick={() => window.print()}
+      className="btn btn-ghost"
+    >
+      Save as PDF
+    </button>
   )
 }
 

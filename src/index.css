@@ -289,3 +289,53 @@ input[type="checkbox"] {
     animation: none;
   }
 }
+
+/* ─── Print / Save-as-PDF ─── */
+/* The print-only letterhead is hidden on screen, revealed when printing. */
+.print-only {
+  display: none;
+}
+
+@media print {
+  /* Render the dark theme faithfully in the saved PDF. */
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  html,
+  body {
+    background: var(--color-bg-base) !important;
+  }
+  /* Drop the site chrome — the PDF is just the verdict. */
+  .skip-link,
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  /* Reveal the print-only letterhead. */
+  .print-only {
+    display: flex !important;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .print-header {
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+  /* Trim the on-screen vertical padding around the verdict. */
+  main section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  /* Keep cards and carrier rows from splitting across pages. */
+  .card,
+  article {
+    break-inside: avoid;
+  }
+  .lift-in {
+    animation: none;
+  }
+}
