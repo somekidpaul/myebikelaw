@@ -154,23 +154,14 @@ function Logo() {
     >
       <path
         d="M24 4 L42 10 L42 24 Q42 38 24 44 Q6 38 6 24 L6 10 Z"
+        fill="none"
+        stroke="var(--color-brand)"
+        strokeWidth="3"
+      />
+      <path
+        d="M29 10 L17 26 L23 26 L20 38 L31 22 L25 22 Z"
         fill="var(--color-brand)"
       />
-      <g transform="translate(8, 12)" stroke="#fafaf9" fill="none">
-        <circle cx="6.5" cy="14" r="4.5" strokeWidth="1.4" />
-        <circle cx="25.5" cy="14" r="4.5" strokeWidth="1.4" />
-        <path d="M11 7 L21 7" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M6.5 14 L11 7" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M25.5 14 L22 7" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M19 5 L23 6" strokeWidth="1.4" strokeLinecap="round" />
-        <path d="M9 7 L13 7" strokeWidth="1.4" strokeLinecap="round" />
-        <path
-          d="M17 7 L12.5 14 L15.5 14 L13 18.5 L19 11 L16 11 Z"
-          fill="#fafaf9"
-          strokeWidth="0.4"
-          strokeLinejoin="round"
-        />
-      </g>
     </svg>
   )
 }
