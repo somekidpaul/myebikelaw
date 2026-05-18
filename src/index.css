@@ -250,28 +250,6 @@ input[type="checkbox"] {
   }
 }
 
-/* Skip-to-content — visible only when focused via keyboard */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 12px;
-  z-index: 100;
-  background: var(--color-brand);
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 14px;
-  text-decoration: none;
-  transition: top 0.15s ease;
-}
-.skip-link:focus {
-  top: 12px;
-  opacity: 1;
-  outline: 2px solid var(--color-ink);
-  outline-offset: 2px;
-}
-
 /* Respect prefers-reduced-motion — disable all motion */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
@@ -309,7 +287,6 @@ input[type="checkbox"] {
     background: var(--color-bg-base) !important;
   }
   /* Drop the site chrome — the PDF is just the verdict. */
-  .skip-link,
   header,
   footer,
   .no-print {

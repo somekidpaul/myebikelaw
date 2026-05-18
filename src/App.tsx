@@ -61,10 +61,9 @@ function App() {
 
   return (
     <div className="min-h-svh">
-      <a href="#main" className="skip-link">Skip to content</a>
       <SiteHeader />
 
-      <main id="main">
+      <main>
       {state.phase === 'splash' && (
         <Splash onCheckNJ={() => setState({ phase: 'form' })} />
       )}
