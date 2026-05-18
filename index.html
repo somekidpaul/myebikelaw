@@ -2,17 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0c0a09" />
 
     <title>MyEBikeLaw — Are you compliant with NJ's e-bike law?</title>
     <meta
       name="description"
-      content="Neutral compliance checker for NJ S4834 (e-bike law). Cites the statute directly, never sells you a policy. Find out if your bike, license, registration, and insurance meet the law before the July 19, 2026 deadline."
+      content="Free NJ S4834 e-bike compliance checker — reads the statute and tells you exactly which license, registration, and insurance rules apply to your bike before July 19, 2026."
     />
+    <link rel="canonical" href="https://myebikelaw.com/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://myebikelaw.com/" />
     <meta property="og:title" content="MyEBikeLaw — Are you compliant with NJ's e-bike law?" />
     <meta
       property="og:description"
@@ -20,7 +28,15 @@
     />
     <meta property="og:site_name" content="MyEBikeLaw" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:image" content="/og.svg" />
+    <meta property="og:image" content="https://myebikelaw.com/og.png" />
+    <meta property="og:image:secure_url" content="https://myebikelaw.com/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="MyEBikeLaw — Your e-bike is legal. Are you compliant? NJ S4834 compliance checker."
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="MyEBikeLaw — Are you compliant with NJ's e-bike law?" />
@@ -28,12 +44,40 @@
       name="twitter:description"
       content="Neutral S4834 compliance checker. Cites the statute. Doesn't sell you anything."
     />
-    <meta name="twitter:image" content="/og.svg" />
+    <meta name="twitter:image" content="https://myebikelaw.com/og.png" />
+    <meta
+      name="twitter:image:alt"
+      content="MyEBikeLaw — NJ S4834 e-bike compliance checker."
+    />
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://myebikelaw.com/#website",
+          "url": "https://myebikelaw.com/",
+          "name": "MyEBikeLaw",
+          "description": "Free compliance checker for New Jersey's S4834 e-bike law."
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://myebikelaw.com/#webapp",
+          "name": "MyEBikeLaw — NJ S4834 E-Bike Compliance Checker",
+          "url": "https://myebikelaw.com/",
+          "applicationCategory": "UtilityApplication",
+          "operatingSystem": "Web browser",
+          "browserRequirements": "Requires JavaScript",
+          "isAccessibleForFree": true,
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "image": "https://myebikelaw.com/og.png",
+          "publisher": { "@id": "https://myebikelaw.com/#website" },
+          "description": "Reads NJ Senate Bill S4834 (P.L.2025, c.285) and checks whether your e-bike needs a license, registration, and insurance before the July 19, 2026 compliance deadline. Cites the statute directly; no insurance sales."
+        },
+        {
       "@type": "FAQPage",
+      "@id": "https://myebikelaw.com/#faq",
       "mainEntity": [
         {
           "@type": "Question",
@@ -90,6 +134,8 @@
             "@type": "Answer",
             "text": "Usually not. Most standard homeowners and renters policies have a motorized-vehicle exclusion that triggers as soon as a bike has a motor. Even when an endorsement extends coverage, it rarely meets the statutory minimums. Verify with your carrier in writing."
           }
+        }
+      ]
         }
       ]
     }
