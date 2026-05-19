@@ -99,10 +99,16 @@ function StateGrid({ onCheckNJ }: { onCheckNJ: () => void }) {
 function NJCard({ onClick }: { onClick: () => void }) {
   // Days-to-deadline is computed client-side only so the prerendered HTML
   // doesn't ship a build-time-frozen countdown that goes stale by the next
-  // day. Server renders "In effect"; the client appends the countdown.
+  // day. Server renders "In effect"; the client appends the countdown and
+  // recomputes every minute so a tab left open across midnight still shows
+  // the right number. (React bails on same-value state updates, so the
+  // interval is effectively free until the day actually rolls over.)
   const [daysLeft, setDaysLeft] = useState<number | null>(null)
   useEffect(() => {
-    setDaysLeft(daysUntil(NJ_S4834.complianceDeadline))
+    const update = () => setDaysLeft(daysUntil(NJ_S4834.complianceDeadline))
+    update()
+    const id = setInterval(update, 60_000)
+    return () => clearInterval(id)
   }, [])
   return (
     <div
