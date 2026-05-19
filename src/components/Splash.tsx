@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import type { PendingStateBill, RequirementHint } from '../types'
 import { PENDING_STATE_BILLS } from '../data/pending-bills'
 import { NJ_S4834 } from '../data/statutes/nj'
@@ -96,7 +97,13 @@ function StateGrid({ onCheckNJ }: { onCheckNJ: () => void }) {
 }
 
 function NJCard({ onClick }: { onClick: () => void }) {
-  const daysLeft = daysUntil(NJ_S4834.complianceDeadline)
+  // Days-to-deadline is computed client-side only so the prerendered HTML
+  // doesn't ship a build-time-frozen countdown that goes stale by the next
+  // day. Server renders "In effect"; the client appends the countdown.
+  const [daysLeft, setDaysLeft] = useState<number | null>(null)
+  useEffect(() => {
+    setDaysLeft(daysUntil(NJ_S4834.complianceDeadline))
+  }, [])
   return (
     <div
       className="lift relative overflow-hidden rounded-2xl border p-8 sm:p-10"
@@ -112,7 +119,11 @@ function NJCard({ onClick }: { onClick: () => void }) {
           className="eyebrow"
           style={{ color: 'var(--color-good)' }}
         >
-          In effect · {daysLeft > 0 ? `${daysLeft} days to comply` : 'Past deadline'}
+          In effect{daysLeft === null
+            ? ''
+            : daysLeft > 0
+              ? ` · ${daysLeft} days to comply`
+              : ' · Past deadline'}
         </span>
       </div>
 
