@@ -14,7 +14,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: ['registration'],
     sourceUrl:
       'https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB1942',
-    lastVerified: '2026-05-20',
+    lastVerified: '2026-05-21',
   },
   {
     state: 'FL',
@@ -29,7 +29,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: [],
     proposedEffectiveDate: '2026-07-01',
     sourceUrl: 'https://www.flsenate.gov/Session/Bill/2026/382',
-    lastVerified: '2026-05-14',
+    lastVerified: '2026-05-21',
   },
   {
     state: 'HI',
@@ -43,7 +43,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       "HB 2021 (final form HB 2021 HD2 SD2 CD1) passed both chambers and is now awaiting Governor Green's decision. One-time $30 registration applies to all e-bikes. Adopts the standard 3-class system (Class 1/2/3). Age 16+ required for the higher-speed class. Higher-speed e-bikes prohibited on public roads, bike lanes, and sidewalks. Manufacturer labels showing class/top speed/wattage are required; retailers must inform buyers of state law. If signed: road provisions effective immediately, retailer disclosure within 120 days.",
     requirementHints: ['registration'],
     sourceUrl: 'https://legiscan.com/HI/bill/HB2021/2026',
-    lastVerified: '2026-05-14',
+    lastVerified: '2026-05-21',
   },
   {
     state: 'MA',
@@ -58,7 +58,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: ['registration', 'insurance'],
     sourceUrl:
       'https://www.mass.gov/news/governor-healey-files-ride-safe-act-to-strengthen-public-safety-regulate-e-bikes-mopeds-and-scooters',
-    lastVerified: '2026-05-20',
+    lastVerified: '2026-05-21',
   },
   {
     state: 'NY',
@@ -72,6 +72,6 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       'S08573 — the RIDERS Act ("Responsible Implementation of E-bike Regulations for Safe Cycling") — was introduced November 7, 2025. Would direct the NY DMV to create a registration process and fee schedule for all electric personal mobility devices: pedal-assist bicycles, e-scooters, and electric skateboards. Also requires operator licensure for these devices. Currently in the Senate Transportation Committee, roughly 25% through the legislative process. Committee passage is uncertain.',
     requirementHints: ['registration', 'license'],
     sourceUrl: 'https://www.nysenate.gov/legislation/bills/2025/S8573',
-    lastVerified: '2026-05-14',
+    lastVerified: '2026-05-21',
   },
 ]
