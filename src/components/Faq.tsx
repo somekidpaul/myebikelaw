@@ -66,9 +66,10 @@ const GENERAL: ReadonlyArray<QA> = [
         there's a small wave of related activity elsewhere:
         <ul className="mt-3 space-y-2 list-disc pl-5">
           <li>
-            <strong>California</strong> — AB 1942 would require DMV registration
-            and license plates for Class 2 and Class 3 e-bikes. Passed
-            Transportation Committee 12-0; now in Appropriations.
+            <strong>California</strong> — AB 1942 would have required DMV
+            registration and license plates for Class 2 and Class 3 e-bikes,
+            but it stalled: held in committee on the Appropriations suspense
+            file (May 14, 2026).
           </li>
           <li>
             <strong>Hawaii</strong> — HB 2021 (HD2 SD2 CD1) passed both chambers
