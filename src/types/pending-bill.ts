@@ -4,6 +4,7 @@ export type BillStatus =
   | 'filed'
   | 'in-committee'
   | 'in-appropriations'
+  | 'held-in-committee'
   | 'near-final-vote'
   | 'passed-one-chamber'
   | 'passed-both-chambers'

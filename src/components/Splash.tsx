@@ -174,9 +174,11 @@ function RequirementChip({ label }: { label: string }) {
 }
 
 function PendingStateCard({ bill }: { bill: PendingStateBill }) {
-  // If a bill passed but doesn't add license/registration/insurance, render it
-  // with a neutral "informational" treatment instead of the amber "pending compliance" treatment.
-  const isInformational = bill.requirementHints.length === 0
+  // Render with a neutral "informational" treatment (instead of the amber
+  // "pending compliance" treatment) when there's nothing for a rider to act on:
+  // either the bill passed but adds no requirements, or it stalled in committee.
+  const isInformational =
+    bill.requirementHints.length === 0 || bill.status === 'held-in-committee'
   const dotColor = isInformational
     ? 'var(--color-ink-soft)'
     : 'var(--color-warn)'

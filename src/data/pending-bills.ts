@@ -5,15 +5,30 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     state: 'CA',
     stateName: 'California',
     billId: 'AB 1942',
-    status: 'in-appropriations',
-    statusLabel: 'In Appropriations',
+    status: 'held-in-committee',
+    statusLabel: 'Held in committee',
     oneLiner:
-      'Would require DMV registration and special license plates for Class 2 and Class 3 e-bikes. Class 1 unaffected.',
+      'Would have required DMV registration and license plates for Class 2 and Class 3 e-bikes (Class 1 unaffected) — but it stalled in committee.',
     details:
-      "AB 1942 (Bauer-Kahan / coauthor Davies) passed the Transportation Committee 12-0 on April 21, 2026 and now sits in Appropriations. Plates must be affixed to the rear and visible at all times. Registration fee left blank in introduced text — DMV will set it by regulation. Penalty schedule: $100 first violation, $200 second, $250 each subsequent. Class 1 e-bikes (pedal-assist ≤20 mph) are unaffected. Cycling advocacy groups have actively opposed the bill.",
+      "AB 1942 (Bauer-Kahan / coauthor Davies) passed the Assembly Transportation Committee 12-0 on April 21, 2026 and moved to Appropriations. On May 14, 2026 it was held under submission on the Appropriations suspense file — California's term for a bill stopped in committee without a floor vote. Unless it is revived, it is done for this session. As written, it would have required rear license plates (affixed and visible) plus DMV registration for Class 2 and Class 3 e-bikes; Class 1 (pedal-assist ≤20 mph) was unaffected. The registration fee was left to DMV regulation; penalties were $100 / $200 / $250 for first / second / subsequent violations. Cycling advocacy groups opposed the bill.",
     requirementHints: ['registration'],
     sourceUrl:
       'https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB1942',
+    lastVerified: '2026-05-20',
+  },
+  {
+    state: 'FL',
+    stateName: 'Florida',
+    billId: 'CS/SB 382',
+    status: 'passed-both-chambers',
+    statusLabel: 'Sent to governor',
+    oneLiner:
+      'Passed — but does NOT add license, registration, or insurance. Sidewalk speed limits and crash data collection only.',
+    details:
+      'CS/SB 382 passed both chambers unanimously (Senate 2/25/26, House 112-0 on 3/9/26) and was enrolled to Governor DeSantis on 3/17/26. The Class 3 license requirement that appeared in early drafts was REMOVED before final passage. The final bill: requires e-bikes on sidewalks to slow to 10 mph when pedestrians are within 50 feet; requires audible signal before passing pedestrians on shared pathways; creates a Micromobility Device Safety Task Force (report due Oct 2026); mandates statewide e-bike crash data collection. Penalty provisions take effect July 1, 2026; remaining provisions effective upon signing. Useful to know about, but not a compliance requirement.',
+    requirementHints: [],
+    proposedEffectiveDate: '2026-07-01',
+    sourceUrl: 'https://www.flsenate.gov/Session/Bill/2026/382',
     lastVerified: '2026-05-14',
   },
   {
@@ -39,11 +54,11 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     oneLiner:
       'Speed-tier framework. Class 1 & 2 e-bikes (≤20 mph) unaffected. Class 3 needs registration. Faster devices (>30 mph) need insurance.',
     details:
-      'SB 3077 (the Ride Safe Act) was filed by Governor Maura Healey on May 4, 2026 — making MA the second state to propose mandatory e-bike insurance after NJ. Uses a speed-based framework rather than a category-based one. Tier 0 (≤20 mph, Class 1 & 2): no registration or insurance. Tier 1 (21-30 mph, Class 3): registration + helmet + age 16+. Tier 2 & 3 (>30 mph, e-motos and faster): registration + liability insurance + visible plates or stickers + age + helmet. Currently in the Senate Committee on Transportation; hearings pending.',
+      'SB 3077 (the Ride Safe Act) was filed by Governor Maura Healey on May 4, 2026 — making MA the second state to propose mandatory e-bike insurance after NJ. Uses a speed-based framework rather than a category-based one. Tier 0 (≤20 mph, Class 1 & 2): no registration or insurance. Tier 1 (21-30 mph, Class 3): registration + helmet + age 16+. Tier 2 & 3 (>30 mph, e-motos and faster): registration + liability insurance + visible plates or stickers + age + helmet. Currently in the Joint Committee on Transportation; a public hearing is scheduled for May 28, 2026.',
     requirementHints: ['registration', 'insurance'],
     sourceUrl:
       'https://www.mass.gov/news/governor-healey-files-ride-safe-act-to-strengthen-public-safety-regulate-e-bikes-mopeds-and-scooters',
-    lastVerified: '2026-05-14',
+    lastVerified: '2026-05-20',
   },
   {
     state: 'NY',
@@ -57,21 +72,6 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       'S08573 — the RIDERS Act ("Responsible Implementation of E-bike Regulations for Safe Cycling") — was introduced November 7, 2025. Would direct the NY DMV to create a registration process and fee schedule for all electric personal mobility devices: pedal-assist bicycles, e-scooters, and electric skateboards. Also requires operator licensure for these devices. Currently in the Senate Transportation Committee, roughly 25% through the legislative process. Committee passage is uncertain.',
     requirementHints: ['registration', 'license'],
     sourceUrl: 'https://www.nysenate.gov/legislation/bills/2025/S8573',
-    lastVerified: '2026-05-14',
-  },
-  {
-    state: 'FL',
-    stateName: 'Florida',
-    billId: 'CS/SB 382',
-    status: 'passed-both-chambers',
-    statusLabel: 'Sent to governor',
-    oneLiner:
-      'Passed — but does NOT add license, registration, or insurance. Sidewalk speed limits and crash data collection only.',
-    details:
-      'CS/SB 382 passed both chambers unanimously (Senate 2/25/26, House 112-0 on 3/9/26) and was enrolled to Governor DeSantis on 3/17/26. The Class 3 license requirement that appeared in early drafts was REMOVED before final passage. The final bill: requires e-bikes on sidewalks to slow to 10 mph when pedestrians are within 50 feet; requires audible signal before passing pedestrians on shared pathways; creates a Micromobility Device Safety Task Force (report due Oct 2026); mandates statewide e-bike crash data collection. Penalty provisions take effect July 1, 2026; remaining provisions effective upon signing. Useful to know about, but not a compliance requirement.',
-    requirementHints: [],
-    proposedEffectiveDate: '2026-07-01',
-    sourceUrl: 'https://www.flsenate.gov/Session/Bill/2026/382',
     lastVerified: '2026-05-14',
   },
 ]
