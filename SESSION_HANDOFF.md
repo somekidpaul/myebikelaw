@@ -9,7 +9,7 @@ Reference doc for picking up in a new Claude Code session without losing context
 - **Auto-deploy:** every push to `main` → CI runs tests → if green, `cloudflare/wrangler-action@v3` ships `dist/`
 - **Status:** shipped, polished, every path empirically verified through the form on the live URL
 - **Tests:** 91 / 91 passing (Vitest)
-- **LinkedIn:** post finalized in chat (meniscus origin + all 6 state statuses incl. CA "stalled in committee" + "91 test scenarios"); not yet posted as of 2026-05-21
+- **LinkedIn:** launch post PUBLISHED 2026-05-21 (meniscus origin + all 6 state statuses incl. CA "stalled in committee" + "91 test scenarios")
 
 ## Build pipeline
 
