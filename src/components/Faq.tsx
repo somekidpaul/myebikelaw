@@ -73,14 +73,15 @@ const GENERAL: ReadonlyArray<QA> = [
           </li>
           <li>
             <strong>Hawaii</strong> — HB 2021 (HD2 SD2 CD1) passed both chambers
-            and is awaiting Governor Green's signature. $30 one-time registration
+            and is awaiting Governor Green's decision. $30 one-time registration
             for all e-bikes; higher-speed class restricted from public roads.
           </li>
           <li>
             <strong>Massachusetts</strong> — SB 3077 (Ride Safe Act), filed by
             Governor Healey May 4, 2026. Speed-based tier framework. Class 1 & 2
             unaffected; Class 3 needs registration; faster devices (&gt;30 mph)
-            need insurance. Second state to propose mandatory e-bike insurance.
+            need insurance. After NJ, one of the few states proposing mandatory
+            e-bike insurance.
           </li>
           <li>
             <strong>New York</strong> — S08573 (RIDERS Act). Would require

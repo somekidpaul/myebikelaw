@@ -40,7 +40,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     oneLiner:
       "$30 one-time registration for all e-bikes. Adopts a 3-class system. Higher-speed class can't use public roads, bike lanes, or sidewalks.",
     details:
-      "HB 2021 (final form HB 2021 HD2 SD2 CD1) passed both chambers and is now awaiting Governor Green's signature. One-time $30 registration applies to all e-bikes. Adopts the standard 3-class system (Class 1/2/3). Age 16+ required for the higher-speed class. Higher-speed e-bikes prohibited on public roads, bike lanes, and sidewalks. Manufacturer labels showing class/top speed/wattage are required; retailers must inform buyers of state law. If signed: road provisions effective immediately, retailer disclosure within 120 days.",
+      "HB 2021 (final form HB 2021 HD2 SD2 CD1) passed both chambers and is now awaiting Governor Green's decision. One-time $30 registration applies to all e-bikes. Adopts the standard 3-class system (Class 1/2/3). Age 16+ required for the higher-speed class. Higher-speed e-bikes prohibited on public roads, bike lanes, and sidewalks. Manufacturer labels showing class/top speed/wattage are required; retailers must inform buyers of state law. If signed: road provisions effective immediately, retailer disclosure within 120 days.",
     requirementHints: ['registration'],
     sourceUrl: 'https://legiscan.com/HI/bill/HB2021/2026',
     lastVerified: '2026-05-14',
@@ -54,7 +54,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     oneLiner:
       'Speed-tier framework. Class 1 & 2 e-bikes (≤20 mph) unaffected. Class 3 needs registration. Faster devices (>30 mph) need insurance.',
     details:
-      'SB 3077 (the Ride Safe Act) was filed by Governor Maura Healey on May 4, 2026 — making MA the second state to propose mandatory e-bike insurance after NJ. Uses a speed-based framework rather than a category-based one. Tier 0 (≤20 mph, Class 1 & 2): no registration or insurance. Tier 1 (21-30 mph, Class 3): registration + helmet + age 16+. Tier 2 & 3 (>30 mph, e-motos and faster): registration + liability insurance + visible plates or stickers + age + helmet. Currently in the Joint Committee on Transportation; a public hearing is scheduled for May 28, 2026.',
+      'SB 3077 (the Ride Safe Act) was filed by Governor Maura Healey on May 4, 2026 — making MA one of the few states, after NJ, proposing mandatory e-bike insurance. Uses a speed-based framework rather than a category-based one. Tier 0 (≤20 mph, Class 1 & 2): no registration or insurance. Tier 1 (21-30 mph, Class 3): registration + helmet + age 16+. Tier 2 & 3 (>30 mph, e-motos and faster): registration + liability insurance + visible plates or stickers + age + helmet. Currently in the Joint Committee on Transportation; a public hearing is scheduled for May 28, 2026.',
     requirementHints: ['registration', 'insurance'],
     sourceUrl:
       'https://www.mass.gov/news/governor-healey-files-ride-safe-act-to-strengthen-public-safety-regulate-e-bikes-mopeds-and-scooters',
