@@ -9,7 +9,7 @@ Reference doc for picking up in a new Claude Code session without losing context
 - **Auto-deploy:** every push to `main` → CI runs tests → if green, `cloudflare/wrangler-action@v3` ships `dist/`
 - **Status:** shipped, polished, every path empirically verified through the form on the live URL
 - **Tests:** 91 / 91 passing (Vitest)
-- **LinkedIn:** post drafted in chat history; not yet posted
+- **LinkedIn:** post finalized in chat (meniscus origin + all 6 state statuses incl. CA "stalled in committee" + "91 test scenarios"); not yet posted as of 2026-05-21
 
 ## Build pipeline
 
@@ -39,6 +39,7 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 
 | Commit | Summary |
 |---|---|
+| `6545b03` | Re-verify every state's bill vs primary legislative sources; CA AB 1942 → new `held-in-committee` status (stalled on Appropriations suspense file 5/14/26) rendered with the gray/informational treatment; fix MA committee (Joint, not Senate) + May 28 hearing; alphabetize the pending state grid (CA, FL, HI, MA, NY) |
 | `19e63e3` | Auto-update deadline countdown while the tab stays open (60s interval) |
 | `e50d956` | Compute deadline countdown client-side only — prerender no longer ships a stale day count |
 | `4024142` | Pre-render the homepage to static HTML at build time (`renderToString` + `scripts/prerender.mjs`) |
@@ -79,6 +80,9 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 - VOOM is currently flagged `status: 'waitlist'` because they aren't writing NJ e-bike policies yet (despite earlier marketing). When that changes, edit `src/data/insurance/nj-carriers.ts`.
 - The "last reviewed" date in the footer is **hardcoded** ("May 14, 2026") — by design, not a bug.
 - The countdown ("X days to comply") is **client-only** by design — never put it back into the server render or you'll ship stale day counts to crawlers.
+- **NJ S4834 is verified correct against the ENACTED text** — `pub.njleg.gov/Bills/2024/S5000/4834_R1a.HTM` (the **R1a** reprint, NOT the earlier `R1`). Confirmed: act takes effect immediately on enactment (Jan 19, 2026) + six-month grace = **July 19, 2026** deadline; "electric motorized bicycle" (>750W and >28 mph) is folded into the *motorcycle* definition; low-speed = pedal-assist, cuts at 20 mph; the bill sets NO insurance dollar figures (the $35k/$70k/$25k come from NJ's standard auto minimums / DOBI bulletin, which the site cites correctly). ⚠️ A research agent that read the **R1** draft falsely "found" a wrong deadline, no motorcycle category, and moped insurance minimums — those were R1 language that did NOT survive into the enacted law. Always verify against R1a / P.L.2025 c.285, never an earlier reprint.
+- `PendingStateBill.details` is **dead data** — not rendered anywhere (reserved for phase-2 per-state pages). Only `statusLabel`, `oneLiner`, `requirementHints`, `proposedEffectiveDate`, `sourceUrl`, `lastVerified` show on a card. Edits to `details` (e.g., the MA Joint-Committee fix) are data-accuracy only, NOT user-visible.
+- Stalled bills use `status: 'held-in-committee'` and render with the neutral/gray treatment (Splash `isInformational` = empty `requirementHints` **OR** `held-in-committee`). CA AB 1942 is the current example.
 
 ## Open items / phase 2
 
