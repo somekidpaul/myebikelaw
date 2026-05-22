@@ -94,7 +94,7 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 
 A local **Claude Code scheduled task** (`ebikelaw-law-sync`) runs the daily legal-sync. It's visible/manageable in Claude Code's **Scheduled sidebar** (local-tagged routines list); trigger with **Run now**.
 
-- Stored at `~/.claude/scheduled-tasks/ebikelaw-law-sync/SKILL.md`; schedule `0 13 * * *` (1pm local + ~10min jitter). Runs while the app is open; catches up on next launch if it was closed.
+- Stored at `~/.claude/scheduled-tasks/ebikelaw-law-sync/SKILL.md`; schedule `0 13 * * 1-5` (1pm local, weekdays + ~10min jitter). Runs while the app is open; catches up on next launch if it was closed.
 - Re-verifies every tracked law vs PRIMARY sources + scans for new states. On REAL changes: runs tests/build, commits a `law-sync/<date>` branch, opens a DRAFT PR (never push main / never deploy). Otherwise reports "All laws in sync — no changes."
 - Manage via the Scheduled sidebar or `mcp__scheduled-tasks__*` tools. First "Run now" pre-approves the tools (WebSearch/WebFetch/Bash) for future unattended runs.
 - Earlier cloud-routine and macOS-launchd versions were both removed 2026-05-21 in favor of this one. Full details in the project memory file.
