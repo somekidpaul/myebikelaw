@@ -90,6 +90,16 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 - LinkedIn post is drafted in chat; not yet shared. Standard move when posting: paste `https://myebikelaw.com` in body, wait for card to render, then delete the URL line — card stays.
 - Optional: license the engine B2B (bike advocacy orgs, law firms). Insurance affiliate revenue is **not** an option — it would burn the neutrality moat for pennies.
 
+## Local automation: daily law-sync (macOS launchd) — 2026-05-21
+
+A daily READ-ONLY law-watch runs via macOS **launchd** — NOT a Claude cloud routine, so it will NOT appear in Claude → routines. Check it with `launchctl list | grep ebikelaw`.
+
+- plist: `~/Library/LaunchAgents/com.paul.ebikelaw-lawsync.plist` — fires 1pm local daily (DST-safe)
+- runner + prompt: `~/.ebikelaw-lawsync/law-sync.sh`, `~/.ebikelaw-lawsync/prompt.txt`; reports in `~/.ebikelaw-lawsync/reports/YYYY-MM-DD.md`
+- Verifies every tracked law/bill vs PRIMARY sources + scans for new states; fires a macOS notification ONLY when something changed. Read-only tools only (`Read,Glob,Grep,WebSearch,WebFetch`) — can't edit/commit/push.
+- When it pings: open Claude in `~/Desktop/ebikelaw` → say "apply today's law-sync findings" → it makes the edits + a draft PR for review.
+- An earlier CLOUD routine was created then deleted 2026-05-21 in favor of this local job. Full details (incl. recreation steps) live in the project memory file.
+
 ## Things NOT to do
 
 - Don't add affiliate links to carrier listings (load-bearing for trust; explicit "no affiliate links" in hero + footer + carrier directory text)
