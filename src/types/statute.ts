@@ -2,7 +2,7 @@ import type { Coverage } from './coverage'
 import type { BikeProfile, BikeCategory } from './bike'
 import type { Years } from './brands'
 
-export type Jurisdiction = 'NJ' | 'CA' | 'FL' | 'HI' | 'MA' | 'NY' | 'NH'
+export type Jurisdiction = 'NJ' | 'CA' | 'FL' | 'HI' | 'IL' | 'MA' | 'NY' | 'NH'
 
 export type Citation = {
   readonly statute: string
