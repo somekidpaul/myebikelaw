@@ -77,12 +77,15 @@ const GENERAL: ReadonlyArray<QA> = [
             for all e-bikes; higher-speed class restricted from public roads.
           </li>
           <li>
-            <strong>Illinois</strong> — SB 3336 passed the Senate unanimously
-            (54-0) and is advancing in the House. Despite news reports, it does
-            NOT require a license, registration, or insurance for normal e-bikes
-            — for Class 1/2/3 it adds only a minimum riding age (15, or 16 for
-            Class 3). Those vehicle rules apply only to devices over 28 mph,
-            which Illinois already treats as motor-driven cycles. Not yet law.
+            <strong>Illinois</strong> — SB 3336 passed the Senate 54-0 (April
+            15) and the House 80-30 (May 27, 2026); the Senate still has to
+            concur in the House amendments before the bill can go to Governor
+            Pritzker. Despite news reports, it does NOT require a license,
+            registration, or insurance for normal e-bikes — for Class 1/2/3 it
+            adds only a minimum riding age (15, or 16 for Class 3). Those
+            vehicle rules apply only to devices over 28 mph, which Illinois
+            already treats as motor-driven cycles. Effective date now set to
+            January 1, 2027 if enacted.
           </li>
           <li>
             <strong>Massachusetts</strong> — SB 3077 (Ride Safe Act), filed by
