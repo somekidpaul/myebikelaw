@@ -14,7 +14,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: ['registration'],
     sourceUrl:
       'https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB1942',
-    lastVerified: '2026-05-22',
+    lastVerified: '2026-05-28',
   },
   {
     state: 'FL',
@@ -29,7 +29,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: [],
     proposedEffectiveDate: '2026-07-01',
     sourceUrl: 'https://www.flsenate.gov/Session/Bill/2026/382',
-    lastVerified: '2026-05-22',
+    lastVerified: '2026-05-28',
   },
   {
     state: 'HI',
@@ -43,22 +43,23 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       "HB 2021 (final form HB 2021 HD2 SD2 CD1) passed both chambers and is now awaiting Governor Green's decision. One-time $30 registration applies to all e-bikes. Adopts the standard 3-class system (Class 1/2/3). Age 16+ required for the higher-speed class. Higher-speed e-bikes prohibited on public roads, bike lanes, and sidewalks. Manufacturer labels showing class/top speed/wattage are required; retailers must inform buyers of state law. If signed: road provisions effective immediately, retailer disclosure within 120 days.",
     requirementHints: ['registration'],
     sourceUrl: 'https://legiscan.com/HI/bill/HB2021/2026',
-    lastVerified: '2026-05-21',
+    lastVerified: '2026-05-28',
   },
   {
     state: 'IL',
     stateName: 'Illinois',
     billId: 'SB 3336',
-    status: 'passed-one-chamber',
-    statusLabel: 'Passed Senate',
+    status: 'near-final-vote',
+    statusLabel: 'Passed House; Senate concurrence pending',
     oneLiner:
       "Does NOT add license, registration, or insurance for low-speed e-bikes — only a minimum riding age (15+, or 16+ for Class 3). License, title, registration, and insurance apply only to >28 mph devices, which Illinois already treats as motor-driven cycles.",
     details:
-      "SB 3336 (Sen. Ram Villivalam; championed by Secretary of State Alexi Giannoulias) passed the Illinois Senate 54-0 on April 15, 2026 and is advancing in the House (sponsor Rep. Barbara Hernandez); as of May 2026 it was on second reading. News aggregators are misreporting it as an e-bike license/insurance mandate — the actual ILGA full text does NOT impose a license, certificate of title, registration, or insurance on low-speed electric bicycles (Class 1/2/3, motor ≤750W, assist capped at 20 or 28 mph). For those, the bill adds only a minimum riding age (15+ for Class 1/2, 16+ for Class 3), equipment/labeling, and a sidewalk-operation ban. License/title/registration/insurance attach only to 'motor-driven cycles' — 'any electric bicycle that is not a low-speed electric bicycle' (capable of exceeding 28 mph, or motor >750W) — which already require those under existing Illinois law. Same shape as Florida's bill: worth correcting the record on, but not a new e-bike compliance mandate. Effective date and some thresholds are still being amended in the House. Not yet law.",
+      "SB 3336 (Sen. Ram Villivalam; championed by Secretary of State Alexi Giannoulias) passed the Illinois Senate 54-0 on April 15, 2026 and passed the House 80-30 on May 27, 2026 with two House floor amendments adopted that day. Because the House amended the bill, the Senate must concur in those amendments before the bill can be transmitted to Governor Pritzker. News aggregators are still misreporting it as an e-bike license/insurance mandate — the actual ILGA text (as amended) does NOT impose a driver's license, certificate of title, registration, or insurance on low-speed electric bicycles (Class 1/2/3, motor ≤750W, assist capped at 20 or 28 mph); operators of 'electric micromobility devices' are expressly exempted in Sections 3-102, 3-402(A), and 6-102. For low-speed e-bikes the bill adds only a minimum riding age (15+ for Class 1/2, 16+ for Class 3), equipment/labeling, and a sidewalk-operation ban. License/title/registration/insurance attach only to 'motor-driven cycles' — 'any electric bicycle that is not a low-speed electric bicycle' (capable of exceeding 28 mph, or motor >750W) — which already require those under existing Illinois law. Same shape as Florida's bill: worth correcting the record on, but not a new e-bike compliance mandate. House Floor Amendment No. 2 moved the effective date to January 1, 2027.",
     requirementHints: [],
+    proposedEffectiveDate: '2027-01-01',
     sourceUrl:
       'https://www.ilga.gov/Legislation/BillStatus?DocNum=3336&GAID=18&DocTypeID=SB&SessionID=114&GA=104',
-    lastVerified: '2026-05-22',
+    lastVerified: '2026-05-28',
   },
   {
     state: 'MA',
@@ -73,7 +74,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: ['registration', 'insurance'],
     sourceUrl:
       'https://www.mass.gov/news/governor-healey-files-ride-safe-act-to-strengthen-public-safety-regulate-e-bikes-mopeds-and-scooters',
-    lastVerified: '2026-05-22',
+    lastVerified: '2026-05-28',
   },
   {
     state: 'NY',
@@ -87,6 +88,6 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       'S08573 — the RIDERS Act ("Responsible Implementation of E-bike Regulations for Safe Cycling") — was introduced November 7, 2025. Would direct the NY DMV to create a registration process and fee schedule for all electric personal mobility devices: pedal-assist bicycles, e-scooters, and electric skateboards. Also requires operator licensure for these devices. Currently in the Senate Transportation Committee, roughly 25% through the legislative process. Committee passage is uncertain.',
     requirementHints: ['registration', 'license'],
     sourceUrl: 'https://www.nysenate.gov/legislation/bills/2025/S8573',
-    lastVerified: '2026-05-22',
+    lastVerified: '2026-05-28',
   },
 ]
