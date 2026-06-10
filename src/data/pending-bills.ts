@@ -14,7 +14,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: ['registration'],
     sourceUrl:
       'https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB1942',
-    lastVerified: '2026-05-28',
+    lastVerified: '2026-06-10',
   },
   {
     state: 'FL',
@@ -29,7 +29,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: [],
     proposedEffectiveDate: '2026-07-01',
     sourceUrl: 'https://www.flsenate.gov/Session/Bill/2026/382',
-    lastVerified: '2026-05-28',
+    lastVerified: '2026-06-10',
   },
   {
     state: 'HI',
@@ -43,7 +43,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       "HB 2021 (final form HB 2021 HD2 SD2 CD1) passed both chambers and is now awaiting Governor Green's decision. One-time $30 registration applies to all e-bikes. Adopts the standard 3-class system (Class 1/2/3). Age 16+ required for the higher-speed class. Higher-speed e-bikes prohibited on public roads, bike lanes, and sidewalks. Manufacturer labels showing class/top speed/wattage are required; retailers must inform buyers of state law. If signed: road provisions effective immediately, retailer disclosure within 120 days.",
     requirementHints: ['registration'],
     sourceUrl: 'https://legiscan.com/HI/bill/HB2021/2026',
-    lastVerified: '2026-05-28',
+    lastVerified: '2026-06-10',
   },
   {
     state: 'IL',
@@ -59,22 +59,22 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     proposedEffectiveDate: '2027-01-01',
     sourceUrl:
       'https://www.ilga.gov/Legislation/BillStatus?DocNum=3336&GAID=18&DocTypeID=SB&SessionID=114&GA=104',
-    lastVerified: '2026-05-28',
+    lastVerified: '2026-06-10',
   },
   {
     state: 'MA',
     stateName: 'Massachusetts',
     billId: 'SB 3077',
-    status: 'filed',
-    statusLabel: 'Just filed',
+    status: 'in-committee',
+    statusLabel: 'In committee',
     oneLiner:
       'Speed-tier framework. Class 1 & 2 e-bikes (≤20 mph) unaffected. Class 3 needs registration. Faster devices (>30 mph) need insurance.',
     details:
-      'SB 3077 (the Ride Safe Act) was filed by Governor Maura Healey on May 4, 2026 — making MA one of the few states, after NJ, proposing mandatory e-bike insurance. Uses a speed-based framework rather than a category-based one. Tier 0 (≤20 mph, Class 1 & 2): no registration or insurance. Tier 1 (21-30 mph, Class 3): registration + helmet + age 16+. Tier 2 & 3 (>30 mph, e-motos and faster): registration + liability insurance + visible plates or stickers + age + helmet. Currently in the Joint Committee on Transportation; a public hearing is scheduled for May 28, 2026.',
+      'SB 3077 (the Ride Safe Act) was filed by Governor Maura Healey on May 4, 2026 — making MA one of the few states, after NJ, proposing mandatory e-bike insurance. Uses a speed-based framework rather than a category-based one. Tier 0 (≤20 mph, Class 1 & 2): no registration or insurance. Tier 1 (21-30 mph, Class 3): registration + helmet + age 16+. Tier 2 & 3 (>30 mph, e-motos and faster): registration + liability insurance + visible plates or stickers + age + helmet. The Joint Committee on Transportation held a public hearing on the bill May 28, 2026; it remains before that committee, with no committee vote reported yet.',
     requirementHints: ['registration', 'insurance'],
     sourceUrl:
       'https://www.mass.gov/news/governor-healey-files-ride-safe-act-to-strengthen-public-safety-regulate-e-bikes-mopeds-and-scooters',
-    lastVerified: '2026-05-28',
+    lastVerified: '2026-06-10',
   },
   {
     state: 'NY',
@@ -88,6 +88,6 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       'S08573 — the RIDERS Act ("Responsible Implementation of E-bike Regulations for Safe Cycling") — was introduced November 7, 2025. Would direct the NY DMV to create a registration process and fee schedule for all electric personal mobility devices: pedal-assist bicycles, e-scooters, and electric skateboards. Also requires operator licensure for these devices. Currently in the Senate Transportation Committee, roughly 25% through the legislative process. Committee passage is uncertain.',
     requirementHints: ['registration', 'license'],
     sourceUrl: 'https://www.nysenate.gov/legislation/bills/2025/S8573',
-    lastVerified: '2026-05-28',
+    lastVerified: '2026-06-10',
   },
 ]
