@@ -48,18 +48,18 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
   {
     state: 'IL',
     stateName: 'Illinois',
-    billId: 'SB 3336',
-    status: 'near-final-vote',
-    statusLabel: 'Passed House; Senate concurrence pending',
+    billId: 'SB 3484',
+    status: 'passed-both-chambers',
+    statusLabel: 'Awaiting governor',
     oneLiner:
-      "Does NOT add license, registration, or insurance for low-speed e-bikes — only a minimum riding age (15+, or 16+ for Class 3). License, title, registration, and insurance apply only to >28 mph devices, which Illinois already treats as motor-driven cycles.",
+      "Does NOT add license, registration, or insurance for low-speed e-bikes — only a minimum riding age and equipment rules. License, title, registration, and insurance attach only to motor-driven cycles (motor over 750W) and devices over 28 mph, which Illinois already regulates.",
     details:
-      "SB 3336 (Sen. Ram Villivalam; championed by Secretary of State Alexi Giannoulias) passed the Illinois Senate 54-0 on April 15, 2026 and passed the House 80-30 on May 27, 2026 with two House floor amendments adopted that day. Because the House amended the bill, the Senate must concur in those amendments before the bill can be transmitted to Governor Pritzker. News aggregators are still misreporting it as an e-bike license/insurance mandate — the actual ILGA text (as amended) does NOT impose a driver's license, certificate of title, registration, or insurance on low-speed electric bicycles (Class 1/2/3, motor ≤750W, assist capped at 20 or 28 mph); operators of 'electric micromobility devices' are expressly exempted in Sections 3-102, 3-402(A), and 6-102. For low-speed e-bikes the bill adds only a minimum riding age (15+ for Class 1/2, 16+ for Class 3), equipment/labeling, and a sidewalk-operation ban. License/title/registration/insurance attach only to 'motor-driven cycles' — 'any electric bicycle that is not a low-speed electric bicycle' (capable of exceeding 28 mph, or motor >750W) — which already require those under existing Illinois law. Same shape as Florida's bill: worth correcting the record on, but not a new e-bike compliance mandate. House Floor Amendment No. 2 moved the effective date to January 1, 2027.",
+      "The Illinois micromobility safety framework (championed by Secretary of State Alexi Giannoulias) passed the General Assembly on June 1, 2026 and now awaits Governor Pritzker. The original vehicle, SB 3336, passed the Senate 54-0 (April 15) and the House 80-30 (May 27) but stalled at Senate concurrence in the House amendments — no concurrence vote was recorded after it was calendared for May 29. The final framework was carried instead by SB 3484 ('VEH CD-PLATES-REGISTRATION'), which adopted House Floor Amendment No. 1 and passed both chambers June 1, 2026 (House 84-16; Senate concurred 48-7). News aggregators keep framing this as an e-bike license/insurance mandate — the actual ILGA text does the opposite: it expressly EXCLUDES electric micromobility devices (low-speed Class 1/2/3 e-bikes, e-scooters, e-skateboards) from titling, registration, license or permit, and liability-insurance requirements. Titling, registration, license, and insurance attach only to motor-driven cycles powered by an electric motor over 750 watts (up to 8,000 watts) and gas-powered bicycles capable of exceeding 28 mph — devices Illinois already regulates. For low-speed e-bikes the bill adds only a minimum riding age, equipment/labeling rules, and operating restrictions. Same shape as Florida's bill: worth correcting the record on, but not a new e-bike compliance mandate. Effective January 1, 2027 if signed.",
     requirementHints: [],
     proposedEffectiveDate: '2027-01-01',
     sourceUrl:
-      'https://www.ilga.gov/Legislation/BillStatus?DocNum=3336&GAID=18&DocTypeID=SB&SessionID=114&GA=104',
-    lastVerified: '2026-06-10',
+      'https://www.ilga.gov/Legislation/BillStatus?DocNum=3484&GAID=18&DocTypeID=SB&SessionID=114&GA=104',
+    lastVerified: '2026-06-15',
   },
   {
     state: 'MA',
