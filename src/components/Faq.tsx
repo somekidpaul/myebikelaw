@@ -77,22 +77,27 @@ const GENERAL: ReadonlyArray<QA> = [
             for all e-bikes; higher-speed class restricted from public roads.
           </li>
           <li>
-            <strong>Illinois</strong> — SB 3336 passed the Senate 54-0 (April
-            15) and the House 80-30 (May 27, 2026); the Senate still has to
-            concur in the House amendments before the bill can go to Governor
+            <strong>Illinois</strong> — the e-bike framework first rode on SB
+            3336, but that bill stalled at Senate concurrence (its May 29, 2026
+            concurrence vote was never taken) and is dead for the session. The
+            final language was carried by SB 3484, which passed both chambers on
+            June 1, 2026 (House 84-16; Senate 48-7) and now awaits Governor
             Pritzker. Despite news reports, it does NOT require a license,
             registration, or insurance for normal e-bikes — for Class 1/2/3 it
             adds only a minimum riding age (15, or 16 for Class 3). Those
-            vehicle rules apply only to devices over 28 mph, which Illinois
-            already treats as motor-driven cycles. Effective date now set to
-            January 1, 2027 if enacted.
+            vehicle rules apply only to devices over 28 mph (or over 750 W),
+            which Illinois already treats as motor-driven cycles. Effective
+            January 1, 2027 if signed.
           </li>
           <li>
-            <strong>Massachusetts</strong> — SB 3077 (Ride Safe Act), filed by
-            Governor Healey May 4, 2026. Speed-based tier framework. Class 1 & 2
-            unaffected; Class 3 needs registration; faster devices (&gt;30 mph)
-            need insurance. After NJ, one of the few states proposing mandatory
-            e-bike insurance.
+            <strong>Massachusetts</strong> — S 3077 (Ride Safe Act), filed by
+            Governor Healey May 4, 2026. Speed-based tier framework. Despite the
+            press framing, the bill text does NOT mandate registration or
+            insurance for any e-bike — those are left to future Registrar of
+            Motor Vehicles rulemaking. For Class 3 (21–30 mph) it mandates only
+            a helmet and a minimum age of 16; Class 1 & 2 (≤20 mph) are
+            unaffected. In the Joint Committee on Transportation (hearing held
+            May 28, 2026).
           </li>
           <li>
             <strong>New York</strong> — S08573 (RIDERS Act). Would require
