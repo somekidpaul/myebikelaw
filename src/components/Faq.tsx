@@ -188,10 +188,14 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
             <em>+ insurance</em>.
           </li>
           <li>
-            <strong>Electric motorized bicycle</strong> — motor &gt;750 W{' '}
-            <em>or</em> assist &gt;28 mph. <strong>Reclassified as a motorcycle</strong>{' '}
-            under New Jersey law — motorcycle license, registration, and
-            insurance rules apply instead.
+            <strong>Electric motorized bicycle</strong> — the statute defines
+            this as a motor &gt;750 W <em>and</em> an assisted speed &gt;28 mph.{' '}
+            <strong>Reclassified as a motorcycle</strong> under New Jersey law —
+            motorcycle license, registration, and insurance rules apply instead.
+            This tool is deliberately conservative: a bike that crosses only one
+            of those thresholds (very powerful but ≤28 mph, or ≤750 W but faster
+            than 28 mph) doesn't fit any other category cleanly, so it's routed
+            here too rather than under-warning you.
           </li>
         </ul>
       </>

@@ -15,6 +15,12 @@ export const NJ_S4834: StatutoryRequirement = {
 
   appliesTo: (bike) => {
     if (bike.throttle === 'none') return 'standard'
+    // The statute's "electric motorized bicycle" definition is conjunctive:
+    // a motor >750W AND a top assisted speed >28 mph. We deliberately route a
+    // bike that crosses EITHER threshold to this (motorcycle) path: a bike over
+    // only one threshold fits no other category cleanly (the motorized-bicycle
+    // sub-types all cap at 28 mph), so the conservative reading is to treat it
+    // as the strictest category rather than risk under-warning the rider.
     const over750w = bike.motorWatts > 750
     const over28mph = bike.topMotorAssistedSpeed > 28
     if (over750w || over28mph) return 'electric-motorized'
@@ -116,7 +122,7 @@ export const NJ_S4834: StatutoryRequirement = {
     {
       categories: ['electric-motorized'],
       targetClassification: 'motorcycle',
-      note: 'Bikes with motors >750W or assisted speeds >28 mph are treated as motorcycles under New Jersey law. Motorcycle license, registration, and insurance rules apply — different from the motorized bicycle requirements in this bill.',
+      note: 'The statute defines an electric motorized bicycle as having a motor greater than 750W AND a top assisted speed greater than 28 mph; these are treated as motorcycles under New Jersey law, so motorcycle license, registration, and insurance rules apply — different from the motorized bicycle requirements in this bill. This tool takes the conservative reading and also routes a bike that exceeds only one of those thresholds here, because such a bike fits no other category cleanly.',
       citations: [
         {
           statute: 'S4834 — electric motorized bicycle definition',
