@@ -197,7 +197,9 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
             This tool is deliberately conservative: a bike that crosses only one
             of those thresholds (very powerful but ≤28 mph, or ≤750 W but faster
             than 28 mph) doesn't fit any other category cleanly, so it's routed
-            here too rather than under-warning you.
+            here too rather than under-warning you — and the result is flagged as
+            a statutory-gap judgment call, not a certainty, so you can confirm the
+            narrower reading with the MVC and your insurer.
           </li>
         </ul>
       </>

@@ -29,6 +29,35 @@ export const NJ_S4834: StatutoryRequirement = {
   },
 
   classificationNote: (bike) => {
+    if (bike.throttle === 'none') return null
+
+    // The statute's "electric motorized bicycle" definition is conjunctive:
+    // a motor >750 W AND a top assisted speed >28 mph. A bike that crosses only
+    // ONE of those thresholds satisfies neither that definition nor the
+    // "motorized bicycle" sub-types (which cap at ≤750 W and ≤28 mph), so it sits
+    // in a statutory gap. appliesTo() routes it to the strictest category
+    // (electric-motorized / motorcycle) so the rider is never under-warned — but
+    // because that is a judgment call rather than a clean statutory fit, we
+    // surface it as an ambiguity instead of asserting it. (When BOTH thresholds
+    // are crossed the category is unambiguous, so no note fires.)
+    const over750w = bike.motorWatts > 750
+    const over28mph = bike.topMotorAssistedSpeed > 28
+    if (over750w !== over28mph) {
+      return {
+        chosen: 'electric-motorized',
+        alternate: 'motorized',
+        reason:
+          "New Jersey defines an “electric motorized bicycle” conjunctively: a motor over 750 W AND an assisted speed over 28 mph. Your bike crosses only one of those two thresholds, so it doesn't meet that definition — but it also exceeds the ≤750 W / ≤28 mph limits of the “motorized bicycle” category, leaving it in a statutory gap. This tool applies the strictest category (motorcycle license, registration, and insurance) so you aren't under-warned; a narrower reading would treat it as a motorized bicycle. Confirm with the NJ MVC and your insurer before relying on either reading.",
+        readingTaken: 'conservative',
+        citations: [
+          {
+            statute: 'S4834 — electric motorized bicycle definition',
+            url: 'https://pub.njleg.gov/Bills/2024/S5000/4834_R1a.HTM',
+          },
+        ],
+      }
+    }
+
     // Class 3 e-bike: pedal-assist only, 21-28 mph, ≤750 W.
     // The bill's "motorized bicycle" sub-types explicitly cover gas helper motors
     // at this speed (sub-3) and electric throttle bikes (sub-4), but not electric

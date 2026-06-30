@@ -626,11 +626,18 @@ describe('QA: classification boundaries', () => {
 
 // ─── Class 3 ambiguity boundaries ────────────────────────────────────────────
 
-describe('QA: Class 3 ambiguity boundaries', () => {
+describe('QA: classification ambiguity boundaries', () => {
   const ambiguous: ReadonlyArray<readonly [string, BikeProfile]> = [
+    // Class 3 pedal-assist gap (neither threshold crossed)
     ['pedal-assist 21 mph, 500 W (lower Class 3 edge)', mkBike('pedal-assist-only', 21, 500)],
     ['pedal-assist 25 mph, 500 W (mid Class 3)', mkBike('pedal-assist-only', 25, 500)],
     ['pedal-assist 28 mph, 750 W (upper Class 3 edge)', mkBike('pedal-assist-only', 28, 750)],
+    // Single-threshold over-spec gap (exactly one of >750 W / >28 mph)
+    ['pedal-assist 29 mph, 500 W (over speed only)', mkBike('pedal-assist-only', 29, 500)],
+    ['pedal-assist 28 mph, 800 W (over watts only)', mkBike('pedal-assist-only', 28, 800)],
+    ['pedal-assist 20 mph, 800 W (over watts only)', mkBike('pedal-assist-only', 20, 800)],
+    ['throttle 29 mph, 500 W (over speed only)', mkBike('throttle', 29, 500)],
+    ['throttle 28 mph, 751 W (over watts only)', mkBike('throttle', 28, 751)],
   ]
   it.each(ambiguous)('%s — produces classificationNote', (_, bike) => {
     const r = checkCompliance({ bike, operator: mkOp(35, 'basic-drivers'), policies: [{ kind: 'none' }], statute: NJ_S4834 })
@@ -639,8 +646,8 @@ describe('QA: Class 3 ambiguity boundaries', () => {
 
   const unambiguous: ReadonlyArray<readonly [string, BikeProfile]> = [
     ['pedal-assist 20 mph (low-speed)', mkBike('pedal-assist-only', 20, 500)],
-    ['pedal-assist 29 mph (electric-motorized)', mkBike('pedal-assist-only', 29, 500)],
-    ['pedal-assist 28 mph, 800 W (electric-motorized via watts)', mkBike('pedal-assist-only', 28, 800)],
+    ['pedal-assist 35 mph, 1500 W (electric-motorized — both thresholds)', mkBike('pedal-assist-only', 35, 1500)],
+    ['throttle 50 mph, 1500 W (electric-motorized — both thresholds)', mkBike('throttle', 50, 1500)],
     ['throttle 25 mph (motorized — no ambiguity)', mkBike('throttle', 25, 500)],
   ]
   it.each(unambiguous)('%s — no classificationNote', (_, bike) => {
@@ -893,7 +900,7 @@ describe('QA: reclassified path', () => {
     expect(r.targetClassification).toBe('motorcycle')
   })
 
-  it('electric-motorized never produces a classificationNote (the category is unambiguous)', () => {
+  it('electric-motorized via BOTH thresholds produces no classificationNote (unambiguous)', () => {
     const r = checkCompliance({
       bike: mkBike('pedal-assist-only', 35, 1500),
       operator: mkOp(35, 'none'),
@@ -902,5 +909,19 @@ describe('QA: reclassified path', () => {
     })
     expect(r.status).toBe('reclassified')
     expect(r.classificationNote).toBeUndefined()
+  })
+
+  it('electric-motorized via a SINGLE threshold reclassifies but flags the ambiguity', () => {
+    const r = checkCompliance({
+      bike: mkBike('pedal-assist-only', 35, 500), // over 28 mph only
+      operator: mkOp(35, 'none'),
+      policies: [{ kind: 'none' }],
+      statute: NJ_S4834,
+    })
+    expect(r.status).toBe('reclassified')
+    expect(r.classificationNote).toBeDefined()
+    expect(r.classificationNote?.chosen).toBe('electric-motorized')
+    expect(r.classificationNote?.alternate).toBe('motorized')
+    expect(r.classificationNote?.readingTaken).toBe('conservative')
   })
 })
