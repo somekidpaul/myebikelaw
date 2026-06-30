@@ -73,26 +73,32 @@ const GENERAL: ReadonlyArray<QA> = [
           </li>
           <li>
             <strong>Hawaii</strong> — HB 2021 (HD2 SD2 CD1) passed both chambers
-            and is awaiting Governor Green's decision. $30 one-time registration
-            for all e-bikes; higher-speed class restricted from public roads.
+            and was left off Governor Green's June 2026 intent-to-veto list, so
+            it becomes law by July 15, 2026. $30 one-time registration for all
+            e-bikes; higher-speed class restricted from public roads.
           </li>
           <li>
-            <strong>Illinois</strong> — SB 3336 passed the Senate 54-0 (April
-            15) and the House 80-30 (May 27, 2026); the Senate still has to
-            concur in the House amendments before the bill can go to Governor
+            <strong>Illinois</strong> — the e-bike framework first rode on SB
+            3336, but that bill stalled at Senate concurrence (its May 29, 2026
+            concurrence vote was never taken) and is dead for the session. The
+            final language was carried by SB 3484, which passed both chambers on
+            June 1, 2026 (House 84-16; Senate 48-7) and now awaits Governor
             Pritzker. Despite news reports, it does NOT require a license,
             registration, or insurance for normal e-bikes — for Class 1/2/3 it
             adds only a minimum riding age (15, or 16 for Class 3). Those
-            vehicle rules apply only to devices over 28 mph, which Illinois
-            already treats as motor-driven cycles. Effective date now set to
-            January 1, 2027 if enacted.
+            vehicle rules apply only to devices over 28 mph (or over 750 W),
+            which Illinois already treats as motor-driven cycles. Effective
+            January 1, 2027 if signed.
           </li>
           <li>
-            <strong>Massachusetts</strong> — SB 3077 (Ride Safe Act), filed by
-            Governor Healey May 4, 2026. Speed-based tier framework. Class 1 & 2
-            unaffected; Class 3 needs registration; faster devices (&gt;30 mph)
-            need insurance. After NJ, one of the few states proposing mandatory
-            e-bike insurance.
+            <strong>Massachusetts</strong> — S 3077 (Ride Safe Act), filed by
+            Governor Healey May 4, 2026. Speed-based tier framework. Despite the
+            press framing, the bill text does NOT mandate registration or
+            insurance for any e-bike — those are left to future Registrar of
+            Motor Vehicles rulemaking. For Class 3 (21–30 mph) it mandates only
+            a helmet and a minimum age of 16; Class 1 & 2 (≤20 mph) are
+            unaffected. In the Joint Committee on Transportation (hearing held
+            May 28, 2026).
           </li>
           <li>
             <strong>New York</strong> — S08573 (RIDERS Act). Would require
@@ -110,20 +116,21 @@ const GENERAL: ReadonlyArray<QA> = [
     q: "What about Florida's recent e-bike bill?",
     a: (
       <>
-        Florida's CS/SB 382 (and companion HB 243) passed both chambers and was
-        sent to Governor DeSantis. <strong>You may have heard it would require a
-        Class 3 license — that requirement was removed before final passage.</strong>{' '}
-        The bill that actually passed does NOT add license, registration, or
-        insurance for any e-bike class. Its provisions:
+        Florida's CS/SB 382 (and companion HB 243) passed both chambers but was{' '}
+        <strong>vetoed by Governor DeSantis on June 25, 2026</strong>, so it
+        never became law. <strong>You may have heard it would require a Class 3
+        license — that requirement was removed before final passage anyway.</strong>{' '}
+        Even as passed it did NOT add license, registration, or insurance for any
+        e-bike class. What the vetoed bill would have done:
         <ul className="mt-3 space-y-2 list-disc pl-5">
           <li>10 mph speed limit on sidewalks when pedestrians are within 50 ft</li>
           <li>Audible signal required before passing pedestrians</li>
           <li>Creates a Micromobility Device Safety Task Force (report Oct 2026)</li>
           <li>Statewide e-bike crash data collection</li>
         </ul>
-        Useful to know about if you ride in Florida, but not a compliance
-        requirement — which is why this tool doesn't include a Florida
-        compliance checker.
+        With the veto, none of these took effect — and none was a license,
+        registration, or insurance requirement to begin with, which is why this
+        tool doesn't include a Florida compliance checker.
       </>
     ),
   },
@@ -183,10 +190,14 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
             <em>+ insurance</em>.
           </li>
           <li>
-            <strong>Electric motorized bicycle</strong> — motor &gt;750 W{' '}
-            <em>or</em> assist &gt;28 mph. <strong>Reclassified as a motorcycle</strong>{' '}
-            under New Jersey law — motorcycle license, registration, and
-            insurance rules apply instead.
+            <strong>Electric motorized bicycle</strong> — the statute defines
+            this as a motor &gt;750 W <em>and</em> an assisted speed &gt;28 mph.{' '}
+            <strong>Reclassified as a motorcycle</strong> under New Jersey law —
+            motorcycle license, registration, and insurance rules apply instead.
+            This tool is deliberately conservative: a bike that crosses only one
+            of those thresholds (very powerful but ≤28 mph, or ≤750 W but faster
+            than 28 mph) doesn't fit any other category cleanly, so it's routed
+            here too rather than under-warning you.
           </li>
         </ul>
       </>

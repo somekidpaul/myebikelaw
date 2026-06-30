@@ -9,6 +9,7 @@ export type BillStatus =
   | 'passed-one-chamber'
   | 'passed-both-chambers'
   | 'signed-pending-effect'
+  | 'vetoed'
   | 'enacted'
 
 export type RequirementHint = 'license' | 'registration' | 'insurance'
