@@ -73,8 +73,9 @@ const GENERAL: ReadonlyArray<QA> = [
           </li>
           <li>
             <strong>Hawaii</strong> — HB 2021 (HD2 SD2 CD1) passed both chambers
-            and is awaiting Governor Green's decision. $30 one-time registration
-            for all e-bikes; higher-speed class restricted from public roads.
+            and was left off Governor Green's June 2026 intent-to-veto list, so
+            it becomes law by July 15, 2026. $30 one-time registration for all
+            e-bikes; higher-speed class restricted from public roads.
           </li>
           <li>
             <strong>Illinois</strong> — the e-bike framework first rode on SB
@@ -115,20 +116,21 @@ const GENERAL: ReadonlyArray<QA> = [
     q: "What about Florida's recent e-bike bill?",
     a: (
       <>
-        Florida's CS/SB 382 (and companion HB 243) passed both chambers and was
-        sent to Governor DeSantis. <strong>You may have heard it would require a
-        Class 3 license — that requirement was removed before final passage.</strong>{' '}
-        The bill that actually passed does NOT add license, registration, or
-        insurance for any e-bike class. Its provisions:
+        Florida's CS/SB 382 (and companion HB 243) passed both chambers but was{' '}
+        <strong>vetoed by Governor DeSantis on June 25, 2026</strong>, so it
+        never became law. <strong>You may have heard it would require a Class 3
+        license — that requirement was removed before final passage anyway.</strong>{' '}
+        Even as passed it did NOT add license, registration, or insurance for any
+        e-bike class. What the vetoed bill would have done:
         <ul className="mt-3 space-y-2 list-disc pl-5">
           <li>10 mph speed limit on sidewalks when pedestrians are within 50 ft</li>
           <li>Audible signal required before passing pedestrians</li>
           <li>Creates a Micromobility Device Safety Task Force (report Oct 2026)</li>
           <li>Statewide e-bike crash data collection</li>
         </ul>
-        Useful to know about if you ride in Florida, but not a compliance
-        requirement — which is why this tool doesn't include a Florida
-        compliance checker.
+        With the veto, none of these took effect — and none was a license,
+        registration, or insurance requirement to begin with, which is why this
+        tool doesn't include a Florida compliance checker.
       </>
     ),
   },
