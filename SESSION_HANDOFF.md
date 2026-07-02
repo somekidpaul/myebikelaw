@@ -73,6 +73,20 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## July 1, 2026 deadline-readiness pass (branch `deadline-readiness/2026-07-01`)
+
+Full re-verification + feature pass 18 days before the NJ deadline. Key outcomes:
+
+- **PIP CORRECTION (engine behavior change):** the motorized-bicycle policy under C.39:4-14.3e is **liability-only** (BI/death/PD). PIP is NOT part of the e-bike policy — S4834 §4 (C.39:6A-4.8) instead channels pedestrian PIP through the rider's own **auto** policy, effective Jan 1, 2027, covering bicycle + low-speed riders only (NOT motorized-bicycle riders). Engine minimums now `pip: null`; PIP input removed from the form (old share links with `pi=` still decode); citations rewritten. Verified against the enacted chapter law + the official statutes DB (compiled 7/1/26).
+- **Penalties content added** (FAQ + JSON-LD), all primary-sourced: S4834 is nearly silent on operating penalties → moped-act fines apply (≤$100 unregistered via C.39:4-14.3t; ≤$200 and/or ≤15 days uninsured moped via C.39:4-14.3b; ~$50–$200 unlicensed; $50 dismissible carry offense via C.39:4-14.3(e)). 39:3-4 / 39:3-10 / 39:6B-2 do NOT reach LSEB/motorized bicycles (not "motor vehicles") but DO hit >750W/>28mph bikes (motorcycles). NO impoundment authority for LSEBs/mopeds; points unverified — **do not publish impoundment or points claims**.
+- **Post-deadline mode** (verified in preview with a mocked clock): NJ card flips to "Deadline passed" + fees-waived-through-Jan-19-2027 copy; calendar buttons suppressed after July 19; deadline FAQ answers late compliance (allowed — grace clause s.11 defers obligations, fee waiver s.10 runs through 1/19/27, no statutory bar to registering late).
+- **MVC is operational** (their page, fetched 7/1): registration by appointment, form BA-49EB; license = permit (BA-208) + road test **20–45 days later** → a license realistically extends past July 19 for anyone starting now. FAQ says so.
+- **Carriers re-verified 7/1** (all three live pages): **Sundays' own FAQ says they do NOT offer cyclist liability** → new `complianceClaim: 'none'` + red "No liability coverage" badge; card reframed (theft/damage supplement, cannot satisfy S4834 alone; taxi benefit is accident-triggered, not theft). **Velosurance** NJ page rewritten (their pages now conflict on the state minimums — some cite the OLD $15k/$30k/$5k auto minimums; OURS are right per DOBI) → tier list replaced with $25k–$500k range + confirm-in-writing caveat. **VOOM still waitlist-only.** No new NJ entrants; watch Markel-direct + Progressive (OR/TX/WA only for now).
+- **A2093/S3156 callout corrected** (was self-contradictory): registration is ALREADY required for low-speed under S4834 — insurance is the only exemption those bills would close. Added twin pair A3697/S2070 + new S4524 universal-helmet bill (introduced 6/26) to the FAQ. All parked in committee since 1/13.
+- Small fixes: MVC link in the register remedy; header "How it works" nav now works from form/result phases (instant scroll — Chrome cancels smooth scrolls started mid-render).
+
+**Two dates ahead:** July 15 — HI HB 2021 becomes law (splash "None passed yet" line goes stale; the promised HI checker comes due; do NOT auto-build). July 19 — NJ deadline (post-deadline UI is automatic; verify on live). Both are in the law-sync routine's milestone list.
+
 ## Important correctness notes
 
 - **News coverage of S4834 is unreliable.** The Asbury Park Press (May 15, 2026) said low-speed e-bikes have "no requirements" — that's wrong. The statute (§5c, §6) requires registration AND a license for low-speed; only insurance (§5e) is motorized-only. The site reads the bill correctly and the FAQ addresses this.

@@ -273,7 +273,67 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
         non-compliant, the longer you're exposed to tickets and, after a crash,
         personal liability.
         <br />
+        <br />
+        <strong>Practical timing note:</strong> MVC e-bike registration is done
+        in person, by appointment (form BA-49EB, at a Vehicle Center). The
+        e-bike <em>license</em> takes longer: you get a permit (form BA-208,
+        exam fee waived until January 2027), then the road test is scheduled
+        20–45 days after the permit validates — so a license realistically
+        extends past July 19 if you're starting now. Do the registration and
+        insurance pieces first.
+        <br />
         <AddToCalendarLink />
+      </>
+    ),
+  },
+  {
+    q: "What are the penalties if I'm caught riding non-compliant?",
+    a: (
+      <>
+        Smaller than most people assume — S4834 itself sets almost no operating
+        penalties, so enforcement runs through New Jersey's existing moped
+        statutes. For low-speed electric and motorized bicycles that means
+        municipal-court fines, not car-level punishment:
+        <ul className="mt-3 space-y-2 list-disc pl-5">
+          <li>
+            <strong>Unregistered</strong> — up to $100 per offense (the moped
+            act's catch-all penalty, C.39:4-14.3t).
+          </li>
+          <li>
+            <strong>Uninsured motorized bicycle</strong> — up to $200, up to 15
+            days, or both (C.39:4-14.3b). The much harsher uninsured-vehicle
+            statute you may have read about ($300–$1,000 + license suspension,
+            N.J.S.A. 39:6B-2) is written for <em>motor vehicles</em> — which
+            low-speed and motorized bicycles legally are not.
+          </li>
+          <li>
+            <strong>No license</strong> — a municipal fine, roughly $50–$200
+            depending on the provision charged (the licensing act has no
+            penalty section of its own).
+          </li>
+          <li>
+            <strong>Documents not on you while riding</strong> — up to $50, and
+            the judge can dismiss it if you show documents that were valid on
+            the day you were charged (C.39:4-14.3(e)).
+          </li>
+          <li>
+            <strong>Under 17</strong> — a second violation suspends your riding
+            privilege for 30 days.
+          </li>
+        </ul>
+        The big exception: a bike over 750 W or 28 mph is legally a{' '}
+        <strong>motorcycle</strong>, and the full motor-vehicle penalty stack
+        applies — including 39:6B-2's $300–$1,000 fine, community service, and
+        possible license suspension for riding uninsured. Separately, the MVC
+        can suspend or revoke an e-bike registration for violations, and
+        knowingly submitting false proof of ownership is a fourth-degree crime.
+        <br />
+        <br />
+        How aggressively any of this gets enforced varies by town — several
+        departments signaled education-first during the grace period and
+        summonses after July 19. Either way, late compliance beats rolling the
+        dice: registration stays open, and fees stay waived through January 19,
+        2027.
       </>
     ),
   },
