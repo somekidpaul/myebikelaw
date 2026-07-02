@@ -17,7 +17,6 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
       'Their NJ guide cites the $100k option as S4834-sufficient; confirm in writing',
       'Insured at full bike value; crash + theft (incl. accessories)',
       'Cycling apparel + medical payments',
-      'PIP not mentioned publicly — ask when quoting',
     ],
     quoteUrl: 'https://velosurance.com/usa/new-jersey/',
     source: {

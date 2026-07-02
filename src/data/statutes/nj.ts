@@ -85,11 +85,17 @@ export const NJ_S4834: StatutoryRequirement = {
 
   insurance: {
     appliesToCategories: ['motorized'],
+    // Liability-only: C.39:4-14.3e requires coverage "for bodily injury, death
+    // and property damage" — PIP is NOT a component of the e-bike policy.
+    // (S4834 §4 / C.39:6A-4.8 handles injury coverage separately, through the
+    // rider's own AUTO policy's pedestrian PIP, effective Jan 1, 2027, and only
+    // for bicycle + low-speed riders.) pip: null keeps the engine from flagging
+    // a PIP "gap" the statute never demands.
     minimums: {
       bodilyInjuryPerPerson: usd(35_000),
       bodilyInjuryPerAccident: usd(70_000),
       propertyDamage: usd(25_000),
-      pip: usd(15_000),
+      pip: null,
     },
     citations: [
       {
@@ -99,16 +105,22 @@ export const NJ_S4834: StatutoryRequirement = {
           'A person shall have six months following the effective date to obtain insurance for a motorized bicycle. (Insurance is not enumerated as a requirement for a low-speed electric bicycle.)',
       },
       {
+        statute: 'C.39:4-14.3e — what the motorized-bicycle policy must cover',
+        url: billText,
+        quote:
+          'Every owner of a motorized bicycle principally garaged or operated in this State... shall maintain liability insurance coverage... insuring against loss resulting from liability imposed by law for bodily injury, death and property damage. (Liability-only — PIP is not part of this policy.)',
+      },
+      {
         statute: 'N.J.S.A. 39:6B-1 (motor vehicle liability minimums) — NJ DOBI bulletin',
         url: 'https://www.nj.gov/dobi/bulletins/blt25_06.pdf',
         quote:
           '$35,000 bodily injury per person / $70,000 per accident / $25,000 property damage for policies issued on or after January 1, 2026.',
       },
       {
-        statute: 'N.J.S.A. 39:6A — AICRA (PIP coverage)',
-        url: 'https://www.nj.gov/oag/insurancefraud/pdfs/aicra-act.pdf',
+        statute: 'S4834 §4 / C.39:6A-4.8 — pedestrian PIP (via your auto policy, not your e-bike policy)',
+        url: billText,
         quote:
-          '$15,000 PIP per person is the NJ basic-policy floor. Standard policies offer $50k–$250k. The figure your specialty e-bike policy carries depends on the policy tier — confirm with your carrier; the $15k cited here is a conservative minimum, not a ceiling.',
+          "\"'Pedestrian' shall include any person operating a bicycle or low-speed electric bicycle... the injury or death shall be covered by the pedestrian's personal injury coverage.\" Takes effect for standard auto policies issued or renewed on or after January 1, 2027. It applies to bicycle and low-speed e-bike riders — not motorized-bicycle riders — and is not a coverage your e-bike policy must carry.",
       },
     ],
   },

@@ -20,7 +20,6 @@ type FormState = {
   bipp: string
   bipa: string
   pd: string
-  pip: string
 }
 
 const initialState: FormState = {
@@ -35,7 +34,6 @@ const initialState: FormState = {
   bipp: '',
   bipa: '',
   pd: '',
-  pip: '',
 }
 
 export type FormResult = {
@@ -202,16 +200,11 @@ export function Form({ onSubmit }: { onSubmit: (r: FormResult) => void }) {
                   placeholder="25000"
                 />
               </Field>
-              <Field label="PIP per person ($)">
-                <Input
-                  type="number"
-                  value={s.pip}
-                  onChange={(v) => set('pip', v)}
-                  min={0}
-                  placeholder="15000"
-                />
-              </Field>
             </div>
+            <p className="text-xs text-[var(--color-ink-faint)]">
+              PIP isn't asked for — the statute's e-bike policy is
+              liability-only (PIP rides on your own auto policy, separately).
+            </p>
           </div>
         )}
       </Card>
@@ -232,7 +225,7 @@ function buildPolicy(s: FormState): ExistingPolicy {
         bodilyInjuryPerPerson: usd(Number(s.bipp) || 0),
         bodilyInjuryPerAccident: usd(Number(s.bipa) || 0),
         propertyDamage: usd(Number(s.pd) || 0),
-        pip: s.pip ? usd(Number(s.pip)) : null,
+        pip: null,
       },
     }
   }

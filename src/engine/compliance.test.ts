@@ -827,7 +827,10 @@ describe('QA: insurance via each policy kind (motorized)', () => {
     expect(r.remedies.some((m) => m.kind === 'verify-coverage-with-carrier')).toBe(true)
   })
 
-  it('specialty with null PIP → PIP-only gap', () => {
+  it('specialty with null PIP → compliant (PIP is not an e-bike-policy requirement)', () => {
+    // C.39:4-14.3e makes the motorized-bicycle policy liability-only (bodily
+    // injury, death, property damage). PIP flows through the rider's own auto
+    // policy (C.39:6A-4.8, eff. Jan 1, 2027) — the engine must not demand it.
     const r = checkCompliance({
       bike: motorized,
       operator: op,
@@ -842,15 +845,10 @@ describe('QA: insurance via each policy kind (motorized)', () => {
       }],
       statute: noReg,
     })
-    expect(r.status).toBe('gaps')
-    if (r.status !== 'gaps') return
-    const ins = r.gaps.find((g) => g.kind === 'insurance')
-    if (ins?.kind !== 'insurance') return
-    expect(ins.gaps).toHaveLength(1)
-    expect(ins.gaps[0]?.axis).toBe('pip')
+    expect(r.status).toBe('compliant')
   })
 
-  it('specialty all zeros → 4 gaps', () => {
+  it('specialty all zeros → 3 gaps (the three liability axes; PIP not required)', () => {
     const r = checkCompliance({
       bike: motorized,
       operator: op,
@@ -869,7 +867,7 @@ describe('QA: insurance via each policy kind (motorized)', () => {
     if (r.status !== 'gaps') return
     const ins = r.gaps.find((g) => g.kind === 'insurance')
     if (ins?.kind !== 'insurance') return
-    expect(ins.gaps).toHaveLength(4)
+    expect(ins.gaps).toHaveLength(3)
   })
 
   it('low-speed bike + insurance is irrelevant — never flagged regardless of policy', () => {
