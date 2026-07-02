@@ -10,7 +10,12 @@ export type CarrierPricing =
   | { readonly kind: 'quote-only' }
   | { readonly kind: 'starting'; readonly display: string }
 
-export type S4834ComplianceClaim = 'explicit' | 'implicit' | 'unclear'
+/**
+ * 'none' = the carrier affirmatively does NOT offer the liability coverage
+ * S4834 requires (listed anyway to correct the assumption that any "e-bike
+ * insurance" satisfies the law).
+ */
+export type S4834ComplianceClaim = 'explicit' | 'implicit' | 'unclear' | 'none'
 
 export type CarrierStatus = 'active' | 'waitlist'
 

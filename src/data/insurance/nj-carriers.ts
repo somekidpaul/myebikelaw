@@ -6,46 +6,46 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     name: 'Velosurance',
     underwriter: 'Markel American Insurance Co. (A.M. Best A)',
     oneLiner:
-      "The only carrier currently writing S4834-compliant e-bike policies in NJ. Their NJ guide explicitly cites the $100k liability tier as meeting the $35k/$70k/$25k minimums; a $500k tier was added in late 2024.",
+      "The only carrier selling an NJ-specific S4834 liability product (launched Jan 2026). Their guide cites an optional $100k limit as meeting the requirement — but their own pages now disagree on the exact state minimums, so have them confirm $35k/$70k/$25k in writing when you quote.",
     jurisdictions: ['NJ'],
     pricing: { kind: 'quote-only' },
     njSpecificPage: true,
     complianceClaim: 'explicit',
     status: 'active',
     coverageHighlights: [
-      'Liability tiers: $25k / $50k / $100k / $300k / $500k',
-      'Insured at full bike value',
-      'Crash + theft (including accessories)',
-      'Replacement rental, racing, in-transit coverage',
+      'Optional liability from $25k to $500k — exact tiers shown at quote',
+      'Their NJ guide cites the $100k option as S4834-sufficient; confirm in writing',
+      'Insured at full bike value; crash + theft (incl. accessories)',
       'Cycling apparel + medical payments',
+      'PIP not mentioned publicly — ask when quoting',
     ],
     quoteUrl: 'https://velosurance.com/usa/new-jersey/',
     source: {
       url: 'https://velosurance.com/usa/new-jersey/',
-      lastVerified: '2026-05-21',
+      lastVerified: '2026-07-01',
     },
   },
   {
     id: 'sundays',
     name: 'Sundays Insurance',
     oneLiner:
-      "E-bike specialty carrier writing in NJ at $8/mo, but liability tiers aren't published — call before assuming the policy meets S4834. Medical payments capped at $1,000.",
+      "Theft-and-damage specialty coverage from ~$8/mo — but Sundays' own FAQ says they do not offer cyclist liability insurance, so a Sundays policy on its own cannot satisfy S4834.",
     jurisdictions: ['NJ'],
     pricing: { kind: 'starting', display: 'from ~$8/mo' },
     njSpecificPage: false,
-    complianceClaim: 'unclear',
+    complianceClaim: 'none',
     status: 'active',
     coverageHighlights: [
-      'Theft (at and away from home)',
-      'Accidental + malicious damage',
+      'No third-party liability offered — per their own FAQ',
+      'Theft (at and away from home); accidental + malicious damage',
       'Up to $1,000 medical payments',
-      '$75 taxi reimbursement after theft',
-      'Optional: worldwide, racing, accessories',
+      '$75 transportation reimbursement after an accident',
+      'Fine as a theft/damage supplement — not for S4834 liability',
     ],
     quoteUrl: 'https://quote.sundaysinsurance.com/',
     source: {
-      url: 'https://sundaysinsurance.com/electric-bike-insurance',
-      lastVerified: '2026-05-21',
+      url: 'https://sundaysinsurance.com/faq',
+      lastVerified: '2026-07-01',
     },
   },
   {
@@ -53,7 +53,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     name: 'VOOM Insurance',
     underwriter: 'Markel American Insurance Co. (A.M. Best A)',
     oneLiner:
-      "Pre-launch in NJ — waitlist only. VOOM's NJ S4834 guide promises coverage \"launching soon\" but they aren't writing e-bike policies in the state yet. Their motorcycle product is still active.",
+      "Still pre-launch in NJ as of July 1, 2026 — waitlist only, 18 days before the deadline. VOOM's NJ S4834 guide promises coverage \"launching soon\" but they aren't writing e-bike policies in the state yet. Their motorcycle product is active.",
     jurisdictions: ['NJ'],
     pricing: {
       kind: 'starting',
@@ -70,7 +70,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://www.voominsurance.com/blog/nj-ebike-insurance-legislation-guide-2026',
     source: {
       url: 'https://www.voominsurance.com/blog/nj-ebike-insurance-legislation-guide-2026',
-      lastVerified: '2026-05-21',
+      lastVerified: '2026-07-01',
     },
   },
 ]

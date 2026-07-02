@@ -77,6 +77,16 @@ export function downloadIcs(filename: string, ics: string): void {
   URL.revokeObjectURL(url)
 }
 
+/**
+ * Whole days from now until an ISO date (UTC midnight). Zero or negative once
+ * the date has passed. Shared by the splash countdown and the deadline-aware
+ * UI in the verdict/FAQ.
+ */
+export function daysUntil(iso: string): number {
+  const target = new Date(iso + 'T00:00:00Z').getTime()
+  return Math.ceil((target - Date.now()) / (1000 * 60 * 60 * 24))
+}
+
 export const NJ_S4834_DEADLINE_EVENT: CalendarEvent = {
   uid: 'nj-s4834-deadline@myebikelaw.com',
   summary: 'NJ e-bike compliance deadline (S4834)',

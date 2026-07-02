@@ -20,10 +20,13 @@ export function CarrierDirectory() {
           Where to get an S4834-compliant policy
         </h3>
         <p className="text-sm text-[var(--color-ink-soft)]">
-          Carriers don't publish liability limits publicly. When you get a quote,
-          verify it covers at least{' '}
+          Not every "e-bike insurance" policy satisfies the law — some carriers
+          sell theft/damage coverage with no liability at all. Before you buy,
+          have the carrier confirm in writing that the policy includes liability
+          of at least{' '}
           <strong className="text-[var(--color-ink)]">$35,000 / $70,000 / $25,000</strong>{' '}
-          bodily injury & property damage + PIP — or it's not S4834-compliant.
+          (bodily injury per person / per accident / property damage) — or it's
+          not S4834-compliant.
         </p>
         {lastVerified && (
           <p
@@ -55,6 +58,7 @@ function CarrierCard({ carrier }: { carrier: CarrierEntry }) {
       ? 'Quote required — pricing not published'
       : carrier.pricing.display
   const isWaitlist = carrier.status === 'waitlist'
+  const noLiability = carrier.complianceClaim === 'none'
   const ctaLabel = isWaitlist ? 'Join the waitlist ↗' : 'Get a quote ↗'
 
   return (
@@ -74,6 +78,17 @@ function CarrierCard({ carrier }: { carrier: CarrierEntry }) {
               }}
             >
               Waitlist
+            </span>
+          )}
+          {noLiability && (
+            <span
+              className="rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wider"
+              style={{
+                background: 'rgba(220, 38, 38, 0.12)',
+                color: '#f87171',
+              }}
+            >
+              No liability coverage
             </span>
           )}
         </div>
