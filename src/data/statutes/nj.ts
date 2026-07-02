@@ -127,7 +127,8 @@ export const NJ_S4834: StatutoryRequirement = {
 
   registration: {
     appliesToCategories: ['low-speed-electric', 'motorized'],
-    rentalExemption: true,
+    rentalExemptionCategories: ['low-speed-electric'],
+    authority: { name: 'NJ Motor Vehicle Commission', url: mvcPage },
     feeWaiverUntil: '2027-01-19',
     citations: [
       {
@@ -158,6 +159,23 @@ export const NJ_S4834: StatutoryRequirement = {
       },
     ],
   },
+
+  operatingAges: [
+    {
+      categories: ['low-speed-electric', 'motorized'],
+      minAge: years(15),
+      citations: [
+        {
+          statute: 'S4834 §3 — operator age and licensing',
+          url: billText,
+          quote:
+            'No person under 15 may operate. 15-16 requires a motorized bicycle license/permit. 17+ requires a basic driver\'s license or motorized bicycle license/permit.',
+        },
+      ],
+    },
+  ],
+
+  operationBans: [],
 
   reclassifications: [
     {

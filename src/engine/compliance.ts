@@ -52,14 +52,26 @@ export function checkCompliance(input: ComplianceInput): Compliance {
     }
   }
 
-  if (
-    statute.licensing.appliesToCategories.includes(category) &&
-    operator.age < statute.licensing.minOperatorAge
-  ) {
+  const ban = statute.operationBans.find((b) => b.categories.includes(category))
+  if (ban) {
     return {
       status: 'prohibited',
-      reason: `Operators under ${statute.licensing.minOperatorAge} may not operate this bike.`,
-      citations: statute.licensing.citations,
+      reason: ban.reason,
+      citations: ban.citations,
+      classificationNote,
+    }
+  }
+
+  const ageRule = statute.operatingAges.find((r) =>
+    r.categories.includes(category),
+  )
+  if (ageRule && operator.age < ageRule.minAge) {
+    return {
+      status: 'prohibited',
+      reason:
+        ageRule.reason ??
+        `Operators under ${ageRule.minAge} may not operate this bike.`,
+      citations: ageRule.citations,
       classificationNote,
     }
   }
@@ -77,12 +89,15 @@ export function checkCompliance(input: ComplianceInput): Compliance {
 
   if (statute.registration.appliesToCategories.includes(category)) {
     const isExemptRental =
-      statute.registration.rentalExemption &&
       bike.isRentalFromSharedSystem &&
-      category === 'low-speed-electric'
+      statute.registration.rentalExemptionCategories.includes(category)
     if (!isExemptRental && !bike.isRegistered) {
       gaps.push({ kind: 'registration-required' })
-      remedies.push({ kind: 'register-with-mvc' })
+      remedies.push({
+        kind: 'register',
+        authorityName: statute.registration.authority.name,
+        authorityUrl: statute.registration.authority.url,
+      })
     }
   }
 

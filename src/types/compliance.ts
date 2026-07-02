@@ -22,7 +22,12 @@ export type Gap =
 
 export type Remedy =
   | { readonly kind: 'buy-specialty-policy'; readonly minimum: Coverage }
-  | { readonly kind: 'register-with-mvc' }
+  | {
+      /** Register with the statute's registration authority (NJ MVC, HI county finance, …). */
+      readonly kind: 'register'
+      readonly authorityName: string
+      readonly authorityUrl: string
+    }
   | {
       readonly kind: 'obtain-license'
       readonly options: ReadonlyArray<'basic-drivers' | 'motorized-bicycle'>

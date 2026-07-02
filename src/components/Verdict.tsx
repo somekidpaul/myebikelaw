@@ -5,6 +5,7 @@ import type {
   Compliance,
   Gap,
   Remedy,
+  StatutoryRequirement,
   USD,
 } from '../types'
 import { CarrierDirectory } from './CarrierDirectory'
@@ -14,39 +15,50 @@ import {
   downloadIcs,
   NJ_S4834_DEADLINE_EVENT,
 } from '../lib/calendar'
-import { NJ_S4834, NJ_S4834_SOURCES } from '../data/statutes/nj'
+import { JURISDICTION_NAMES, isCheckerJurisdiction } from '../data/statutes'
 
 export function Verdict({
   compliance,
   bike,
+  statute,
   onReset,
 }: {
   compliance: Compliance
   bike?: BikeProfile
+  statute: StatutoryRequirement
   onReset: () => void
 }) {
   const hasGaps = compliance.status === 'gaps'
   // The verdict only ever renders client-side (the server render is the
-  // splash), so reading the clock directly is safe here. Once the deadline
-  // has passed, offering a calendar event for it would be pointless.
-  const deadlineUpcoming = daysUntil(NJ_S4834.complianceDeadline) > 0
+  // splash), so reading the clock directly is safe here. The calendar event
+  // is NJ's July 19 deadline — other states don't get it, and once the
+  // deadline has passed, offering it would be pointless.
+  const showCalendar =
+    hasGaps &&
+    statute.jurisdiction === 'NJ' &&
+    daysUntil(statute.complianceDeadline) > 0
   return (
     <div className="space-y-8">
-      <PrintHeader />
+      <PrintHeader statute={statute} />
       <VerdictHeader compliance={compliance} />
+      {daysUntil(statute.enactedOn) > 0 && (
+        <NotYetInEffectCallout statute={statute} />
+      )}
       {compliance.classificationNote && (
         <ClassificationCallout note={compliance.classificationNote} />
       )}
-      {bike && compliance.status !== 'prohibited' && (
-        <PendingExtensionCallout bike={bike} />
-      )}
-      <Body compliance={compliance} />
+      {statute.jurisdiction === 'NJ' &&
+        bike &&
+        compliance.status !== 'prohibited' && (
+          <PendingExtensionCallout bike={bike} statute={statute} />
+        )}
+      <Body compliance={compliance} statute={statute} />
       <Citations compliance={compliance} />
 
       <div className="no-print flex flex-wrap items-center gap-3">
         <ShareButton />
         <SaveAsPdfButton />
-        {hasGaps && deadlineUpcoming && <AddToCalendarButton />}
+        {showCalendar && <AddToCalendarButton />}
         <button type="button" onClick={onReset} className="btn btn-ghost">
           ← Start over
         </button>
@@ -55,8 +67,48 @@ export function Verdict({
   )
 }
 
+function stateName(statute: StatutoryRequirement): string {
+  return isCheckerJurisdiction(statute.jurisdiction)
+    ? JURISDICTION_NAMES[statute.jurisdiction]
+    : statute.jurisdiction
+}
+
+// Shown while a passed law hasn't taken effect yet (e.g., HI before July 15).
+function NotYetInEffectCallout({ statute }: { statute: StatutoryRequirement }) {
+  const effective = new Date(
+    statute.enactedOn + 'T00:00:00Z',
+  ).toLocaleDateString('en-US', {
+    timeZone: 'UTC',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+  return (
+    <div
+      className="rounded-lg border p-5"
+      style={{
+        background: 'rgba(127, 163, 200, 0.06)',
+        borderColor: 'rgba(127, 163, 200, 0.22)',
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <span className="dot" style={{ background: 'var(--color-ink-soft)' }} />
+        <span className="eyebrow" style={{ color: 'var(--color-ink-soft)' }}>
+          Not in effect yet
+        </span>
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-[var(--color-ink-soft)]">
+        {stateName(statute)}'s {statute.billId} takes effect by{' '}
+        <strong className="text-[var(--color-ink)]">{effective}</strong>. The
+        requirements below aren't enforceable until then — you're checking
+        early, which is the right move.
+      </p>
+    </div>
+  )
+}
+
 // Letterhead shown only when the results page is printed / saved as PDF.
-function PrintHeader() {
+function PrintHeader({ statute }: { statute: StatutoryRequirement }) {
   const today = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -66,7 +118,8 @@ function PrintHeader() {
     <div className="print-only print-header">
       <strong className="font-rounded text-lg font-bold">MyEBikeLaw.com</strong>
       <span className="text-sm text-[var(--color-ink-soft)]">
-        New Jersey S4834 compliance check · generated {today}
+        {stateName(statute)} · {statute.billId} compliance check · generated{' '}
+        {today}
       </span>
     </div>
   )
@@ -84,11 +137,17 @@ function SaveAsPdfButton() {
   )
 }
 
-function PendingExtensionCallout({ bike }: { bike: BikeProfile }) {
+function PendingExtensionCallout({
+  bike,
+  statute,
+}: {
+  bike: BikeProfile
+  statute: StatutoryRequirement
+}) {
   // Only relevant when the NJ engine classified this bike as low-speed-electric —
   // the category currently exempt from insurance, which two pending NJ bills
-  // (A2093, S3156) would close.
-  const category = NJ_S4834.appliesTo(bike)
+  // (A2093, S3156) would close. (Caller gates this to NJ.)
+  const category = statute.appliesTo(bike)
   if (category !== 'low-speed-electric') return null
   return (
     <div
@@ -293,7 +352,13 @@ function verdictLabel(c: Compliance): string {
   }
 }
 
-function Body({ compliance }: { compliance: Compliance }) {
+function Body({
+  compliance,
+  statute,
+}: {
+  compliance: Compliance
+  statute: StatutoryRequirement
+}) {
   if (compliance.status !== 'gaps') return null
 
   const hasInsuranceGap = compliance.gaps.some((g) => g.kind === 'insurance')
@@ -315,7 +380,7 @@ function Body({ compliance }: { compliance: Compliance }) {
         <ul className="mt-3 space-y-3">
           {compliance.gaps.map((g, i) => (
             <li key={i} className="card">
-              <GapItem gap={g} />
+              <GapItem gap={g} statute={statute} />
             </li>
           ))}
         </ul>
@@ -349,7 +414,7 @@ function Body({ compliance }: { compliance: Compliance }) {
   )
 }
 
-function GapItem({ gap }: { gap: Gap }) {
+function GapItem({ gap, statute }: { gap: Gap; statute: StatutoryRequirement }) {
   switch (gap.kind) {
     case 'license-required':
       return (
@@ -366,8 +431,11 @@ function GapItem({ gap }: { gap: Gap }) {
         <>
           <h4 className="text-base font-bold sm:text-lg">Registration required</h4>
           <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
-            Your bike must be registered with the NJ MVC. Fees are waived through
-            Jan 19, 2027.
+            Your bike must be registered with{' '}
+            {statute.registration.authority.name}.
+            {statute.registration.feeWaiverUntil && (
+              <> Fees are waived through {formatIsoDate(statute.registration.feeWaiverUntil)}.</>
+            )}
           </p>
         </>
       )
@@ -409,18 +477,14 @@ function renderRemedy(r: Remedy): React.ReactNode {
   switch (r.kind) {
     case 'buy-specialty-policy':
       return `Get a specialty e-bike policy that meets the statutory minimums — see the carrier directory below for who actually offers S4834 liability coverage in NJ.`
-    case 'register-with-mvc':
+    case 'register':
       return (
         <>
           Register your bike with the{' '}
-          <a
-            href={NJ_S4834_SOURCES.mvcPage}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            NJ Motor Vehicle Commission ↗
+          <a href={r.authorityUrl} target="_blank" rel="noopener noreferrer">
+            {r.authorityName} ↗
           </a>
-          . Fees are waived through Jan 19, 2027.
+          .
         </>
       )
     case 'obtain-license':
@@ -468,6 +532,15 @@ function Citations({ compliance }: { compliance: Compliance }) {
       </ul>
     </section>
   )
+}
+
+function formatIsoDate(iso: string): string {
+  return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-US', {
+    timeZone: 'UTC',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
 }
 
 function axisLabel(axis: string): string {

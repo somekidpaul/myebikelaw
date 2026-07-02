@@ -73,6 +73,17 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## July 2, 2026 — HAWAII CHECKER (branch `hi-checker/2026-07-02`): phase 2 begins
+
+The multi-state promise came due (HB 2021 becomes law by 7/15) — the engine is now genuinely multi-state. Built from the **CD1 text read directly from capitol.hawaii.gov** (curl 403s; a browser session got it).
+
+- **Engine generalized, zero NJ behavior change** (the 97 pre-existing tests stayed green): `operatingAges` (age floors independent of licensing, with per-rule `reason` override — HI's is a supervision rule, not a ban), `operationBans` (terminal prohibited verdicts — HI's high-speed ban), `registration.rentalExemptionCategories` (replaces the hardcoded NJ low-speed check), `registration.authority` {name,url} (drives the remedy link; remedy kind renamed `register-with-mvc` → `register`). BikeCategory union gains `class-1/2/3` + `high-speed-electric`.
+- **HI statute record** (`src/data/statutes/hi.ts`), all CD1-cited: $30 one-time county registration for every e-bike + operation ban if unregistered (§249-14(b), SECTION 5, **no grace period** — everything but retailer labeling is effective the day it's law, SECTION 22); **no license, no insurance (SECTION 1 says so explicitly)**; under-16 = supervision-only for Class 2/3 (§291C-143.5 — Class 1 has NO age rule; the "16+" headlines were wrong); helmets under 18; sidewalks ≤10 mph for all classes except business districts; "high-speed electric device" = **>750W AND >28 mph (conjunctive!)** banned from every public surface + seizable. TWO definitional gaps handled with conservative classificationNotes (single-threshold bikes; throttle 21–28 mph).
+- **Statute-driven UI**: `STATUTES` registry (`src/data/statutes/index.ts`); Form hides insurance/license sections when a statute has none; Verdict takes a `statute` prop (authority-aware copy, jurisdiction-gated NJ callouts/calendar, generic "Not in effect yet" banner keyed to `enactedOn`); Splash has two live cards (HI card counts down to effectiveness client-side, same pattern as NJ). Share URLs: `st=hi` param — **legacy NJ links (no st) unchanged and verified**.
+- **HI graduated** from pending-bills.ts → its own card + a "Hawaii · HB 2021" FAQ group (3 Q&As incl. how-to-register) + JSON-LD question. Meta descriptions updated. 114 tests (13 new HI paths + 4 share tests).
+- ⚠️ **enactedOn: '2026-07-15' is the LATEST date** — if Green signs earlier the law is effective on signing and the site's countdown/banner would be wrong until updated. The law-sync routine now checks the bill status EVERY RUN and opens a time-critical PR if signed. When it becomes law: flip is automatic client-side; routine verifies on live.
+- HI registration authority link in remedies points to HBL's how-to (covers all four counties); statute citations carry capitol.hawaii.gov. County pages (Honolulu CSD) still described pre-HB2021 rules as of 7/2 — FAQ says so.
+
 ## July 1, 2026 deadline-readiness pass (branch `deadline-readiness/2026-07-01`)
 
 Full re-verification + feature pass 18 days before the NJ deadline. Key outcomes:
