@@ -4,6 +4,7 @@ import type {
   ExistingPolicy,
   LicenseKind,
   OperatorProfile,
+  StatutoryRequirement,
   ThrottleKind,
 } from '../types'
 import { mph, usd, watts, years } from '../types'
@@ -42,8 +43,19 @@ export type FormResult = {
   policies: ReadonlyArray<ExistingPolicy>
 }
 
-export function Form({ onSubmit }: { onSubmit: (r: FormResult) => void }) {
+export function Form({
+  statute,
+  onSubmit,
+}: {
+  statute: StatutoryRequirement
+  onSubmit: (r: FormResult) => void
+}) {
   const [s, setS] = useState<FormState>(initialState)
+
+  // Sections are statute-driven: a state with no licensing or insurance
+  // requirement simply never shows those questions.
+  const asksLicense = statute.licensing.appliesToCategories.length > 0
+  const asksInsurance = statute.insurance.appliesToCategories.length > 0
 
   const set = <K extends keyof FormState>(k: K, v: FormState[K]) =>
     setS((prev) => ({ ...prev, [k]: v }))
@@ -61,9 +73,9 @@ export function Form({ onSubmit }: { onSubmit: (r: FormResult) => void }) {
       },
       operator: {
         age: years(ageNum),
-        license: s.license,
+        license: asksLicense ? s.license : 'none',
       },
-      policies: [buildPolicy(s)],
+      policies: [asksInsurance ? buildPolicy(s) : { kind: 'none' }],
     })
   }
 
@@ -115,7 +127,7 @@ export function Form({ onSubmit }: { onSubmit: (r: FormResult) => void }) {
               <Checkbox
                 checked={s.isRegistered}
                 onChange={(v) => set('isRegistered', v)}
-                label="This bike is already registered with the NJ MVC"
+                label={`This bike is already registered with ${statute.registration.authority.name}`}
               />
             </Field>
           </>
@@ -135,20 +147,23 @@ export function Form({ onSubmit }: { onSubmit: (r: FormResult) => void }) {
               placeholder="35"
             />
           </Field>
-          <Field label="Your license">
-            <Select
-              value={s.license}
-              onChange={(v) => set('license', v as LicenseKind)}
-              options={[
-                { value: 'basic-drivers', label: "Basic driver's license" },
-                { value: 'motorized-bicycle', label: 'Motorized bicycle license' },
-                { value: 'none', label: 'Neither' },
-              ]}
-            />
-          </Field>
+          {asksLicense && (
+            <Field label="Your license">
+              <Select
+                value={s.license}
+                onChange={(v) => set('license', v as LicenseKind)}
+                options={[
+                  { value: 'basic-drivers', label: "Basic driver's license" },
+                  { value: 'motorized-bicycle', label: 'Motorized bicycle license' },
+                  { value: 'none', label: 'Neither' },
+                ]}
+              />
+            </Field>
+          )}
         </div>
       </Card>
 
+      {asksInsurance && (
       <Card title="Your most relevant insurance" number="3">
         <Field label="What's your current coverage?">
           <Select
@@ -208,6 +223,7 @@ export function Form({ onSubmit }: { onSubmit: (r: FormResult) => void }) {
           </div>
         )}
       </Card>
+      )}
 
       <button type="submit" className="btn btn-primary w-full">
         Check my compliance →

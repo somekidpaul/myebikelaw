@@ -2,14 +2,20 @@ import { useEffect, useState } from 'react'
 import type { PendingStateBill, RequirementHint } from '../types'
 import { PENDING_STATE_BILLS } from '../data/pending-bills'
 import { NJ_S4834 } from '../data/statutes/nj'
+import { HI_HB2021 } from '../data/statutes/hi'
+import type { CheckerJurisdiction } from '../data/statutes'
 import { daysUntil } from '../lib/calendar'
 import { Reveal } from './Reveal'
 
-export function Splash({ onCheckNJ }: { onCheckNJ: () => void }) {
+export function Splash({
+  onCheck,
+}: {
+  onCheck: (jurisdiction: CheckerJurisdiction) => void
+}) {
   return (
     <>
       <SplashHero />
-      <StateGrid onCheckNJ={onCheckNJ} />
+      <StateGrid onCheck={onCheck} />
     </>
   )
 }
@@ -26,8 +32,9 @@ function SplashHero() {
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-[var(--color-ink-soft)] sm:text-xl">
           E-bikes are legal everywhere in the US — but a few states now require
-          a license, registration, or insurance to ride one. New Jersey was first.
-          Others have bills in motion. Find your state below.
+          a license, registration, or insurance to ride one. New Jersey was
+          first. Hawaii is next, on July 15. Others have bills in motion. Find
+          your state below.
         </p>
 
         <ul className="trust-row mt-10 mb-10 justify-center">
@@ -49,12 +56,22 @@ function SplashHero() {
   )
 }
 
-function StateGrid({ onCheckNJ }: { onCheckNJ: () => void }) {
+function StateGrid({
+  onCheck,
+}: {
+  onCheck: (jurisdiction: CheckerJurisdiction) => void
+}) {
   return (
     <section className="mx-auto max-w-5xl px-6 pb-16">
       <Reveal>
-        <NJCard onClick={onCheckNJ} />
+        <NJCard onClick={() => onCheck('NJ')} />
       </Reveal>
+
+      <div className="mt-6">
+        <Reveal>
+          <HICard onClick={() => onCheck('HI')} />
+        </Reveal>
+      </div>
 
       <div className="mt-16">
         <Reveal>
@@ -64,8 +81,9 @@ function StateGrid({ onCheckNJ }: { onCheckNJ: () => void }) {
               Bills in motion elsewhere
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm text-[var(--color-ink-soft)]">
-              None passed yet. We promote a state to its own compliance tool the
-              moment its bill is signed.
+              Nothing else has passed. We promote a state to its own compliance
+              tool the moment its bill becomes law — New Jersey and Hawaii are
+              above.
             </p>
           </div>
         </Reveal>
@@ -171,6 +189,74 @@ function NJCard({ onClick }: { onClick: () => void }) {
         className="btn btn-primary mt-8"
       >
         Check my NJ compliance →
+      </button>
+    </div>
+  )
+}
+
+function HICard({ onClick }: { onClick: () => void }) {
+  // Same client-side pattern as the NJ countdown: the server renders the
+  // date-neutral copy; the client computes where we are relative to the
+  // effective date and keeps it fresh while the tab is open.
+  const [daysLeft, setDaysLeft] = useState<number | null>(null)
+  useEffect(() => {
+    const update = () => setDaysLeft(daysUntil(HI_HB2021.enactedOn))
+    update()
+    const id = setInterval(update, 60_000)
+    return () => clearInterval(id)
+  }, [])
+  const inEffect = daysLeft !== null && daysLeft <= 0
+  return (
+    <div
+      className="lift relative overflow-hidden rounded-2xl border p-8 sm:p-10"
+      style={{
+        background:
+          'linear-gradient(135deg, rgba(234,88,12,0.10) 0%, rgba(234,88,12,0.02) 100%)',
+        borderColor: 'rgba(234,88,12,0.35)',
+      }}
+    >
+      <div className="flex items-center gap-3">
+        <span
+          className="dot"
+          style={{
+            background: inEffect ? 'var(--color-good)' : 'var(--color-warn)',
+          }}
+        />
+        <span
+          className="eyebrow"
+          style={{
+            color: inEffect ? 'var(--color-good)' : 'var(--color-warn)',
+          }}
+        >
+          {daysLeft === null
+            ? 'Passed · takes effect by July 15, 2026'
+            : inEffect
+              ? 'In effect'
+              : `Passed · takes effect in ${daysLeft} day${daysLeft === 1 ? '' : 's'}`}
+        </span>
+      </div>
+
+      <h2 className="mt-4 text-[28px] font-bold leading-[1.05] tracking-tight sm:text-[52px]">
+        Hawaii
+      </h2>
+
+      <p className="mt-3 text-base text-[var(--color-ink-soft)] sm:text-lg">
+        <strong className="text-[var(--color-ink)]">HB 2021</strong> — a
+        one-time <strong className="text-[var(--color-ink)]">$30</strong>{' '}
+        registration for every e-bike, and an unregistered e-bike can't be
+        ridden on public roads, sidewalks, or bike lanes. No license, no
+        insurance. High-speed devices (over 750 W <em>and</em> 28 mph) are
+        banned from public infrastructure entirely. Helmets under 18.
+      </p>
+
+      <div className="mt-6 grid gap-2 text-sm text-[var(--color-ink-soft)] sm:grid-cols-3">
+        <RequirementChip label="Registration ($30, one-time)" />
+        <RequirementChip label="Under 16: supervised (Class 2/3)" />
+        <RequirementChip label="No license or insurance" />
+      </div>
+
+      <button type="button" onClick={onClick} className="btn btn-primary mt-8">
+        Check my HI compliance →
       </button>
     </div>
   )

@@ -5,36 +5,54 @@ import { Faq } from './components/Faq'
 import { Splash } from './components/Splash'
 import { Reveal } from './components/Reveal'
 import { checkCompliance } from './engine/compliance'
-import { NJ_S4834 } from './data/statutes/nj'
+import {
+  isCheckerJurisdiction,
+  JURISDICTION_NAMES,
+  STATUTES,
+  type CheckerJurisdiction,
+} from './data/statutes'
 import { decodeAnswers, encodeAnswers } from './lib/share'
 import type { BikeProfile, Compliance } from './types'
 
 type AppState =
   | { phase: 'splash' }
-  | { phase: 'form' }
-  | { phase: 'result'; compliance: Compliance; bike: BikeProfile }
+  | { phase: 'form'; jurisdiction: CheckerJurisdiction }
+  | {
+      phase: 'result'
+      jurisdiction: CheckerJurisdiction
+      compliance: Compliance
+      bike: BikeProfile
+    }
 
 function App() {
   const [state, setState] = useState<AppState>(() => {
     if (typeof window === 'undefined') return { phase: 'splash' }
     const answers = decodeAnswers(window.location.search.slice(1))
-    if (!answers) return { phase: 'splash' }
-    const compliance = checkCompliance({ ...answers, statute: NJ_S4834 })
-    return { phase: 'result', compliance, bike: answers.bike }
+    if (!answers || !isCheckerJurisdiction(answers.jurisdiction))
+      return { phase: 'splash' }
+    const jurisdiction = answers.jurisdiction
+    const compliance = checkCompliance({
+      ...answers,
+      statute: STATUTES[jurisdiction],
+    })
+    return { phase: 'result', jurisdiction, compliance, bike: answers.bike }
   })
   const workRef = useRef<HTMLDivElement | null>(null)
   const isFirstRender = useRef(true)
 
-  const handleSubmit = (r: FormResult) => {
-    const compliance = checkCompliance({ ...r, statute: NJ_S4834 })
-    const qs = encodeAnswers(r)
+  const handleSubmit = (jurisdiction: CheckerJurisdiction, r: FormResult) => {
+    const compliance = checkCompliance({
+      ...r,
+      statute: STATUTES[jurisdiction],
+    })
+    const qs = encodeAnswers({ ...r, jurisdiction })
     window.history.pushState({}, '', `?${qs}`)
-    setState({ phase: 'result', compliance, bike: r.bike })
+    setState({ phase: 'result', jurisdiction, compliance, bike: r.bike })
   }
 
-  const handleReset = () => {
+  const handleReset = (jurisdiction: CheckerJurisdiction) => {
     window.history.pushState({}, '', window.location.pathname)
-    setState({ phase: 'form' })
+    setState({ phase: 'form', jurisdiction })
   }
 
   // The "How it works" section only exists on the splash phase, so from the
@@ -78,12 +96,16 @@ function App() {
   useEffect(() => {
     const onPop = () => {
       const answers = decodeAnswers(window.location.search.slice(1))
-      if (!answers) {
+      if (!answers || !isCheckerJurisdiction(answers.jurisdiction)) {
         setState({ phase: 'splash' })
         return
       }
-      const compliance = checkCompliance({ ...answers, statute: NJ_S4834 })
-      setState({ phase: 'result', compliance, bike: answers.bike })
+      const jurisdiction = answers.jurisdiction
+      const compliance = checkCompliance({
+        ...answers,
+        statute: STATUTES[jurisdiction],
+      })
+      setState({ phase: 'result', jurisdiction, compliance, bike: answers.bike })
     }
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
@@ -95,7 +117,7 @@ function App() {
 
       <main>
       {state.phase === 'splash' && (
-        <Splash onCheckNJ={() => setState({ phase: 'form' })} />
+        <Splash onCheck={(j) => setState({ phase: 'form', jurisdiction: j })} />
       )}
 
       <div ref={workRef}>
@@ -109,7 +131,9 @@ function App() {
               ← Back
             </button>
             <div className="mt-6">
-              <SectionEyebrow>Step 2 · Your situation</SectionEyebrow>
+              <SectionEyebrow>
+                Step 2 · Your situation · {JURISDICTION_NAMES[state.jurisdiction]}
+              </SectionEyebrow>
             </div>
             <h2 className="mt-2 text-3xl font-bold sm:text-4xl">
               A few questions about your bike.
@@ -118,7 +142,11 @@ function App() {
               All answers stay in your browser. We never store, share, or sell anything.
             </p>
             <div className="mt-10">
-              <Form onSubmit={handleSubmit} />
+              <Form
+                key={state.jurisdiction}
+                statute={STATUTES[state.jurisdiction]}
+                onSubmit={(r) => handleSubmit(state.jurisdiction, r)}
+              />
             </div>
           </section>
         )}
@@ -128,7 +156,8 @@ function App() {
             <Verdict
               compliance={state.compliance}
               bike={state.bike}
-              onReset={handleReset}
+              statute={STATUTES[state.jurisdiction]}
+              onReset={() => handleReset(state.jurisdiction)}
             />
           </section>
         )}
@@ -279,7 +308,7 @@ function SiteFooter() {
         </strong>{' '}
         It does not provide legal or insurance advice. The output reflects a
         good-faith reading of the cited statutes, last reviewed{' '}
-        <strong className="text-[var(--color-ink-soft)]">June 30, 2026</strong>;
+        <strong className="text-[var(--color-ink-soft)]">July 2, 2026</strong>;
         verify details with your insurance agent and{' '}
         <a
           href="https://www.nj.gov/mvc/vehicletopics/ebike.htm"

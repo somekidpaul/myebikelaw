@@ -76,20 +76,17 @@ const GENERAL: ReadonlyArray<QA> = [
     q: 'What about other states? Are similar laws coming?',
     a: (
       <>
-        New Jersey is the first state to require insurance for e-bikes — but
-        there's a small wave of related activity elsewhere:
+        New Jersey is the first state to require insurance for e-bikes, and{' '}
+        <strong>Hawaii</strong> is the second state with real e-bike
+        requirements — HB 2021 (a $30 registration for every e-bike) becomes
+        law by July 15, 2026 and has its own checker at the top of this page.
+        Elsewhere, there's a wave of related activity:
         <ul className="mt-3 space-y-2 list-disc pl-5">
           <li>
             <strong>California</strong> — AB 1942 would have required DMV
             registration and license plates for Class 2 and Class 3 e-bikes,
             but it stalled: held in committee on the Appropriations suspense
             file (May 14, 2026).
-          </li>
-          <li>
-            <strong>Hawaii</strong> — HB 2021 (HD2 SD2 CD1) passed both chambers
-            and was left off Governor Green's June 2026 intent-to-veto list, so
-            it becomes law by July 15, 2026. $30 one-time registration for all
-            e-bikes; higher-speed class restricted from public roads.
           </li>
           <li>
             <strong>Illinois</strong> — the e-bike framework first rode on SB
@@ -339,6 +336,91 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
   },
 ]
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Hawaii questions — HB 2021 (HD2 SD2 CD1), verified against the CD1 text
+// ─────────────────────────────────────────────────────────────────────────────
+
+const HI_QUESTIONS: ReadonlyArray<QA> = [
+  {
+    q: "What does Hawaii's HB 2021 actually require?",
+    a: (
+      <>
+        One thing, mainly: <strong>registration</strong>. Every e-bike (Class
+        1, 2, and 3) gets a one-time <strong>$30</strong> registration with
+        your county's director of finance — and once the law is in effect, an
+        unregistered e-bike may not be ridden on any public roadway, sidewalk,
+        or bicycle facility. Riding unregistered risks a citation or temporary
+        impoundment (redeeming an impounded bike costs the fee plus a $25
+        penalty; unclaimed bikes can be auctioned after 10 days).
+        <ul className="mt-3 space-y-2 list-disc pl-5">
+          <li>
+            <strong>No license and no insurance</strong> — the bill says
+            explicitly that nothing in it requires insurance for a classified,
+            road-legal e-bike.
+          </li>
+          <li>
+            <strong>Under 16?</strong> Class 2 and Class 3 e-bikes require
+            direct supervision — a parent, guardian, or adult 18+ physically
+            present. Class 1 has no age restriction at all.
+          </li>
+          <li>
+            <strong>Helmets under 18</strong> (raised from under 16) on any
+            bicycle, including all e-bike classes. $25 fine, chargeable to the
+            parent.
+          </li>
+          <li>
+            <strong>Sidewalks are OK at up to 10 mph</strong> for all three
+            classes — except in business districts or where a county ordinance
+            says otherwise.
+          </li>
+          <li>
+            <strong>High-speed devices</strong> (motor over 750 W{' '}
+            <em>and</em> capable of more than 28 mph) are banned from every
+            public surface — roads, bike lanes, paths, and sidewalks — at any
+            age, and can be seized as non-road-legal.
+          </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    q: 'When does HB 2021 take effect? Is there a grace period?',
+    a: (
+      <>
+        It becomes law <strong>on or before July 15, 2026</strong> — it was
+        left off the Governor's June 26 intent-to-veto list, and under
+        Hawaii's constitution a bill omitted from that list cannot be vetoed.
+        <br />
+        <br />
+        <strong>There is no grace period.</strong> Unlike New Jersey's
+        six-month runway, Hawaii's riding provisions — including the
+        you-can't-ride-unregistered rule — take effect the day the bill
+        becomes law. Only the retailer labeling and point-of-sale disclosure
+        duties are delayed (120 days). If you ride in Hawaii, registering
+        before mid-July is the move.
+      </>
+    ),
+  },
+  {
+    q: 'How do I register my e-bike in Hawaii?',
+    a: (
+      <>
+        Through your <strong>county's director of finance</strong> — Hawaii
+        registers bicycles at the county level, and HB 2021 plugs e-bikes into
+        that same system at $30, one-time. In Honolulu that means a Satellite
+        City Hall or the Kapālama Driver Licensing Center (by appointment) or
+        registration by mail, with proof of ownership and the bike's wattage
+        on the application; you get a decal for the frame. Hawai'i County,
+        Maui, and Kaua'i run their own equivalents through their finance/DMV
+        offices. Bike shops often file the paperwork for you at purchase.
+        County pages may still describe the pre-HB 2021 rules until guidance
+        catches up — the $30 e-bike fee and the register-before-you-ride rule
+        are what the new law says.
+      </>
+    ),
+  },
+]
+
 export function Faq() {
   return (
     <section
@@ -354,6 +436,7 @@ export function Faq() {
 
       <FaqGroup label="General" items={GENERAL} />
       <FaqGroup label="New Jersey · S4834" items={NJ_QUESTIONS} className="mt-12" />
+      <FaqGroup label="Hawaii · HB 2021" items={HI_QUESTIONS} className="mt-12" />
     </section>
   )
 }

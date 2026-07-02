@@ -2,6 +2,7 @@ import { z } from 'zod'
 import type {
   BikeProfile,
   ExistingPolicy,
+  Jurisdiction,
   LicenseKind,
   OperatorProfile,
   ThrottleKind,
@@ -12,6 +13,7 @@ import { mph, usd, watts, years } from '../types'
  * Wire format for the form state in the URL.
  * Short keys so shared links stay compact.
  *
+ *   st = state: nj | hi (omitted for NJ so pre-multi-state links stay valid)
  *   t = throttle:  n (none) | p (pedal-assist) | x (throttle)
  *   s = top motor-assisted speed (mph)
  *   w = motor wattage
@@ -20,9 +22,11 @@ import { mph, usd, watts, years } from '../types'
  *   a = operator age
  *   l = license: b (basic-drivers) | m (motorized-bicycle) | n (none)
  *   p = policy:  n (none) | s (specialty) | a (auto) | h (homeowners) | r (renters)
- *   For p=s only: bp, ba, pd, pi  (the four coverage limits, USD)
+ *   For p=s only: bp, ba, pd  (the three liability limits, USD)
+ *   pi (legacy PIP limit) is accepted but ignored — old links still decode.
  */
 const QuerySchema = z.object({
+  st: z.enum(['nj', 'hi']).default('nj'),
   t: z.enum(['n', 'p', 'x']).default('p'),
   s: z.coerce.number().int().min(0).max(50).default(20),
   w: z.coerce.number().int().min(0).max(5000).default(500),
@@ -37,7 +41,17 @@ const QuerySchema = z.object({
   pi: z.coerce.number().int().min(0).optional(),
 })
 
+const jurisdictionToWire: Partial<Record<Jurisdiction, 'nj' | 'hi'>> = {
+  NJ: 'nj',
+  HI: 'hi',
+}
+const jurisdictionFromWire: Record<'nj' | 'hi', Jurisdiction> = {
+  nj: 'NJ',
+  hi: 'HI',
+}
+
 export type SharedAnswers = {
+  jurisdiction: Jurisdiction
   bike: BikeProfile
   operator: OperatorProfile
   policies: ReadonlyArray<ExistingPolicy>
@@ -67,6 +81,10 @@ const licenseFromWire: Record<'b' | 'm' | 'n', LicenseKind> = {
 
 export function encodeAnswers(a: SharedAnswers): string {
   const params = new URLSearchParams()
+  const st = jurisdictionToWire[a.jurisdiction]
+  // NJ is the default — omit it so pre-multi-state links and new NJ links
+  // share the same shape.
+  if (st && st !== 'nj') params.set('st', st)
   params.set('t', throttleToWire[a.bike.throttle])
   params.set('s', String(a.bike.topMotorAssistedSpeed))
   params.set('w', String(a.bike.motorWatts))
@@ -116,7 +134,12 @@ export function decodeAnswers(query: string): SharedAnswers | null {
     license: licenseFromWire[q.l],
   }
   const policy: ExistingPolicy = buildPolicy(q)
-  return { bike, operator, policies: [policy] }
+  return {
+    jurisdiction: jurisdictionFromWire[q.st],
+    bike,
+    operator,
+    policies: [policy],
+  }
 }
 
 function buildPolicy(q: z.infer<typeof QuerySchema>): ExistingPolicy {

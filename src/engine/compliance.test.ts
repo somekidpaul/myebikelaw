@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { checkCompliance } from './compliance'
 import { NJ_S4834 } from '../data/statutes/nj'
+import { HI_HB2021 } from '../data/statutes/hi'
 import type { BikeProfile, ExistingPolicy, OperatorProfile } from '../types'
 import { mph, usd, watts, years } from '../types'
 
@@ -921,5 +922,173 @@ describe('QA: reclassified path', () => {
     expect(r.classificationNote?.chosen).toBe('electric-motorized')
     expect(r.classificationNote?.alternate).toBe('motorized')
     expect(r.classificationNote?.readingTaken).toBe('conservative')
+  })
+})
+
+// ═════════════════════════════════════════════════════════════════════════════
+// HAWAII — HB 2021 (HD2 SD2 CD1): registration-only, supervision ages,
+// high-speed ban. Verified against the CD1 text 2026-07-02.
+// ═════════════════════════════════════════════════════════════════════════════
+
+describe('Hawaii HB 2021', () => {
+  const adult = mkOp(35, 'none')
+
+  it('standard (no motor) → not applicable', () => {
+    const r = checkCompliance({
+      bike: mkBike('none', 0, 0),
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('not-applicable')
+  })
+
+  it('Class 1 (pedal-assist ≤20) unregistered → registration gap with county authority remedy', () => {
+    const r = checkCompliance({
+      bike: mkBike('pedal-assist-only', 20, 500),
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('gaps')
+    if (r.status !== 'gaps') return
+    expect(r.gaps).toHaveLength(1)
+    expect(r.gaps[0]?.kind).toBe('registration-required')
+    const remedy = r.remedies.find((m) => m.kind === 'register')
+    expect(remedy?.kind === 'register' && remedy.authorityName).toContain(
+      'director of finance',
+    )
+  })
+
+  it('Class 1 registered → compliant (no license, no insurance asked)', () => {
+    const r = checkCompliance({
+      bike: { ...mkBike('pedal-assist-only', 20, 500), isRegistered: true },
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('compliant')
+  })
+
+  it('Class 3 (pedal-assist 21–28) registered adult → compliant', () => {
+    const r = checkCompliance({
+      bike: { ...mkBike('pedal-assist-only', 28, 750), isRegistered: true },
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('compliant')
+    expect(r.classificationNote).toBeUndefined()
+  })
+
+  it('Class 1 has NO age rule — a 12-year-old on Class 1 is not prohibited', () => {
+    const r = checkCompliance({
+      bike: { ...mkBike('pedal-assist-only', 20, 500), isRegistered: true },
+      operator: mkOp(12, 'none'),
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('compliant')
+  })
+
+  it('Class 2 (throttle ≤20) under 16 → prohibited with the supervision wording', () => {
+    const r = checkCompliance({
+      bike: { ...mkBike('throttle', 20, 500), isRegistered: true },
+      operator: mkOp(15, 'none'),
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('prohibited')
+    if (r.status !== 'prohibited') return
+    expect(r.reason).toContain('direct supervision')
+  })
+
+  it('Class 3 under 16 → prohibited (supervision rule covers Class 2 AND 3)', () => {
+    const r = checkCompliance({
+      bike: { ...mkBike('pedal-assist-only', 25, 500), isRegistered: true },
+      operator: mkOp(14, 'none'),
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('prohibited')
+  })
+
+  it('high-speed device (>750W AND >28mph) → prohibited everywhere, any age, no note', () => {
+    const r = checkCompliance({
+      bike: { ...mkBike('throttle', 35, 1500), isRegistered: true },
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('prohibited')
+    if (r.status !== 'prohibited') return
+    expect(r.reason).toContain('high-speed')
+    expect(r.classificationNote).toBeUndefined()
+  })
+
+  it('single-threshold bike (>750W only) → prohibited via strictest reading + ambiguity note', () => {
+    const r = checkCompliance({
+      bike: { ...mkBike('pedal-assist-only', 20, 1000), isRegistered: true },
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('prohibited')
+    expect(r.classificationNote).toBeDefined()
+    expect(r.classificationNote?.chosen).toBe('high-speed-electric')
+    expect(r.classificationNote?.readingTaken).toBe('conservative')
+  })
+
+  it('single-threshold bike (>28mph only, ≤750W) → prohibited + ambiguity note', () => {
+    const r = checkCompliance({
+      bike: { ...mkBike('pedal-assist-only', 32, 500), isRegistered: true },
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('prohibited')
+    expect(r.classificationNote).toBeDefined()
+  })
+
+  it('throttle bike assisting past 20 (≤28) → Class 3 conservative + gap note, registration still required', () => {
+    const r = checkCompliance({
+      bike: mkBike('throttle', 25, 500),
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('gaps')
+    expect(r.classificationNote).toBeDefined()
+    expect(r.classificationNote?.chosen).toBe('class-3')
+  })
+
+  it('rental e-bikes get NO exemption — unregistered rental still shows the gap', () => {
+    const r = checkCompliance({
+      bike: mkBike('pedal-assist-only', 20, 500, true),
+      operator: adult,
+      policies: [{ kind: 'none' }],
+      statute: HI_HB2021,
+    })
+    expect(r.status).toBe('gaps')
+    if (r.status !== 'gaps') return
+    expect(r.gaps[0]?.kind).toBe('registration-required')
+  })
+
+  it('insurance is never evaluated — a rich policy changes nothing, no policy costs nothing', () => {
+    const withPolicy = checkCompliance({
+      bike: { ...mkBike('throttle', 20, 500), isRegistered: true },
+      operator: adult,
+      policies: [{
+        kind: 'specialty-ebike',
+        coverage: {
+          bodilyInjuryPerPerson: usd(100_000),
+          bodilyInjuryPerAccident: usd(300_000),
+          propertyDamage: usd(50_000),
+          pip: null,
+        },
+      }],
+      statute: HI_HB2021,
+    })
+    expect(withPolicy.status).toBe('compliant')
   })
 })

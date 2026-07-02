@@ -30,20 +30,9 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     sourceUrl: 'https://www.flsenate.gov/Session/Bill/2026/382',
     lastVerified: '2026-06-30',
   },
-  {
-    state: 'HI',
-    stateName: 'Hawaii',
-    billId: 'HB 2021',
-    status: 'passed-both-chambers',
-    statusLabel: 'Becomes law July 15, 2026',
-    oneLiner:
-      "$30 one-time registration for all e-bikes. Adopts a 3-class system. Higher-speed class can't use public roads, bike lanes, or sidewalks. Now certain to take effect — see below.",
-    details:
-      "HB 2021 (final form HB 2021 HD2 SD2 CD1) passed both chambers. On June 26, 2026 Governor Green released his 2026 intent-to-veto list (four bills) and HB 2021 was NOT on it — under Hawaii's constitution the Governor cannot veto a bill omitted from that list, so HB 2021 becomes law on or before the July 15, 2026 deadline (with or without his signature). One-time $30 registration applies to all e-bikes. Adopts the standard 3-class system (Class 1/2/3). Age 16+ required for the higher-speed class. Higher-speed e-bikes prohibited on public roads, bike lanes, and sidewalks. Manufacturer labels showing class/top speed/wattage are required; retailers must inform buyers of state law. Road provisions effective immediately on enactment; retailer disclosure within 120 days.",
-    requirementHints: ['registration'],
-    sourceUrl: 'https://legiscan.com/HI/bill/HB2021/2026',
-    lastVerified: '2026-06-30',
-  },
+  // Hawaii graduated from this grid on 2026-07-02: HB 2021 is certain to
+  // become law (omitted from the Governor's intent-to-veto list) and now has
+  // its own checker card on the splash page.
   {
     state: 'IL',
     stateName: 'Illinois',
