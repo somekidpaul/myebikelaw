@@ -8,8 +8,13 @@ import type {
   USD,
 } from '../types'
 import { CarrierDirectory } from './CarrierDirectory'
-import { buildIcs, downloadIcs, NJ_S4834_DEADLINE_EVENT } from '../lib/calendar'
-import { NJ_S4834 } from '../data/statutes/nj'
+import {
+  buildIcs,
+  daysUntil,
+  downloadIcs,
+  NJ_S4834_DEADLINE_EVENT,
+} from '../lib/calendar'
+import { NJ_S4834, NJ_S4834_SOURCES } from '../data/statutes/nj'
 
 export function Verdict({
   compliance,
@@ -21,6 +26,10 @@ export function Verdict({
   onReset: () => void
 }) {
   const hasGaps = compliance.status === 'gaps'
+  // The verdict only ever renders client-side (the server render is the
+  // splash), so reading the clock directly is safe here. Once the deadline
+  // has passed, offering a calendar event for it would be pointless.
+  const deadlineUpcoming = daysUntil(NJ_S4834.complianceDeadline) > 0
   return (
     <div className="space-y-8">
       <PrintHeader />
@@ -37,7 +46,7 @@ export function Verdict({
       <div className="no-print flex flex-wrap items-center gap-3">
         <ShareButton />
         <SaveAsPdfButton />
-        {hasGaps && <AddToCalendarButton />}
+        {hasGaps && deadlineUpcoming && <AddToCalendarButton />}
         <button type="button" onClick={onReset} className="btn btn-ghost">
           ← Start over
         </button>
@@ -99,13 +108,14 @@ function PendingExtensionCallout({ bike }: { bike: BikeProfile }) {
         </span>
       </div>
       <p className="mt-3 text-sm leading-relaxed text-[var(--color-ink-soft)]">
-        Two pending NJ bills —{' '}
-        <strong className="text-[var(--color-ink)]">A2093</strong> and{' '}
-        <strong className="text-[var(--color-ink)]">S3156</strong> — would extend
-        insurance and registration to low-speed electric bicycles too, closing the
-        current exemption that applies to your bike. Both are in their respective
-        Transportation Committees. Most committee bills don't advance, but worth
-        knowing about so you're not caught off guard if they do.
+        Your bike's one remaining exemption is <em>insurance</em> — and two
+        pending pairs of identical NJ bills (
+        <strong className="text-[var(--color-ink)]">A2093 / S3156</strong> and{' '}
+        <strong className="text-[var(--color-ink)]">A3697 / S2070</strong>)
+        would remove it by requiring insurance for low-speed electric bicycles
+        too. All four have sat in committee without a hearing since mid-January.
+        Most committee bills don't advance, but worth knowing about so you're
+        not caught off guard if one does.
       </p>
     </div>
   )
@@ -395,12 +405,24 @@ function GapItem({ gap }: { gap: Gap }) {
   }
 }
 
-function renderRemedy(r: Remedy): string {
+function renderRemedy(r: Remedy): React.ReactNode {
   switch (r.kind) {
     case 'buy-specialty-policy':
-      return `Get a specialty e-bike policy meeting the statutory minimums. Velosurance, VOOM, and Sundays all offer NJ-compliant plans, typically $75–$200/year.`
+      return `Get a specialty e-bike policy that meets the statutory minimums — see the carrier directory below for who actually offers S4834 liability coverage in NJ.`
     case 'register-with-mvc':
-      return `Register your bike with the NJ Motor Vehicle Commission. Fees are waived through Jan 19, 2027.`
+      return (
+        <>
+          Register your bike with the{' '}
+          <a
+            href={NJ_S4834_SOURCES.mvcPage}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            NJ Motor Vehicle Commission ↗
+          </a>
+          . Fees are waived through Jan 19, 2027.
+        </>
+      )
     case 'obtain-license':
       return `Obtain one of: ${r.options.join(', ')}.`
     case 'verify-coverage-with-carrier':

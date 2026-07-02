@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { PendingStateBill, RequirementHint } from '../types'
 import { PENDING_STATE_BILLS } from '../data/pending-bills'
 import { NJ_S4834 } from '../data/statutes/nj'
+import { daysUntil } from '../lib/calendar'
 import { Reveal } from './Reveal'
 
 export function Splash({ onCheckNJ }: { onCheckNJ: () => void }) {
@@ -129,7 +130,7 @@ function NJCard({ onClick }: { onClick: () => void }) {
             ? ''
             : daysLeft > 0
               ? ` · ${daysLeft} days to comply`
-              : ' · Past deadline'}
+              : ' · Deadline passed'}
         </span>
       </div>
 
@@ -139,9 +140,23 @@ function NJCard({ onClick }: { onClick: () => void }) {
 
       <p className="mt-3 text-base text-[var(--color-ink-soft)] sm:text-lg">
         <strong className="text-[var(--color-ink)]">S4834 / P.L.2025, c.285</strong>{' '}
-        — license, registration, and insurance required. Compliance deadline{' '}
-        <strong className="text-[var(--color-ink)]">July 19, 2026</strong>. Rules
-        differ by bike category — most riders don't know which one they're in.
+        — license, registration, and insurance required.{' '}
+        {daysLeft !== null && daysLeft <= 0 ? (
+          <>
+            The{' '}
+            <strong className="text-[var(--color-ink)]">July 19, 2026</strong>{' '}
+            deadline has passed, but you can still come into compliance — MVC
+            fees stay waived through{' '}
+            <strong className="text-[var(--color-ink)]">January 19, 2027</strong>.
+          </>
+        ) : (
+          <>
+            Compliance deadline{' '}
+            <strong className="text-[var(--color-ink)]">July 19, 2026</strong>.
+          </>
+        )}{' '}
+        Rules differ by bike category — most riders don't know which one
+        they're in.
       </p>
 
       <div className="mt-6 grid gap-2 text-sm text-[var(--color-ink-soft)] sm:grid-cols-3">
@@ -261,11 +276,6 @@ function PendingStateCard({ bill }: { bill: PendingStateBill }) {
 
 function labelFor(r: RequirementHint): string {
   return r === 'license' ? 'License' : r === 'registration' ? 'Registration' : 'Insurance'
-}
-
-function daysUntil(iso: string): number {
-  const target = new Date(iso + 'T00:00:00Z').getTime()
-  return Math.ceil((target - Date.now()) / (1000 * 60 * 60 * 24))
 }
 
 function formatProposed(iso: string): string {

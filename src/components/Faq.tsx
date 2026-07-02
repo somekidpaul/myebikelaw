@@ -1,8 +1,22 @@
-import { buildIcs, downloadIcs, NJ_S4834_DEADLINE_EVENT } from '../lib/calendar'
+import { useEffect, useState } from 'react'
+import {
+  buildIcs,
+  daysUntil,
+  downloadIcs,
+  NJ_S4834_DEADLINE_EVENT,
+} from '../lib/calendar'
 
 type QA = { readonly q: string; readonly a: React.ReactNode }
 
 function AddToCalendarLink() {
+  // Client-side only: the prerendered HTML always includes the link (the
+  // pre-deadline state); once the clock says the deadline has passed, the
+  // client render drops it — a calendar event in the past helps no one.
+  const [past, setPast] = useState(false)
+  useEffect(() => {
+    setPast(daysUntil(NJ_S4834_DEADLINE_EVENT.date) <= 0)
+  }, [])
+  if (past) return null
   const onClick = () => {
     const ics = buildIcs(NJ_S4834_DEADLINE_EVENT)
     downloadIcs('s4834-deadline.ics', ics)
@@ -144,11 +158,16 @@ const GENERAL: ReadonlyArray<QA> = [
         The "Last verified" timestamps on every card show how fresh the
         information is.
         <br /><br />
-        <strong>NJ specifically:</strong> A2093 and S3156 are pending NJ bills
-        that would extend the insurance + registration requirements to low-speed
-        electric bicycles too — closing the current "low-speed exemption" that
-        this tool relies on. Both are in their respective Transportation
-        Committees. Most committee bills die there, but worth knowing.
+        <strong>NJ specifically:</strong> Two identical bill pairs — A2093/S3156
+        and A3697/S2070 — would close the one exemption low-speed riders still
+        have, by requiring <em>insurance</em> for low-speed electric bicycles
+        too (registration and licensing are already required under S4834) —
+        A2093/S3156 would extend the requirements to low-speed electric
+        scooters as well. All four
+        have sat in committee without a hearing since mid-January. Separately,
+        S4524 (introduced June 26, 2026) would extend the helmet requirement to
+        low-speed e-bike riders of <em>all</em> ages, not just under-17s. Most
+        committee bills die there, but worth knowing.
       </>
     ),
   },
@@ -238,13 +257,21 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
     ),
   },
   {
-    q: 'When is the compliance deadline?',
+    q: 'When is the compliance deadline? What if it already passed?',
     a: (
       <>
         <strong>July 19, 2026.</strong> The bill took effect on January 19, 2026
         with a six-month grace period. Registration and licensing fees are{' '}
         <em>waived</em> through January 19, 2027, so the actual out-of-pocket
         cost to comply in 2026 is just insurance (for motorized bicycle riders).
+        <br />
+        <br />
+        <strong>Reading this after July 19?</strong> Nothing in the statute
+        stops you from coming into compliance late — register, get licensed,
+        and (for motorized bicycles) get covered as soon as you can. The fee
+        waiver still applies through January 19, 2027. The longer you ride
+        non-compliant, the longer you're exposed to tickets and, after a crash,
+        personal liability.
         <br />
         <AddToCalendarLink />
       </>

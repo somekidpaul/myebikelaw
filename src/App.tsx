@@ -37,6 +37,36 @@ function App() {
     setState({ phase: 'form' })
   }
 
+  // The "How it works" section only exists on the splash phase, so from the
+  // form or result screens the header link must first navigate home and then
+  // scroll only after React has committed the splash DOM — starting a smooth
+  // scroll while the new page is still laying out gets it silently canceled.
+  const pendingHowItWorks = useRef(false)
+  const goHowItWorks = () => {
+    if (state.phase === 'splash') {
+      document
+        .getElementById('how-it-works')
+        ?.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
+    pendingHowItWorks.current = true
+    window.history.pushState({}, '', '/')
+    setState({ phase: 'splash' })
+  }
+  useEffect(() => {
+    if (state.phase !== 'splash' || !pendingHowItWorks.current) return
+    pendingHowItWorks.current = false
+    // 'instant', not 'smooth': Chrome silently cancels a smooth scroll started
+    // right after a large phase-swap re-render, and a cross-"page" jump reads
+    // as navigation anyway. Same-page clicks (above) keep the smooth scroll.
+    const id = setTimeout(() => {
+      document
+        .getElementById('how-it-works')
+        ?.scrollIntoView({ behavior: 'instant' })
+    }, 80)
+    return () => clearTimeout(id)
+  }, [state.phase])
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false
@@ -61,7 +91,7 @@ function App() {
 
   return (
     <div className="min-h-svh">
-      <SiteHeader />
+      <SiteHeader onHowItWorks={goHowItWorks} />
 
       <main>
       {state.phase === 'splash' && (
@@ -119,7 +149,7 @@ function App() {
   )
 }
 
-function SiteHeader() {
+function SiteHeader({ onHowItWorks }: { onHowItWorks: () => void }) {
   return (
     <header className="mx-auto flex max-w-5xl items-center justify-between px-6 pt-6">
       <a href="/" className="flex items-center gap-2 text-[var(--color-ink)]">
@@ -129,7 +159,15 @@ function SiteHeader() {
         </span>
       </a>
       <nav className="hidden gap-6 text-sm text-[var(--color-ink-soft)] sm:flex">
-        <a href="#how-it-works">How it works</a>
+        <a
+          href="/#how-it-works"
+          onClick={(e) => {
+            e.preventDefault()
+            onHowItWorks()
+          }}
+        >
+          How it works
+        </a>
         <a
           href="https://www.nj.gov/mvc/vehicletopics/ebike.htm"
           target="_blank"
