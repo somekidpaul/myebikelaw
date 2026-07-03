@@ -286,6 +286,14 @@ input[type="checkbox"] {
       0 14px 44px rgba(234, 88, 12, 0.48),
       0 4px 12px rgba(234, 88, 12, 0.25);
   }
+
+  /* FAQ card hover: subtle lift + a *quiet* orange glow — deliberately ~1/4 the
+     CTA's intensity so the button stays the loudest thing on the page. */
+  .faq-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(234, 88, 12, 0.3);
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.12);
+  }
 }
 
 /* Respect prefers-reduced-motion — disable all motion */

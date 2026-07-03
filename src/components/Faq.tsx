@@ -462,7 +462,7 @@ function FaqGroup({
         {items.map((item, i) => (
           <details
             key={i}
-            className="group rounded-lg border border-white/5 transition"
+            className="faq-item group rounded-lg border border-white/5 transition"
             style={{ background: 'rgba(255, 255, 255, 0.025)' }}
           >
             <summary
