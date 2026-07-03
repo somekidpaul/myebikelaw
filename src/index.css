@@ -150,6 +150,7 @@ input[type="checkbox"] {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 8px 24px rgba(234, 88, 12, 0.28);
 }
 .btn-primary:hover { background: var(--color-brand-soft); opacity: 1; }
+.btn-primary:active { transform: translateY(0) scale(0.97); }
 
 .btn-ghost {
   background: transparent;
@@ -209,6 +210,42 @@ input[type="checkbox"] {
 }
 .lift-in { animation: lift-in 0.4s ease both; }
 
+/* ─── Status badge (verdict result chip) ─── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  animation: badge-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+.status-badge-glyph {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@keyframes badge-pop {
+  0%   { opacity: 0; transform: scale(0.85); }
+  60%  { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Reduced motion: no pop, no lift — just show it */
+@media (prefers-reduced-motion: reduce) {
+  .status-badge,
+  .lift-in {
+    animation: none;
+  }
+}
+
 /* ─── Reveal-on-scroll (paired with IntersectionObserver in Reveal.tsx) ─── */
 .reveal {
   opacity: 0;
@@ -243,6 +280,7 @@ input[type="checkbox"] {
 
   /* Stronger CTA glow on hover */
   .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.15) inset,
       0 14px 44px rgba(234, 88, 12, 0.48),

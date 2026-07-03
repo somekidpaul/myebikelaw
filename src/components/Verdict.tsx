@@ -269,21 +269,13 @@ function VerdictHeader({ compliance }: { compliance: Compliance }) {
   const { tone, accent, title, sub } = verdictCopy(compliance)
   return (
     <div
-      className="rounded-lg border p-7"
+      className="rounded-lg border p-7 lift-in"
       style={{
         background: `linear-gradient(180deg, ${tone}1f 0%, ${tone}0a 100%)`,
         borderColor: `${tone}55`,
       }}
     >
-      <div className="flex items-center gap-2">
-        <span className="dot" style={{ background: tone, width: 10, height: 10 }} />
-        <span
-          className="eyebrow"
-          style={{ color: accent }}
-        >
-          {verdictLabel(compliance)}
-        </span>
-      </div>
+      <StatusBadge compliance={compliance} />
       <h2 className="mt-3 text-2xl font-bold sm:text-3xl" style={{ color: accent }}>
         {title}
       </h2>
@@ -350,6 +342,34 @@ function verdictLabel(c: Compliance): string {
     case 'reclassified':
       return 'Reclassified'
   }
+}
+
+const STATUS_GLYPH: Record<Compliance['status'], string> = {
+  compliant: '✓',
+  gaps: '!',
+  prohibited: '✕',
+  'not-applicable': '–',
+  reclassified: '⇄',
+}
+
+// The status chip at the top of the verdict. Soft-tint (fill = tone @ ~13%,
+// text/icon = the readable accent) so it harmonizes with the header's own
+// tinting and stays legible on every status color. Radius 8 (a chip, not a
+// full pill) so short labels like "Gaps" don't collapse into an oval. Pops in
+// on mount — see .status-badge in index.css.
+function StatusBadge({ compliance }: { compliance: Compliance }) {
+  const { tone, accent } = verdictCopy(compliance)
+  return (
+    <span
+      className="status-badge"
+      style={{ background: `${tone}22`, borderColor: `${tone}59`, color: accent }}
+    >
+      <span className="status-badge-glyph" aria-hidden="true">
+        {STATUS_GLYPH[compliance.status]}
+      </span>
+      {verdictLabel(compliance)}
+    </span>
+  )
 }
 
 function Body({
