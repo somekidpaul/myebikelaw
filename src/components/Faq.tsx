@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   buildIcs,
   daysUntil,
@@ -441,6 +441,109 @@ export function Faq() {
   )
 }
 
+// Smooth open/close on the native <details>, via the Web Animations API.
+// CSS can't animate to height:auto, and the pure-CSS ::details-content approach
+// is blocked by Tailwind here — so we animate the element's height by hand:
+// measure current → target, run the animation, then set `open` and clear the
+// inline height. Open is slower than close (500 / 200ms) so the reveal feels
+// deliberate and the dismiss gets out of the way. Falls back to the native
+// instant toggle under prefers-reduced-motion.
+function FaqItem({ item }: { item: QA }) {
+  const ref = useRef<HTMLDetailsElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const summary = el.querySelector<HTMLElement>('summary')
+    const content = el.querySelector<HTMLElement>('.faq-content')
+    if (!summary || !content) return
+
+    let animation: Animation | null = null
+    let isClosing = false
+    let isExpanding = false
+
+    const reduceMotion = () =>
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+
+    const finish = (open: boolean) => {
+      el.open = open
+      animation = null
+      isClosing = false
+      isExpanding = false
+      el.style.height = ''
+      el.style.overflow = ''
+    }
+
+    const shrink = () => {
+      isClosing = true
+      const start = `${el.offsetHeight}px`
+      const end = `${summary.offsetHeight}px`
+      animation?.cancel()
+      animation = el.animate({ height: [start, end] }, { duration: 200, easing: 'ease' })
+      animation.onfinish = () => finish(false)
+      animation.oncancel = () => {
+        isClosing = false
+      }
+    }
+
+    const expand = () => {
+      isExpanding = true
+      const start = `${el.offsetHeight}px`
+      const end = `${summary.offsetHeight + content.offsetHeight}px`
+      animation?.cancel()
+      animation = el.animate({ height: [start, end] }, { duration: 500, easing: 'ease' })
+      animation.onfinish = () => finish(true)
+      animation.oncancel = () => {
+        isExpanding = false
+      }
+    }
+
+    const openItem = () => {
+      el.style.height = `${el.offsetHeight}px`
+      el.open = true
+      requestAnimationFrame(expand)
+    }
+
+    const onClick = (e: MouseEvent) => {
+      if (reduceMotion()) return // let the native instant toggle happen
+      e.preventDefault()
+      el.style.overflow = 'hidden'
+      if (isClosing || !el.open) openItem()
+      else if (isExpanding || el.open) shrink()
+    }
+
+    summary.addEventListener('click', onClick)
+    return () => {
+      summary.removeEventListener('click', onClick)
+      animation?.cancel()
+    }
+  }, [])
+
+  return (
+    <details
+      ref={ref}
+      className="faq-item group rounded-lg border border-white/5 transition"
+      style={{ background: 'rgba(255, 255, 255, 0.025)' }}
+    >
+      <summary
+        className="flex cursor-pointer items-center justify-between gap-4 p-5 text-left font-display text-base font-semibold sm:text-lg"
+        style={{ listStyle: 'none' }}
+      >
+        {item.q}
+        <span
+          className="shrink-0 text-xl transition-transform group-open:rotate-45"
+          style={{ color: 'var(--color-brand-soft)' }}
+        >
+          +
+        </span>
+      </summary>
+      <div className="faq-content px-5 pb-5 text-sm leading-relaxed text-[var(--color-ink-soft)]">
+        {item.a}
+      </div>
+    </details>
+  )
+}
+
 function FaqGroup({
   label,
   items,
@@ -460,27 +563,7 @@ function FaqGroup({
       </p>
       <div className="space-y-3">
         {items.map((item, i) => (
-          <details
-            key={i}
-            className="faq-item group rounded-lg border border-white/5 transition"
-            style={{ background: 'rgba(255, 255, 255, 0.025)' }}
-          >
-            <summary
-              className="flex cursor-pointer items-center justify-between gap-4 p-5 text-left font-display text-base font-semibold sm:text-lg"
-              style={{ listStyle: 'none' }}
-            >
-              {item.q}
-              <span
-                className="shrink-0 text-xl transition-transform group-open:rotate-45"
-                style={{ color: 'var(--color-brand-soft)' }}
-              >
-                +
-              </span>
-            </summary>
-            <div className="px-5 pb-5 text-sm leading-relaxed text-[var(--color-ink-soft)]">
-              {item.a}
-            </div>
-          </details>
+          <FaqItem key={i} item={item} />
         ))}
       </div>
     </div>
