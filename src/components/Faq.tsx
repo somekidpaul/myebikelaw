@@ -14,6 +14,11 @@ function AddToCalendarLink() {
   // client render drops it — a calendar event in the past helps no one.
   const [past, setPast] = useState(false)
   useEffect(() => {
+    // Post-hydration sync (intentional): the prerendered HTML must always ship
+    // the link — the server can't know "now" — and we only drop it client-side
+    // once the deadline has passed. Doing this during render would hydration-
+    // mismatch, so it has to run in an effect.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPast(daysUntil(NJ_S4834_DEADLINE_EVENT.date) <= 0)
   }, [])
   if (past) return null

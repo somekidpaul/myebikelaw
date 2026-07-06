@@ -22,6 +22,10 @@ export function Reveal({ children, delay = 0, as = 'div', className }: Props) {
     const el = ref.current
     if (!el) return
     if (typeof IntersectionObserver === 'undefined') {
+      // No IntersectionObserver (ancient browser / non-DOM env): reveal now so
+      // content is never left invisible. One-shot and intentional — deferring
+      // it would flash hidden content.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisible(true)
       return
     }
