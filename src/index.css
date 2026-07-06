@@ -118,6 +118,105 @@ option {
   color: var(--color-ink);
 }
 
+/* ─── Custom animated select dropdown (replaces the native <select> on the form) ─── */
+.select-dd {
+  position: relative;
+  width: 100%;
+}
+/* While open, lift the whole control (and its panel) above the form sections
+   that follow it — otherwise the next card paints over the dropdown. */
+.select-dd.is-open {
+  z-index: 50;
+}
+/* The form cards use backdrop-filter, which creates a stacking context that
+   traps the dropdown inside its own card. So also lift the whole card — but
+   only while it actually contains an open menu — above the cards that follow,
+   letting the panel overflow past the next section. */
+.card:has(.select-dd.is-open) {
+  position: relative;
+  z-index: 20;
+}
+.select-dd-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-ink);
+  border-radius: 6px;
+  padding: 11px 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.select-dd-trigger:focus-visible,
+.select-dd.is-open .select-dd-trigger {
+  border-color: var(--color-brand);
+}
+.select-dd-value {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.select-dd-chevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-ink-soft);
+  /* Synced with the panel's open timing so the flip + the reveal move as one. */
+  transition: transform 0.22s ease-out;
+}
+.select-dd.is-open .select-dd-chevron {
+  transform: rotate(180deg);
+}
+.select-dd-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--color-bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  max-height: 260px;
+  overflow-y: auto;
+  animation: select-dd-in 0.22s ease-out;
+}
+@keyframes select-dd-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.select-dd-option {
+  padding: 9px 12px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.select-dd-option.is-active {
+  background: rgba(255, 255, 255, 0.06);
+}
+.select-dd-option.is-selected {
+  color: var(--color-brand-soft);
+  font-weight: 600;
+}
+@media (prefers-reduced-motion: reduce) {
+  .select-dd-panel {
+    animation: none;
+  }
+  .select-dd-chevron {
+    transition: none;
+  }
+}
+
 input[type="checkbox"] {
   accent-color: var(--color-brand);
   width: 18px;

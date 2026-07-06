@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import type {
   BikeProfile,
   ExistingPolicy,
@@ -337,6 +337,12 @@ function Input({
   )
 }
 
+// Custom accessible dropdown that replaces the native <select> — one component,
+// so every menu on the form upgrades at once. Trigger + floating panel with a
+// chevron that flips on open; full keyboard support (arrows / Enter / Esc /
+// Home / End via aria-activedescendant), click-outside-to-close, and a CSS
+// open animation (collapsed by the global reduced-motion rule). Same props as
+// the old native Select, so all 11 call sites are untouched.
 function Select<T extends string>({
   value,
   onChange,
@@ -346,14 +352,135 @@ function Select<T extends string>({
   onChange: (v: T) => void
   options: ReadonlyArray<{ value: T; label: string }>
 }) {
+  const [open, setOpen] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const listId = useId()
+
+  const selectedIndex = Math.max(
+    0,
+    options.findIndex((o) => o.value === value),
+  )
+  const current = options[selectedIndex] ?? options[0]
+
+  const openMenu = () => {
+    setActiveIndex(selectedIndex)
+    setOpen(true)
+  }
+  const choose = (v: T) => {
+    onChange(v)
+    setOpen(false)
+    triggerRef.current?.focus()
+  }
+
+  useEffect(() => {
+    if (!open) return
+    const onDown = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', onDown)
+    return () => document.removeEventListener('mousedown', onDown)
+  }, [open])
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        if (!open) return openMenu()
+        setActiveIndex((i) => Math.min(i + 1, options.length - 1))
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        if (!open) return openMenu()
+        setActiveIndex((i) => Math.max(i - 1, 0))
+        break
+      case 'Home':
+        if (open) {
+          e.preventDefault()
+          setActiveIndex(0)
+        }
+        break
+      case 'End':
+        if (open) {
+          e.preventDefault()
+          setActiveIndex(options.length - 1)
+        }
+        break
+      case 'Enter':
+      case ' ': {
+        e.preventDefault()
+        if (!open) return openMenu()
+        const opt = options[activeIndex]
+        if (opt) choose(opt.value)
+        break
+      }
+      case 'Escape':
+        if (open) {
+          e.preventDefault()
+          setOpen(false)
+        }
+        break
+      case 'Tab':
+        if (open) setOpen(false)
+        break
+    }
+  }
+
   return (
-    <select value={value} onChange={(e) => onChange(e.target.value as T)}>
-      {options.map((o) => (
-        <option key={o.value} value={o.value}>
-          {o.label}
-        </option>
-      ))}
-    </select>
+    <div className={`select-dd${open ? ' is-open' : ''}`} ref={wrapRef}>
+      <button
+        type="button"
+        ref={triggerRef}
+        className="select-dd-trigger"
+        onClick={() => (open ? setOpen(false) : openMenu())}
+        onKeyDown={onKeyDown}
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-activedescendant={open ? `${listId}-opt-${activeIndex}` : undefined}
+      >
+        <span className="select-dd-value">{current?.label}</span>
+        <span className="select-dd-chevron" aria-hidden="true">
+          <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+            <path
+              d="M1 1.5L6 6.5L11 1.5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+      </button>
+      {open && (
+        <ul className="select-dd-panel" id={listId} role="listbox">
+          {options.map((o, i) => (
+            <li
+              key={o.value}
+              id={`${listId}-opt-${i}`}
+              role="option"
+              aria-selected={o.value === value}
+              className={`select-dd-option${o.value === value ? ' is-selected' : ''}${
+                i === activeIndex ? ' is-active' : ''
+              }`}
+              onMouseEnter={() => setActiveIndex(i)}
+              // preventDefault stops the wrapping <label> from re-firing this
+              // click onto the trigger button (which would reopen the menu)
+              onClick={(e) => {
+                e.preventDefault()
+                choose(o.value)
+              }}
+            >
+              {o.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   )
 }
 
