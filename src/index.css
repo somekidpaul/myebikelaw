@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -11,7 +10,7 @@
   /* Text */
   --color-ink: #fafaf9;
   --color-ink-soft: #a8a29e;
-  --color-ink-faint: #78716c;
+  --color-ink-faint: #8a827b;
 
   /* Brand — burnt orange / terracotta */
   --color-brand: #ea580c;
@@ -105,6 +104,30 @@ select {
 input:focus, select:focus {
   border-color: var(--color-brand);
   background: rgba(234, 88, 12, 0.06);
+}
+
+/* A clearly perceivable keyboard focus ring for inputs and buttons (the
+   border-color shift alone is easy to miss). WCAG 2.4.7 / 2.4.13. */
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a.btn:focus-visible {
+  outline: 2px solid var(--color-brand-soft);
+  outline-offset: 2px;
+}
+
+/* Invalid field state + inline error message (design-system-native, replaces
+   the OS-styled native validation bubble). */
+input.input-invalid,
+input.input-invalid:focus {
+  border-color: var(--color-bad);
+  background: rgba(220, 38, 38, 0.06);
+}
+.field-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #f8a3a3;
 }
 select {
   appearance: none;

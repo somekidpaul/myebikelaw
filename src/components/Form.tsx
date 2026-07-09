@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { cloneElement, isValidElement, useEffect, useId, useRef, useState } from 'react'
 import type {
   BikeProfile,
   ExistingPolicy,
@@ -51,17 +51,50 @@ export function Form({
   onSubmit: (r: FormResult) => void
 }) {
   const [s, setS] = useState<FormState>(initialState)
+  const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>(
+    {},
+  )
 
   // Sections are statute-driven: a state with no licensing or insurance
   // requirement simply never shows those questions.
   const asksLicense = statute.licensing.appliesToCategories.length > 0
   const asksInsurance = statute.insurance.appliesToCategories.length > 0
 
-  const set = <K extends keyof FormState>(k: K, v: FormState[K]) =>
+  const set = <K extends keyof FormState>(k: K, v: FormState[K]) => {
     setS((prev) => ({ ...prev, [k]: v }))
+    // Clear a field's error as soon as the user edits it.
+    setErrors((prev) => (prev[k] ? { ...prev, [k]: undefined } : prev))
+  }
+
+  // Validate the two load-bearing bike inputs: a blank/zero speed or wattage
+  // would otherwise coerce to 0 and yield a confident verdict for a bike that
+  // doesn't exist. Only enforced when the bike has a motor.
+  const validate = (): Partial<Record<keyof FormState, string>> => {
+    const next: Partial<Record<keyof FormState, string>> = {}
+    if (s.throttle !== 'none') {
+      const speed = Number(s.topSpeed)
+      if (s.topSpeed.trim() === '' || !Number.isFinite(speed) || speed < 1) {
+        next.topSpeed = 'Enter a top speed of at least 1 mph.'
+      } else if (speed > 50) {
+        next.topSpeed = 'Enter a speed of 50 mph or less.'
+      }
+      const wattsVal = Number(s.motorWatts)
+      if (s.motorWatts.trim() === '' || !Number.isFinite(wattsVal) || wattsVal < 1) {
+        next.motorWatts = 'Enter a motor wattage of at least 1 W.'
+      } else if (wattsVal > 5000) {
+        next.motorWatts = 'Enter a wattage of 5000 W or less.'
+      }
+    }
+    return next
+  }
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault()
+    const found = validate()
+    if (Object.keys(found).length > 0) {
+      setErrors(found)
+      return
+    }
     const ageNum = Number(s.age) || 0
     onSubmit({
       bike: {
@@ -102,8 +135,10 @@ export function Form({
                   type="number"
                   value={s.topSpeed}
                   onChange={(v) => set('topSpeed', v)}
-                  min={0}
+                  min={1}
                   max={50}
+                  step={1}
+                  error={errors.topSpeed}
                 />
               </Field>
               <Field label="Motor wattage (W)">
@@ -111,8 +146,10 @@ export function Form({
                   type="number"
                   value={s.motorWatts}
                   onChange={(v) => set('motorWatts', v)}
-                  min={0}
+                  min={1}
                   max={5000}
+                  step={1}
+                  error={errors.motorWatts}
                 />
               </Field>
             </div>
@@ -294,15 +331,30 @@ function Card({
   )
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+// A <label> only programmatically associates with a native control it wraps —
+// not with the custom Select's <button> or (via wrapping) reliably with the
+// nested <input>. So Field mints an id, puts it on the visible label <span>,
+// and injects it into its single child as `labelId`, which Select/Input turn
+// into aria-labelledby. Falls back gracefully for children that ignore it.
+function Field({ label, children }: { label: string; children: React.ReactElement }) {
+  const labelId = useId()
+  const labelled =
+    label && isValidElement(children)
+      ? cloneElement(children as React.ReactElement<{ labelId?: string }>, {
+          labelId,
+        })
+      : children
   return (
     <label className="block space-y-2">
       {label && (
-        <span className="block text-sm font-medium text-[var(--color-ink-soft)]">
+        <span
+          id={labelId}
+          className="block text-sm font-medium text-[var(--color-ink-soft)]"
+        >
           {label}
         </span>
       )}
-      {children}
+      {labelled}
     </label>
   )
 }
@@ -313,27 +365,46 @@ function Input({
   onChange,
   min,
   max,
+  step,
   required,
   placeholder,
+  error,
+  labelId,
 }: {
   type: 'number' | 'text'
   value: string
   onChange: (v: string) => void
   min?: number
   max?: number
+  step?: number
   required?: boolean
   placeholder?: string
+  error?: string
+  labelId?: string
 }) {
+  const errorId = useId()
   return (
-    <input
-      type={type}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      min={min}
-      max={max}
-      required={required}
-      placeholder={placeholder}
-    />
+    <>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        min={min}
+        max={max}
+        step={step}
+        required={required}
+        placeholder={placeholder}
+        aria-labelledby={labelId}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
+        className={error ? 'input-invalid' : undefined}
+      />
+      {error && (
+        <span id={errorId} role="alert" className="field-error">
+          {error}
+        </span>
+      )}
+    </>
   )
 }
 
@@ -347,16 +418,22 @@ function Select<T extends string>({
   value,
   onChange,
   options,
+  labelId,
 }: {
   value: T
   onChange: (v: T) => void
   options: ReadonlyArray<{ value: T; label: string }>
+  labelId?: string
 }) {
   const [open, setOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const wrapRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
   const listId = useId()
+  // Type-ahead buffer: printable chars accumulate for a short window so
+  // "ho" jumps to "Homeowners", matching native <select> behavior.
+  const typeahead = useRef({ query: '', at: 0 })
 
   const selectedIndex = Math.max(
     0,
@@ -385,7 +462,41 @@ function Select<T extends string>({
     return () => document.removeEventListener('mousedown', onDown)
   }, [open])
 
+  // Keep the active option in view — aria-activedescendant alone doesn't scroll
+  // the panel, so an ArrowDown past the visible rows would leave the highlight
+  // below the fold. Native <select> auto-scrolls; this restores that.
+  useEffect(() => {
+    if (!open) return
+    const active = listRef.current?.children[activeIndex] as
+      | HTMLElement
+      | undefined
+    active?.scrollIntoView({ block: 'nearest' })
+  }, [open, activeIndex])
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    // Type-ahead: a printable character jumps to the next option whose label
+    // starts with the accumulated query (native <select> parity).
+    if (e.key.length === 1 && !e.altKey && !e.ctrlKey && !e.metaKey) {
+      const now = Date.now()
+      const ta = typeahead.current
+      ta.query = now - ta.at > 500 ? e.key : ta.query + e.key
+      ta.at = now
+      const q = ta.query.toLowerCase()
+      const from = open ? activeIndex : selectedIndex
+      // Search from the current position forward, wrapping around.
+      const n = options.length
+      for (let step = 1; step <= n; step++) {
+        const idx = (from + step) % n
+        const opt = options[idx]
+        if (opt && opt.label.toLowerCase().startsWith(q)) {
+          e.preventDefault()
+          if (open) setActiveIndex(idx)
+          else choose(opt.value)
+          return
+        }
+      }
+      return
+    }
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault()
@@ -441,6 +552,7 @@ function Select<T extends string>({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
+        aria-labelledby={labelId}
         aria-activedescendant={open ? `${listId}-opt-${activeIndex}` : undefined}
       >
         <span className="select-dd-value">{current?.label}</span>
@@ -457,7 +569,13 @@ function Select<T extends string>({
         </span>
       </button>
       {open && (
-        <ul className="select-dd-panel" id={listId} role="listbox">
+        <ul
+          className="select-dd-panel"
+          id={listId}
+          role="listbox"
+          ref={listRef}
+          aria-labelledby={labelId}
+        >
           {options.map((o, i) => (
             <li
               key={o.value}
