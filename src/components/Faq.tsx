@@ -8,6 +8,20 @@ import {
 
 type QA = { readonly q: string; readonly a: React.ReactNode }
 
+// Stable, human-readable anchor from a question so each FAQ entry is
+// deep-linkable (e.g. #faq-do-all-e-bikes-need-insurance).
+function slugify(q: string): string {
+  return (
+    'faq-' +
+    q
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .slice(0, 60)
+  )
+}
+
 function AddToCalendarLink() {
   // Client-side only: the prerendered HTML always includes the link (the
   // pre-deadline state); once the clock says the deadline has passed, the
@@ -524,9 +538,11 @@ function FaqItem({ item }: { item: QA }) {
     }
   }, [])
 
+  const id = slugify(item.q)
   return (
     <details
       ref={ref}
+      id={id}
       className="faq-item group rounded-lg border border-white/5 transition"
       style={{ background: 'rgba(255, 255, 255, 0.025)' }}
     >
@@ -534,7 +550,12 @@ function FaqItem({ item }: { item: QA }) {
         className="flex cursor-pointer items-center justify-between gap-4 p-5 text-left font-display text-base font-semibold sm:text-lg"
         style={{ listStyle: 'none' }}
       >
-        {item.q}
+        {/* Real heading so screen-reader users can navigate questions via the
+            rotor and Google reads them as headings. Reset the base heading
+            styles so it looks identical to the previous plain text. */}
+        <h4 className="m-0 font-[inherit] text-[length:inherit] font-semibold normal-case tracking-normal leading-snug">
+          {item.q}
+        </h4>
         <span
           className="shrink-0 text-xl transition-transform group-open:rotate-45"
           style={{ color: 'var(--color-brand-soft)' }}
@@ -560,12 +581,12 @@ function FaqGroup({
 }) {
   return (
     <div className={className}>
-      <p
-        className="mt-10 mb-4 text-xs uppercase tracking-[0.18em]"
+      <h3
+        className="mt-10 mb-4 text-xs font-normal uppercase tracking-[0.18em]"
         style={{ color: 'var(--color-ink-faint)' }}
       >
         {label}
-      </p>
+      </h3>
       <div className="space-y-3">
         {items.map((item, i) => (
           <FaqItem key={i} item={item} />
