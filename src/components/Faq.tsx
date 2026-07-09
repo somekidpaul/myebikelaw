@@ -6,7 +6,7 @@ import {
   NJ_S4834_DEADLINE_EVENT,
 } from '../lib/calendar'
 
-type QA = { readonly q: string; readonly a: React.ReactNode }
+export type QA = { readonly q: string; readonly a: React.ReactNode }
 
 // Stable, human-readable anchor from a question so each FAQ entry is
 // deep-linkable (e.g. #faq-do-all-e-bikes-need-insurance).
@@ -448,6 +448,19 @@ const HI_QUESTIONS: ReadonlyArray<QA> = [
       </>
     ),
   },
+]
+
+// Single source of truth for the FAQ, in render order. The visible accordion
+// AND the FAQPage JSON-LD are both built from this — the JSON-LD is generated
+// at build time from these exact entries (see entry-server renderFaqJsonLd +
+// scripts/prerender.mjs), so the structured data can never drift from what a
+// visitor actually reads. Colocated with the component that renders it on
+// purpose; the build-time JSON-LD generator is the only other consumer.
+// eslint-disable-next-line react-refresh/only-export-components
+export const ALL_FAQ: ReadonlyArray<QA> = [
+  ...GENERAL,
+  ...NJ_QUESTIONS,
+  ...HI_QUESTIONS,
 ]
 
 export function Faq() {

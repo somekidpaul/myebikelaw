@@ -54,6 +54,7 @@ export function Verdict({
         )}
       <Body compliance={compliance} statute={statute} />
       <Citations compliance={compliance} />
+      <VerdictDisclaimer statute={statute} />
 
       <div className="no-print flex flex-wrap items-center gap-3">
         <ShareButton />
@@ -71,6 +72,24 @@ function stateName(statute: StatutoryRequirement): string {
   return isCheckerJurisdiction(statute.jurisdiction)
     ? JURISDICTION_NAMES[statute.jurisdiction]
     : statute.jurisdiction
+}
+
+// A verdict-proximate version of the footer disclaimer. The result reads like
+// a determination, so the "informational, not legal advice" caveat belongs
+// next to it — not only in the footer. Kept in the printed PDF on purpose.
+function VerdictDisclaimer({ statute }: { statute: StatutoryRequirement }) {
+  const { name, url } = statute.registration.authority
+  return (
+    <p className="border-t border-white/5 pt-5 text-xs leading-relaxed text-[var(--color-ink-faint)]">
+      This is a good-faith reading of {statute.billId} — informational, not
+      legal or insurance advice. Confirm your situation with{' '}
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        {name}
+      </a>{' '}
+      (and, for insurance, a licensed agent) before you rely on it. Every line
+      above links to its source so you can check it yourself.
+    </p>
+  )
 }
 
 // Shown while a passed law hasn't taken effect yet (e.g., HI before July 15).
