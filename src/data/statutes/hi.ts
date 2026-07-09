@@ -33,7 +33,9 @@ const registerHowTo = 'https://hbl.org/resources/how-to-register-your-bicycle/'
 export const HI_HB2021: StatutoryRequirement = {
   jurisdiction: 'HI',
   billId: 'HB 2021 (HD2 SD2 CD1)',
-  title: 'Relating to electric bicycles',
+  // Enrolled short title is "RELATING TO TRANSPORTATION" (the bill's subject is
+  // electric bicycles). Internal metadata — not rendered in the UI.
+  title: 'Relating to Transportation',
   // The latest date it can become law; the Governor cannot veto it. If he
   // signs earlier, the law-sync routine flags the actual date and this moves.
   enactedOn: '2026-07-15',

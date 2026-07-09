@@ -266,12 +266,16 @@ input[type="checkbox"] {
 }
 .btn:active { transform: translateY(1px); }
 
+/* Background is brand-DEEP, not brand: white text on #ea580c is only 3.56:1
+   (fails WCAG AA), while on #c2410c it's 5.18:1. Hover keeps the same deep
+   base (going lighter would drop back below AA) — the hover affordance is
+   carried by the lift + glow in the hover-capable media query below. */
 .btn-primary {
-  background: var(--color-brand);
+  background: var(--color-brand-deep);
   color: #fff;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 8px 24px rgba(234, 88, 12, 0.28);
 }
-.btn-primary:hover { background: var(--color-brand-soft); opacity: 1; }
+.btn-primary:hover { opacity: 1; }
 .btn-primary:active { transform: translateY(0) scale(0.97); }
 
 .btn-ghost {
