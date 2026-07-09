@@ -135,6 +135,16 @@ const GENERAL: ReadonlyArray<QA> = [
             registration and operator licensure for all e-bikes, e-scooters, and
             e-skateboards. In Senate Transportation Committee.
           </li>
+          <li>
+            <strong>Washington</strong> — ESSB 6110 (Chapter 159, Laws of 2026)
+            took effect June 11, 2026. Despite the "new e-bike law" headlines, it
+            does NOT add a license, registration, or insurance requirement for
+            normal e-bikes. It keeps the Class 1/2/3 (≤750 W) framework and only
+            narrows the definition, so a device that can exceed 20 mph on its
+            motor alone — or is built to be easily derestricted — is no longer an
+            "electric-assisted bicycle" and instead falls under Washington's
+            existing motorcycle/moped rules, which already require all three.
+          </li>
         </ul>
         See the splash page state grid for current status on each. The engine is
         multi-state-ready by design — when a bill passes, adding a compliance

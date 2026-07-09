@@ -77,4 +77,20 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     sourceUrl: 'https://www.nysenate.gov/legislation/bills/2025/S8573',
     lastVerified: '2026-06-30',
   },
+  {
+    state: 'WA',
+    stateName: 'Washington',
+    billId: 'ESSB 6110 (2026 c 159)',
+    status: 'enacted',
+    statusLabel: 'Enacted; in effect',
+    oneLiner:
+      "Does NOT add license, registration, or insurance for e-bikes. Washington's new law keeps the Class 1/2/3 (≤750W) system and only narrows the definition, so a device that can exceed 20 mph on the motor alone — or is built to be easily derestricted — is no longer an e-bike and falls under the existing motorcycle/moped rules, which already require all three.",
+    details:
+      "Engrossed Substitute Senate Bill 6110 — Chapter 159, Laws of 2026 (prime sponsor Sen. Sharon Shewmake) — passed the House 91-3 on March 4, 2026 and the Senate 44-4 on March 10, 2026, was approved by Governor Bob Ferguson on March 23, 2026, and took effect June 11, 2026 (Section 3, the study work group, took effect on approval). It imposes NO license, registration, or insurance requirement on electric-assisted bicycles. It keeps Washington's three-class framework (motor ≤750 W; Class 1 & 2 assist cuts at 20 mph, Class 3 at 28 mph) and amends the RCW 46.04.169 definition to EXCLUDE from 'electric-assisted bicycle': (a) any vehicle capable of exceeding 20 mph on solely its electric motor, and (b) any vehicle designed, manufactured, or intended to be easily configured (by switch, software setting, or online application) to exceed the e-bike limits. Section 1 of the act states that the current 'motorcycle' and 'moped' definitions apply to the vehicles excluded from the e-bike definition — and those already require a license, registration, and insurance everywhere. The act also directs the Department of Licensing to convene a work group and recommend a dedicated electric-motorcycle framework (interim report due Dec 15, 2026; final report Oct 31, 2027). Same shape as Florida and Illinois: the vehicle requirements attach only to reclassified higher-speed devices, not to normal e-bikes — worth correcting the record on, but not a new e-bike compliance mandate, so it is tracked as informational rather than a compliance checker.",
+    requirementHints: [],
+    proposedEffectiveDate: '2026-06-11',
+    sourceUrl:
+      'https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/Senate/6110-S.SL.pdf',
+    lastVerified: '2026-07-07',
+  },
 ]

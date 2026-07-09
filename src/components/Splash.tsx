@@ -81,9 +81,10 @@ function StateGrid({
               Bills in motion elsewhere
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm text-[var(--color-ink-soft)]">
-              Nothing else has passed. We promote a state to its own compliance
-              tool the moment its bill becomes law — New Jersey and Hawaii are
-              above.
+              No other state adds a license, registration, or insurance
+              requirement for a normal e-bike. We promote a state to its own
+              compliance tool the moment its law adds one — New Jersey and Hawaii
+              are above.
             </p>
           </div>
         </Reveal>
