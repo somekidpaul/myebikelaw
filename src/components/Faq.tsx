@@ -136,6 +136,20 @@ const GENERAL: ReadonlyArray<QA> = [
             e-skateboards. In Senate Transportation Committee.
           </li>
           <li>
+            <strong>Utah</strong> — HB 381 (Electric Mobility Device
+            Amendments) was signed March 24, 2026 and took effect May 6, 2026.
+            Despite "new e-bike law" headlines, it does NOT add a license,
+            registration, or insurance requirement for normal e-bikes. It keeps
+            the Class 1/2/3 (≤750 W) framework and excludes an "electric
+            assisted bicycle" from the "motor vehicle" definition; only
+            reclassified "high power electric devices" and "electric
+            motorcycles" (over 750 W, or capable of over 20 mph on the motor
+            alone — including a tampered e-bike) fall under motorcycle rules,
+            which already require all three. New for ordinary e-bike riders:
+            only a helmet for riders under 21 on highways and a ban on riding
+            while drinking.
+          </li>
+          <li>
             <strong>Washington</strong> — ESSB 6110 (Chapter 159, Laws of 2026)
             took effect June 11, 2026. Despite the "new e-bike law" headlines, it
             does NOT add a license, registration, or insurance requirement for

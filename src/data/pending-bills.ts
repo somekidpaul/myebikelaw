@@ -78,6 +78,21 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     lastVerified: '2026-06-30',
   },
   {
+    state: 'UT',
+    stateName: 'Utah',
+    billId: 'HB 381 (2026)',
+    status: 'enacted',
+    statusLabel: 'Enacted; in effect',
+    oneLiner:
+      "Does NOT add license, registration, or insurance for e-bikes. Utah keeps the Class 1/2/3 (≤750W) framework and expressly excludes an 'electric assisted bicycle' from the 'motor vehicle' definition — only reclassified 'high power electric devices' and 'electric motorcycles' (over 750W, or capable of over 20 mph on the motor alone) fall under motorcycle rules, which already require those. New for ordinary e-bikes: a helmet for riders under 21 on highways and a ban on riding while drinking.",
+    details:
+      "House Bill 381 (Electric Mobility Device Amendments; 3rd Sub., sponsor Rep. Cutler) was signed by Governor Cox on March 24, 2026; its e-bike provisions took effect May 6, 2026 (a driver-licensing disclosure section is dated May 5, 2027). Reading the enrolled text: an 'electric assisted bicycle' is a bike with a motor ≤750W, fully operable pedals, and Class 1/2/3 (or programmable) behavior (Sec. 41-6a-102(21)), and it is expressly EXCLUDED from the 'motor vehicle' definition (Sec. 13-20-2(4)(b)(vi)) — so no title, registration, license, or insurance attaches to a normal e-bike. HB 381 instead creates two reclassified device types: an 'electric motorcycle' (a motorcycle over 750W or capable of exceeding 20 mph on motor power alone, Sec. 41-6a-102(23)) and a 'high power electric device' (a self-propelled vehicle capable of over 20 mph on motor power alone — including an e-bike modified/tampered beyond its factory settings, Sec. 41-6a-102(32)). Under new Sec. 41-6a-1511, an operator of a high power electric device or electric motorcycle 'has all rights and is subject to all provisions … applicable to an operator of a motorcycle' — i.e. the license/registration/insurance those already require everywhere — with a narrow carve-out that a VIN-less high power electric device that is not a motorcycle need not carry liability insurance. The only NEW mandates that touch an ordinary e-bike rider are safety rules: a helmet for any rider under 21 operating on a highway, and a prohibition on consuming alcohol while operating any electric assisted bicycle; plus a point-of-sale disclosure (from Jan 1, 2027) that a sub-four-wheel electric device which is NOT an electric assisted bicycle may be subject to motor-vehicle registration/insurance. Same shape as Florida, Illinois, and Washington: the vehicle requirements attach only to higher-powered/reclassified devices, not to normal e-bikes — worth correcting the record on (law-firm and retailer blogs frame HB 381 as a license/registration change), but not a new e-bike compliance mandate, so it is tracked as informational rather than a compliance checker.",
+    requirementHints: [],
+    proposedEffectiveDate: '2026-05-06',
+    sourceUrl: 'https://le.utah.gov/Session/2026/bills/enrolled/HB0381.pdf',
+    lastVerified: '2026-07-10',
+  },
+  {
     state: 'WA',
     stateName: 'Washington',
     billId: 'ESSB 6110 (2026 c 159)',
