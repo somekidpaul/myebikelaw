@@ -33,8 +33,8 @@ function SplashHero() {
         <p className="mx-auto mt-6 max-w-2xl text-lg text-[var(--color-ink-soft)] sm:text-xl">
           E-bikes are legal everywhere in the US — but a few states now require
           a license, registration, or insurance to ride one. New Jersey was
-          first. Hawaii is next, on July 15. Others have bills in motion. Find
-          your state below.
+          first. Hawaii is second — its law took effect July 15. Others have
+          bills in motion. Find your state below.
         </p>
 
         <ul className="trust-row mt-10 mb-10 justify-center">
@@ -206,7 +206,10 @@ function HICard({ onClick }: { onClick: () => void }) {
     const id = setInterval(update, 60_000)
     return () => clearInterval(id)
   }, [])
-  const inEffect = daysLeft !== null && daysLeft <= 0
+  // HB 2021 was signed July 15, 2026 (Act 259) and is now in effect. The
+  // countdown is retained defensively, but the effective date is permanently
+  // past, so the server-render (daysLeft === null) also reads "In effect".
+  const inEffect = daysLeft === null || daysLeft <= 0
   return (
     <div
       className="lift relative overflow-hidden rounded-2xl border p-8 sm:p-10"
@@ -229,11 +232,9 @@ function HICard({ onClick }: { onClick: () => void }) {
             color: inEffect ? 'var(--color-good)' : 'var(--color-warn)',
           }}
         >
-          {daysLeft === null
-            ? 'Passed · takes effect by July 15, 2026'
-            : inEffect
-              ? 'In effect'
-              : `Passed · takes effect in ${daysLeft} day${daysLeft === 1 ? '' : 's'}`}
+          {inEffect
+            ? 'In effect'
+            : `Passed · takes effect in ${daysLeft} day${daysLeft === 1 ? '' : 's'}`}
         </span>
       </div>
 

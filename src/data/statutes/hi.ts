@@ -11,11 +11,10 @@ const registerHowTo = 'https://hbl.org/resources/how-to-register-your-bicycle/'
 
 /**
  * Hawaii HB 2021 (2026, final form HD2 SD2 CD1) — passed both chambers
- * 4/30/2026 and was omitted from the Governor's June 26 intent-to-veto list,
- * so it becomes law on or before July 15, 2026 (with or without signature).
- * All riding provisions take effect the day it becomes law — the CD1 text has
- * NO grace period. Only the retailer label/disclosure section is delayed 120
- * days.
+ * 4/30/2026 and was signed into law by Governor Green on July 15, 2026 as
+ * Act 259 (2026). All riding provisions took effect the day it was signed —
+ * the CD1/enacted text has NO grace period. Only the retailer label/disclosure
+ * section is delayed 120 days.
  *
  * Shape of the law (from the CD1 text, verified 2026-07-02):
  * - Standard 3-class system; "electric bicycle" = fully operable pedals +
@@ -36,8 +35,8 @@ export const HI_HB2021: StatutoryRequirement = {
   // Enrolled short title is "RELATING TO TRANSPORTATION" (the bill's subject is
   // electric bicycles). Internal metadata — not rendered in the UI.
   title: 'Relating to Transportation',
-  // The latest date it can become law; the Governor cannot veto it. If he
-  // signs earlier, the law-sync routine flags the actual date and this moves.
+  // Signed into law July 15, 2026 (Act 259). The riding provisions are
+  // effective on signing, so this is both the enactment and effective date.
   enactedOn: '2026-07-15',
   // No grace period in the CD1 text — requirements bite the day it's law.
   complianceDeadline: '2026-07-15',
@@ -145,7 +144,7 @@ export const HI_HB2021: StatutoryRequirement = {
         url: hrs24914,
       },
       {
-        statute: 'HB 2021 — bill status (passed 4/30/2026; becomes law by July 15, 2026)',
+        statute: 'HB 2021 — bill status (passed 4/30/2026; signed July 15, 2026 as Act 259)',
         url: billStatus,
       },
     ],

@@ -308,7 +308,7 @@ function SiteFooter() {
         </strong>{' '}
         It does not provide legal or insurance advice. The output reflects a
         good-faith reading of the cited statutes, last reviewed{' '}
-        <strong className="text-[var(--color-ink-soft)]">July 9, 2026</strong>;
+        <strong className="text-[var(--color-ink-soft)]">July 16, 2026</strong>;
         verify details with your insurance agent and{' '}
         <a
           href="https://www.nj.gov/mvc/vehicletopics/ebike.htm"

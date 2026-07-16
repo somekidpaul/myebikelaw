@@ -97,8 +97,9 @@ const GENERAL: ReadonlyArray<QA> = [
       <>
         New Jersey is the first state to require insurance for e-bikes, and{' '}
         <strong>Hawaii</strong> is the second state with real e-bike
-        requirements — HB 2021 (a $30 registration for every e-bike) becomes
-        law by July 15, 2026 and has its own checker at the top of this page.
+        requirements — HB 2021 (a $30 registration for every e-bike) took
+        effect July 15, 2026 (Act 259) and has its own checker at the top of
+        this page.
         Elsewhere, there's a wave of related activity:
         <ul className="mt-3 space-y-2 list-disc pl-5">
           <li>
@@ -413,20 +414,19 @@ const HI_QUESTIONS: ReadonlyArray<QA> = [
     ),
   },
   {
-    q: 'When does HB 2021 take effect? Is there a grace period?',
+    q: 'When did HB 2021 take effect? Is there a grace period?',
     a: (
       <>
-        It becomes law <strong>on or before July 15, 2026</strong> — it was
-        left off the Governor's June 26 intent-to-veto list, and under
-        Hawaii's constitution a bill omitted from that list cannot be vetoed.
+        It's already in effect. Governor Green signed HB 2021 into law on{' '}
+        <strong>July 15, 2026</strong> as <strong>Act 259</strong>.
         <br />
         <br />
         <strong>There is no grace period.</strong> Unlike New Jersey's
         six-month runway, Hawaii's riding provisions — including the
-        you-can't-ride-unregistered rule — take effect the day the bill
-        becomes law. Only the retailer labeling and point-of-sale disclosure
-        duties are delayed (120 days). If you ride in Hawaii, registering
-        before mid-July is the move.
+        you-can't-ride-unregistered rule — took effect the day the bill was
+        signed. Only the retailer labeling and point-of-sale disclosure duties
+        are delayed (120 days). If you ride in Hawaii, registering your e-bike
+        is now the move.
       </>
     ),
   },
