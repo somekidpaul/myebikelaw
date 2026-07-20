@@ -21,7 +21,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://velosurance.com/usa/new-jersey/',
     source: {
       url: 'https://velosurance.com/usa/new-jersey/',
-      lastVerified: '2026-07-01',
+      lastVerified: '2026-07-20',
     },
   },
   {
@@ -44,7 +44,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://quote.sundaysinsurance.com/',
     source: {
       url: 'https://sundaysinsurance.com/faq',
-      lastVerified: '2026-07-01',
+      lastVerified: '2026-07-20',
     },
   },
   {
@@ -69,7 +69,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://www.voominsurance.com/blog/nj-ebike-insurance-legislation-guide-2026',
     source: {
       url: 'https://www.voominsurance.com/blog/nj-ebike-insurance-legislation-guide-2026',
-      lastVerified: '2026-07-01',
+      lastVerified: '2026-07-20',
     },
   },
 ]
