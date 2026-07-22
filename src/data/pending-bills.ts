@@ -14,7 +14,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: ['registration'],
     sourceUrl:
       'https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260AB1942',
-    lastVerified: '2026-06-30',
+    lastVerified: '2026-07-20',
   },
   {
     state: 'FL',
@@ -28,7 +28,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       'CS/SB 382 passed both chambers unanimously (Senate 37-0 on 2/25/26, House 112-0 on 3/9/26), was presented to Governor DeSantis on 6/15/26, and was VETOED on June 25, 2026 — so it never became law. The Class 3 license requirement that appeared in early drafts had already been REMOVED before final passage; the bill that reached his desk would have required e-bikes on sidewalks to slow to 10 mph when pedestrians are within 50 feet, required an audible signal before passing pedestrians on shared pathways, created a Micromobility Device Safety Task Force, and mandated statewide crash data collection. In his veto message DeSantis called the 10-mph-near-pedestrians standard difficult to measure and warned it could invite local-government surveillance of riders. Bottom line for compliance: Florida added no license, registration, or insurance requirement for any e-bike class — the bill that might loosely have touched riders was vetoed.',
     requirementHints: [],
     sourceUrl: 'https://www.flsenate.gov/Session/Bill/2026/382',
-    lastVerified: '2026-06-30',
+    lastVerified: '2026-07-20',
   },
   // Hawaii graduated from this grid on 2026-07-02: HB 2021 is certain to
   // become law (omitted from the Governor's intent-to-veto list) and now has
@@ -47,7 +47,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     proposedEffectiveDate: '2027-01-01',
     sourceUrl:
       'https://www.ilga.gov/Legislation/BillStatus?DocNum=3484&GAID=18&DocTypeID=SB&SessionID=114&GA=104',
-    lastVerified: '2026-06-30',
+    lastVerified: '2026-07-20',
   },
   {
     state: 'MA',
@@ -61,7 +61,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       "S 3077 (the Ride Safe Act) was filed by Governor Maura Healey on May 4, 2026 (194th General Court). It uses a speed-based framework rather than a category-based one: Tier 0 (≤20 mph, Class 1 & 2), Tier 1 (21–30 mph, including Class 3 e-bikes), Tier 2 (31–40 mph), Tier 3 (>40 mph). IMPORTANT — reading the operative text (Section 64): the only duties the bill MANDATES ('shall') for Tier 1 are a helmet (Section 64(d)(2)(B)) and a minimum operator age of 16 (Section 64(d)(3)). Registration, licensure, and insurance are NOT mandated by the statute; they are merely AUTHORIZED for future Registrar of Motor Vehicles rulemaking — Section 64(h): 'The registrar may promulgate regulations establishing registration, licensure, insurance, fines and other requirements.' Section 2½ likewise says the registrar 'may issue' plates. (Section 1B's mandatory 'shall be registered … insurance' language applies to 'motorized bicycles,' a category from which Class 3 e-bikes are excluded.) Because the bill text imposes no registration or insurance obligation on a normal e-bike, this is tracked as informational, not a compliance requirement — even though Healey's press release frames it as e-bike insurance regulation. The Joint Committee on Transportation held a public hearing May 28, 2026; it remains before that committee, with no committee vote reported yet.",
     requirementHints: [],
     sourceUrl: 'https://malegislature.gov/Bills/194/S3077',
-    lastVerified: '2026-06-30',
+    lastVerified: '2026-07-20',
   },
   {
     state: 'NY',
@@ -75,7 +75,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
       'S08573 — the RIDERS Act ("Responsible Implementation of E-bike Regulations for Safe Cycling") — was introduced November 7, 2025. Would direct the NY DMV to create a registration process and fee schedule for all electric personal mobility devices: pedal-assist bicycles, e-scooters, and electric skateboards. Also requires operator licensure for these devices. Currently in the Senate Transportation Committee, roughly 25% through the legislative process. Committee passage is uncertain.',
     requirementHints: ['registration', 'license'],
     sourceUrl: 'https://www.nysenate.gov/legislation/bills/2025/S8573',
-    lastVerified: '2026-06-30',
+    lastVerified: '2026-07-20',
   },
   {
     state: 'UT',
@@ -90,7 +90,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: [],
     proposedEffectiveDate: '2026-05-06',
     sourceUrl: 'https://le.utah.gov/Session/2026/bills/enrolled/HB0381.pdf',
-    lastVerified: '2026-07-10',
+    lastVerified: '2026-07-20',
   },
   {
     state: 'WA',
@@ -106,6 +106,6 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     proposedEffectiveDate: '2026-06-11',
     sourceUrl:
       'https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/Senate/6110-S.SL.pdf',
-    lastVerified: '2026-07-07',
+    lastVerified: '2026-07-20',
   },
 ]
