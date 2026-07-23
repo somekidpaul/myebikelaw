@@ -183,7 +183,7 @@ function SiteHeader({ onHowItWorks }: { onHowItWorks: () => void }) {
     <header className="mx-auto flex max-w-5xl items-center justify-between px-6 pt-6">
       <a href="/" className="flex items-center gap-2 text-[var(--color-ink)]">
         <Logo />
-        <span className="font-rounded text-lg font-bold tracking-tight">
+        <span className="text-lg font-bold tracking-tight">
           MyEBikeLaw
         </span>
       </a>

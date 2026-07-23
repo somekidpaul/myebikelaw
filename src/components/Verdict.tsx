@@ -106,8 +106,8 @@ function NotYetInEffectCallout({ statute }: { statute: StatutoryRequirement }) {
     <div
       className="rounded-lg border p-5"
       style={{
-        background: 'rgba(127, 163, 200, 0.06)',
-        borderColor: 'rgba(127, 163, 200, 0.22)',
+        background: 'color-mix(in srgb, var(--color-info) 6%, transparent)',
+        borderColor: 'color-mix(in srgb, var(--color-info) 22%, transparent)',
       }}
     >
       <div className="flex items-center gap-2">
@@ -135,7 +135,7 @@ function PrintHeader({ statute }: { statute: StatutoryRequirement }) {
   })
   return (
     <div className="print-only print-header">
-      <strong className="font-rounded text-lg font-bold">MyEBikeLaw.com</strong>
+      <strong className="text-lg font-bold">MyEBikeLaw.com</strong>
       <span className="text-sm text-[var(--color-ink-soft)]">
         {stateName(statute)} · {statute.billId} compliance check · generated{' '}
         {today}
@@ -172,8 +172,8 @@ function PendingExtensionCallout({
     <div
       className="rounded-lg border p-5"
       style={{
-        background: 'rgba(127, 163, 200, 0.06)',
-        borderColor: 'rgba(127, 163, 200, 0.22)',
+        background: 'color-mix(in srgb, var(--color-info) 6%, transparent)',
+        borderColor: 'color-mix(in srgb, var(--color-info) 22%, transparent)',
       }}
     >
       <div className="flex items-center gap-2">
@@ -303,45 +303,55 @@ function VerdictHeader({ compliance }: { compliance: Compliance }) {
   )
 }
 
+// Single source for the verdict panel's status colors. This is the *vivid* rung
+// (tuned to pop on the dark status-tinted header); the CSS @theme --color-good/
+// warn/bad are the *base* rung used for small dots and chips. Keeping the panel
+// colors here in one map means the two tiers can't silently drift apart.
+// `tone` seeds the tint + border (alpha appended at the call site); `accent` is
+// the title + badge text color.
+const STATUS_COLORS: Record<Compliance['status'], { tone: string; accent: string }> = {
+  compliant: { tone: '#84cc16', accent: '#a3e635' },
+  gaps: { tone: '#f59e0b', accent: '#fbbf24' },
+  prohibited: { tone: '#ef4444', accent: '#f87171' },
+  'not-applicable': { tone: '#a8a29e', accent: '#fafaf9' },
+  reclassified: { tone: '#ea580c', accent: '#fb923c' },
+}
+
 function verdictCopy(c: Compliance): {
   tone: string
   accent: string
   title: string
   sub: string
 } {
+  const color = STATUS_COLORS[c.status]
   switch (c.status) {
     case 'compliant':
       return {
-        tone: '#84cc16',
-        accent: '#a3e635',
+        ...color,
         title: "You appear to be compliant.",
         sub: 'Based on what you told us, you meet the statutory requirements. Verify with your carrier in writing before relying on this.',
       }
     case 'gaps':
       return {
-        tone: '#f59e0b',
-        accent: '#fbbf24',
+        ...color,
         title: 'You have gaps to address.',
         sub: "Here's what would be needed to fully comply with the statute as written.",
       }
     case 'prohibited':
       return {
-        tone: '#ef4444',
-        accent: '#f87171',
+        ...color,
         title: 'You cannot legally operate this bike.',
         sub: c.reason,
       }
     case 'not-applicable':
       return {
-        tone: '#a8a29e',
-        accent: '#fafaf9',
+        ...color,
         title: 'This statute does not apply.',
         sub: c.reason,
       }
     case 'reclassified':
       return {
-        tone: '#ea580c',
-        accent: '#fb923c',
+        ...color,
         title: `Your bike is reclassified as a ${c.targetClassification}.`,
         sub: c.note,
       }
@@ -377,7 +387,7 @@ const STATUS_GLYPH: Record<Compliance['status'], string> = {
 // full pill) so short labels like "Gaps" don't collapse into an oval. Pops in
 // on mount — see .status-badge in index.css.
 function StatusBadge({ compliance }: { compliance: Compliance }) {
-  const { tone, accent } = verdictCopy(compliance)
+  const { tone, accent } = STATUS_COLORS[compliance.status]
   return (
     <span
       className="status-badge"

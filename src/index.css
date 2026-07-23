@@ -17,10 +17,18 @@
   --color-brand-soft: #fb923c;
   --color-brand-deep: #c2410c;
 
-  /* Verdict — semantic state, warm tuned */
+  /* Verdict — semantic state, warm tuned. These are the *base* rung (small
+     dots, chips, splash status labels). The verdict header uses a brighter
+     *vivid* rung tuned to pop on its dark tinted panel — see STATUS_COLORS in
+     Verdict.tsx, the single source for those. Base and vivid are intentional
+     tiers, not a mismatch. */
   --color-good: #65a30d;
   --color-warn: #f59e0b;
   --color-bad: #dc2626;
+
+  /* Info — neutral "heads-up" hue (the one cool tone in an all-warm palette).
+     Used at low alpha for the not-in-effect / pending-legislation callouts. */
+  --color-info: #7fa3c8;
 
   /* Atmospheric */
   --color-grad-1: #1c0d05;
