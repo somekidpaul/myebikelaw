@@ -123,13 +123,16 @@ const GENERAL: ReadonlyArray<QA> = [
           </li>
           <li>
             <strong>Massachusetts</strong> — S 3077 (Ride Safe Act), filed by
-            Governor Healey May 4, 2026. Speed-based tier framework. Despite the
-            press framing, the bill text does NOT mandate registration or
-            insurance for any e-bike — those are left to future Registrar of
-            Motor Vehicles rulemaking. For Class 3 (21–30 mph) it mandates only
-            a helmet and a minimum age of 16; Class 1 & 2 (≤20 mph) are
-            unaffected. In the Joint Committee on Transportation (hearing held
-            May 28, 2026).
+            Governor Healey May 4, 2026, was <strong>sent to study</strong> on
+            July 22, 2026: the Joint Committee on Transportation reported it out
+            to a study order (S 3194) under Joint Rule 10, which in
+            Massachusetts practice means the bill does not advance this session.
+            It would have to be refiled to move again. Even as filed, and
+            despite the press framing, the bill text did NOT mandate
+            registration or insurance for any e-bike — those were left to future
+            Registrar of Motor Vehicles rulemaking. For Class 3 (21–30 mph) it
+            required only a helmet and a minimum age of 16; Class 1 & 2 (≤20
+            mph) were unaffected.
           </li>
           <li>
             <strong>New York</strong> — S08573 (RIDERS Act). Would require
