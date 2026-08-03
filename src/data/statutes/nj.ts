@@ -85,16 +85,32 @@ export const NJ_S4834: StatutoryRequirement = {
 
   insurance: {
     appliesToCategories: ['motorized'],
-    // Liability-only: C.39:4-14.3e requires coverage "for bodily injury, death
-    // and property damage" — PIP is NOT a component of the e-bike policy.
-    // (S4834 §4 / C.39:6A-4.8 handles injury coverage separately, through the
-    // rider's own AUTO policy's pedestrian PIP, effective Jan 1, 2027, and only
-    // for bicycle + low-speed riders.) pip: null keeps the engine from flagging
-    // a PIP "gap" the statute never demands.
+    // WHERE THE DOLLAR FIGURES COME FROM (read this before changing them).
+    // S4834 sets NO insurance amounts. C.39:4-14.3e requires a motorized-bicycle
+    // policy covering "bodily injury, death and property damage" and then
+    // expressly delegates the numbers: "The Commissioner of Insurance... shall by
+    // regulation fix the amounts and limits of coverage." That regulation is
+    // N.J.A.C. 11:3-11.1 ("Required coverages for mopeds"), which binds any
+    // policy on "a motorized bicycle as defined in N.J.S.A. 39:1-1" (exactly the
+    // category S4834's insurance duty attaches to) at $15k / $30k / $5k.
+    //
+    // Do NOT substitute the standard AUTO minimums (N.J.S.A. 39:6B-1, raised to
+    // $35k/$70k/$25k on Jan 1, 2026 by P.L.2022 c.87 / DOBI Bulletin 25-06).
+    // That bulletin is addressed to automobile insurers and is silent on mopeds
+    // and motorized bicycles; 39:6B-1 does not reach this policy. The site
+    // carried $35k/$70k/$25k until 2026-08-03 and it was wrong. It overstated
+    // the requirement by more than double.
+    //
+    // pip stays null on purpose. N.J.A.C. 11:3-11.1(b) DOES require the policy to
+    // carry pedestrian PIP "in accordance with N.J.S.A. 39:6A-4", but that is a
+    // coverage the insurer must build in at the statutory schedule, not a limit
+    // the rider selects and can fall short of, so there is no rider-side number
+    // to compare against. Null means "nothing for the rider to check," NOT
+    // "the policy has no PIP."
     minimums: {
-      bodilyInjuryPerPerson: usd(35_000),
-      bodilyInjuryPerAccident: usd(70_000),
-      propertyDamage: usd(25_000),
+      bodilyInjuryPerPerson: usd(15_000),
+      bodilyInjuryPerAccident: usd(30_000),
+      propertyDamage: usd(5_000),
       pip: null,
     },
     citations: [
@@ -105,22 +121,28 @@ export const NJ_S4834: StatutoryRequirement = {
           'A person shall have six months following the effective date to obtain insurance for a motorized bicycle. (Insurance is not enumerated as a requirement for a low-speed electric bicycle.)',
       },
       {
-        statute: 'C.39:4-14.3e — what the motorized-bicycle policy must cover',
-        url: billText,
+        statute: 'C.39:4-14.3e (the policy requirement, and who sets the amounts)',
+        url: 'https://law.justia.com/codes/new-jersey/title-39/section-39-4-14-3e/',
         quote:
-          'Every owner of a motorized bicycle principally garaged or operated in this State... shall maintain liability insurance coverage... insuring against loss resulting from liability imposed by law for bodily injury, death and property damage. (Liability-only — PIP is not part of this policy.)',
+          'Every owner of a motorized bicycle principally garaged or operated in this State... shall maintain liability insurance coverage... insuring against loss resulting from liability imposed by law for bodily injury, death and property damage... The Commissioner of Insurance, in consultation with the Director of the Division of Motor Vehicles, shall by regulation fix the amounts and limits of coverage of, and requirements for, such insurance. (The statute names no dollar figures. The regulation below does.)',
       },
       {
-        statute: 'N.J.S.A. 39:6B-1 (motor vehicle liability minimums) — NJ DOBI bulletin',
-        url: 'https://www.nj.gov/dobi/bulletins/blt25_06.pdf',
+        statute: 'N.J.A.C. 11:3-11.1 (the regulation that fixes the amounts)',
+        url: 'https://www.law.cornell.edu/regulations/new-jersey/N-J-A-C-11-3-11-1',
         quote:
-          '$35,000 bodily injury per person / $70,000 per accident / $25,000 property damage for policies issued on or after January 1, 2026.',
+          'No policy... arising out of the ownership, operation or use of a motorized bicycle as defined in N.J.S.A. 39:1-1... shall be issued... unless it includes coverage... [of] $15,000... on account of injury to, or death of, one person, in any one accident; and... $30,000... on account of injury to or death of more than one person, in any one accident... [and] $5,000 in the aggregate for damage to property of others resulting from one accident.',
       },
       {
-        statute: 'S4834 §4 / C.39:6A-4.8 — pedestrian PIP (via your auto policy, not your e-bike policy)',
+        statute: 'N.J.A.C. 11:3-11.1(b): pedestrian PIP is built into the policy',
+        url: 'https://www.law.cornell.edu/regulations/new-jersey/N-J-A-C-11-3-11-1',
+        quote:
+          "Every liability insurance policy as described in (a) above... shall provide personal injury protection coverage benefits, in accordance with N.J.S.A. 39:6A-4, to pedestrians who sustain bodily injury in this State caused by the named insured's motorized bicycle. (Your insurer must include this at the statutory schedule. There is no limit for you to choose, which is why the form does not ask.)",
+      },
+      {
+        statute: 'S4834 §4 / C.39:6A-4.8 (a separate, later pedestrian-PIP change to AUTO policies)',
         url: billText,
         quote:
-          "\"'Pedestrian' shall include any person operating a bicycle or low-speed electric bicycle... the injury or death shall be covered by the pedestrian's personal injury coverage.\" Takes effect for standard auto policies issued or renewed on or after January 1, 2027. It applies to bicycle and low-speed e-bike riders — not motorized-bicycle riders — and is not a coverage your e-bike policy must carry.",
+          "\"'Pedestrian' shall include any person operating a bicycle or low-speed electric bicycle... the injury or death shall be covered by the pedestrian's personal injury coverage.\" Takes effect for standard auto policies issued or renewed on or after January 1, 2027. This one rides on the injured rider's OWN auto policy and covers bicycle and low-speed e-bike riders. It is not the same as the pedestrian PIP your motorized-bicycle policy must carry under N.J.A.C. 11:3-11.1(b).",
       },
     ],
   },

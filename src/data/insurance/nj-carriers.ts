@@ -6,7 +6,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     name: 'Velosurance',
     underwriter: 'Markel American Insurance Co. (A.M. Best A)',
     oneLiner:
-      "The only carrier selling an NJ-specific S4834 liability product (launched Jan 2026). Their guide cites an optional $100k limit as meeting the requirement — but their own pages now disagree on the exact state minimums, so have them confirm $35k/$70k/$25k in writing when you quote.",
+      "The only carrier with an NJ-specific S4834 liability page (launched Jan 2026). Their guide cites an optional $100k limit as meeting the requirement, which comfortably clears the $15k/$30k/$5k the regulation actually sets. Still ask them to confirm the limits and the pedestrian PIP in writing when you quote.",
     jurisdictions: ['NJ'],
     pricing: { kind: 'quote-only' },
     njSpecificPage: true,
@@ -21,7 +21,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://velosurance.com/usa/new-jersey/',
     source: {
       url: 'https://velosurance.com/usa/new-jersey/',
-      lastVerified: '2026-07-20',
+      lastVerified: '2026-08-03',
     },
   },
   {
@@ -44,7 +44,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://quote.sundaysinsurance.com/',
     source: {
       url: 'https://sundaysinsurance.com/faq',
-      lastVerified: '2026-07-20',
+      lastVerified: '2026-08-03',
     },
   },
   {
@@ -52,7 +52,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     name: 'VOOM Insurance',
     underwriter: 'Markel American Insurance Co. (A.M. Best A)',
     oneLiner:
-      "Still pre-launch in NJ as of July 1, 2026 — waitlist only, 18 days before the deadline. VOOM's NJ S4834 guide promises coverage \"launching soon\" but they aren't writing e-bike policies in the state yet. Their motorcycle product is active.",
+      "Still pre-launch in NJ as of August 3, 2026, waitlist only, and the compliance deadline has already passed. VOOM's NJ S4834 guide still promises coverage \"launching soon\" but they aren't writing e-bike policies in the state yet. Their motorcycle product is active.",
     jurisdictions: ['NJ'],
     pricing: {
       kind: 'starting',
@@ -69,7 +69,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://www.voominsurance.com/blog/nj-ebike-insurance-legislation-guide-2026',
     source: {
       url: 'https://www.voominsurance.com/blog/nj-ebike-insurance-legislation-guide-2026',
-      lastVerified: '2026-07-20',
+      lastVerified: '2026-08-03',
     },
   },
 ]

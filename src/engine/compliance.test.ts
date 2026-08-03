@@ -92,12 +92,16 @@ const compliantSpecialty: ExistingPolicy = {
   },
 }
 
+// Clears the bodily-injury axes, falls short only on property damage, so the
+// engine should flag exactly one axis. PD must sit under N.J.A.C. 11:3-11.1's
+// $5,000. It was $10,000 back when this file wrongly used the $25,000 auto
+// figure, which silently made this policy fully compliant once that was fixed.
 const lowLimitSpecialty: ExistingPolicy = {
   kind: 'specialty-ebike',
   coverage: {
     bodilyInjuryPerPerson: usd(35_000),
     bodilyInjuryPerAccident: usd(70_000),
-    propertyDamage: usd(10_000),
+    propertyDamage: usd(2_500),
     pip: usd(15_000),
   },
 }
@@ -112,6 +116,39 @@ const unknownHomeowners: ExistingPolicy = {
     pip: null,
   },
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Statutory minimums, pinned to the regulation, not to the auto minimums
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('NJ motorized-bicycle insurance minimums', () => {
+  // S4834 names no dollar figures. C.39:4-14.3e delegates them to the
+  // Commissioner of Insurance, who fixed them in N.J.A.C. 11:3-11.1 at
+  // $15k / $30k / $5k for any policy on "a motorized bicycle as defined in
+  // N.J.S.A. 39:1-1". These are NOT the standard auto minimums under
+  // N.J.S.A. 39:6B-1 ($35k / $70k / $25k since Jan 1, 2026). The site
+  // carried those by mistake until 2026-08-03. If this test fails, confirm
+  // against the regulation before changing the numbers.
+  it('match N.J.A.C. 11:3-11.1, not the N.J.S.A. 39:6B-1 auto minimums', () => {
+    expect(NJ_S4834.insurance.minimums.bodilyInjuryPerPerson).toBe(15_000)
+    expect(NJ_S4834.insurance.minimums.bodilyInjuryPerAccident).toBe(30_000)
+    expect(NJ_S4834.insurance.minimums.propertyDamage).toBe(5_000)
+  })
+
+  // Pedestrian PIP IS required in the policy by N.J.A.C. 11:3-11.1(b), but the
+  // insurer supplies it at the N.J.S.A. 39:6A-4 schedule, so the rider picks no
+  // limit, so there is nothing to compare and nothing to flag as a gap.
+  it('carry no rider-side PIP limit to check', () => {
+    expect(NJ_S4834.insurance.minimums.pip).toBeNull()
+  })
+
+  it('bind motorized bicycles only, never low-speed electric', () => {
+    expect(NJ_S4834.insurance.appliesToCategories).toContain('motorized')
+    expect(NJ_S4834.insurance.appliesToCategories).not.toContain(
+      'low-speed-electric',
+    )
+  })
+})
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Bike classification — must match the bill's three categories
@@ -497,10 +534,16 @@ describe('standard bicycle', () => {
 
 describe('coverage aggregation across multiple policies', () => {
   it('takes the highest limit across policies', () => {
+    // Each policy alone FAILS the $15k / $30k / $5k minimums on some axis:
+    // policy1 on bodily injury per person, policy2 on per accident and property
+    // damage. So a 'compliant' result can only come from taking the max of the
+    // two. (Written this way deliberately: with limits that each cleared the
+    // minimums on their own, this test would pass whether or not the engine
+    // aggregated at all.)
     const policy1: ExistingPolicy = {
       kind: 'specialty-ebike',
       coverage: {
-        bodilyInjuryPerPerson: usd(20_000),
+        bodilyInjuryPerPerson: usd(10_000),
         bodilyInjuryPerAccident: usd(70_000),
         propertyDamage: usd(25_000),
         pip: usd(15_000),
@@ -510,8 +553,8 @@ describe('coverage aggregation across multiple policies', () => {
       kind: 'specialty-ebike',
       coverage: {
         bodilyInjuryPerPerson: usd(50_000),
-        bodilyInjuryPerAccident: usd(40_000),
-        propertyDamage: usd(10_000),
+        bodilyInjuryPerAccident: usd(20_000),
+        propertyDamage: usd(2_500),
         pip: null,
       },
     }
@@ -524,7 +567,7 @@ describe('coverage aggregation across multiple policies', () => {
         registration: { ...NJ_S4834.registration, appliesToCategories: [] },
       },
     })
-    // max BIPP = 50k (>35k), max BIPA = 70k (=70k), max PD = 25k, max PIP = 15k → all met
+    // max BIPP = 50k (>15k), max BIPA = 70k (>30k), max PD = 25k (>5k) → all met
     expect(result.status).toBe('compliant')
   })
 
@@ -579,10 +622,13 @@ const meetsMin = {
   propertyDamage: usd(25_000),
   pip: usd(15_000),
 }
+// Under the real motorized-bicycle minimums ($15k / $30k / $5k) on all three
+// axes. The old values (25k/50k/10k) only looked "below" against the auto
+// minimums this file used to assume.
 const belowMin = {
-  bodilyInjuryPerPerson: usd(25_000),
-  bodilyInjuryPerAccident: usd(50_000),
-  propertyDamage: usd(10_000),
+  bodilyInjuryPerPerson: usd(10_000),
+  bodilyInjuryPerAccident: usd(20_000),
+  propertyDamage: usd(2_500),
   pip: usd(10_000),
 }
 

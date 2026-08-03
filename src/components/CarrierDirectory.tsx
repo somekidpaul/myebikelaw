@@ -24,9 +24,9 @@ export function CarrierDirectory() {
           sell theft/damage coverage with no liability at all. Before you buy,
           have the carrier confirm in writing that the policy includes liability
           of at least{' '}
-          <strong className="text-[var(--color-ink)]">$35,000 / $70,000 / $25,000</strong>{' '}
-          (bodily injury per person / per accident / property damage) — or it's
-          not S4834-compliant.
+          <strong className="text-[var(--color-ink)]">$15,000 / $30,000 / $5,000</strong>{' '}
+          (bodily injury per person / per accident / property damage), plus
+          pedestrian PIP. Anything less is not S4834-compliant.
         </p>
         {lastVerified && (
           <p

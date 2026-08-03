@@ -231,7 +231,7 @@ export function Form({
                   value={s.bipp}
                   onChange={(v) => set('bipp', v)}
                   min={0}
-                  placeholder="35000"
+                  placeholder="15000"
                 />
               </Field>
               <Field label="Bodily injury / accident ($)">
@@ -240,7 +240,7 @@ export function Form({
                   value={s.bipa}
                   onChange={(v) => set('bipa', v)}
                   min={0}
-                  placeholder="70000"
+                  placeholder="30000"
                 />
               </Field>
               <Field label="Property damage ($)">
@@ -249,13 +249,14 @@ export function Form({
                   value={s.pd}
                   onChange={(v) => set('pd', v)}
                   min={0}
-                  placeholder="25000"
+                  placeholder="5000"
                 />
               </Field>
             </div>
             <p className="text-xs text-[var(--color-ink-faint)]">
-              PIP isn't asked for — the statute's e-bike policy is
-              liability-only (PIP rides on your own auto policy, separately).
+              PIP isn't asked for. Your policy must carry pedestrian PIP
+              (N.J.A.C. 11:3-11.1(b)), but your insurer sets it at the statutory
+              schedule, so there's no limit for you to pick.
             </p>
           </div>
         )}

@@ -79,7 +79,8 @@ const GENERAL: ReadonlyArray<QA> = [
           </li>
           <li>
             Dollar minimums and insurance specifics — official state government
-            sources (e.g., NJ DOBI bulletin for the $35k/$70k/$25k figures)
+            sources (e.g., N.J.A.C. 11:3-11.1, the regulation that fixes NJ's
+            $15k/$30k/$5k motorized-bicycle limits)
           </li>
           <li>
             Carrier information — curated by hand from each carrier's public
@@ -286,6 +287,38 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
     ),
   },
   {
+    q: 'How much insurance do I actually need for a motorized bicycle?',
+    a: (
+      <>
+        <strong>$15,000 / $30,000 / $5,000</strong>. That's bodily injury per
+        person, bodily injury per accident, and property damage. Your policy
+        must also provide personal injury protection for pedestrians your bike
+        injures, which your insurer builds in at the statutory schedule, so
+        there's no limit for you to choose there.
+        <br />
+        <br />
+        Where those numbers come from matters, because they are widely
+        misreported. S4834 itself names no dollar figures. It leans on{' '}
+        <strong>C.39:4-14.3e</strong>, which requires a motorized-bicycle
+        liability policy and then hands the amounts to the Commissioner of
+        Insurance "by regulation." That regulation is{' '}
+        <strong>N.J.A.C. 11:3-11.1</strong>, and it sets $15k / $30k / $5k for
+        any policy on "a motorized bicycle as defined in N.J.S.A. 39:1-1."
+        <br />
+        <br />
+        You will see the higher figures <strong>$35k / $70k / $25k</strong>{' '}
+        quoted for e-bikes in a lot of places. Those are New Jersey's standard{' '}
+        <em>automobile</em> minimums under N.J.S.A. 39:6B-1, which rose on
+        January 1, 2026. They apply to cars, not to motorized bicycles. DOBI's
+        bulletin announcing the increase is addressed to auto insurers and says
+        nothing about mopeds or motorized bicycles. This site quoted the auto
+        figures until August 3, 2026; that was our error, and it overstated what
+        you need. Buying more coverage than the minimum is still a reasonable
+        choice, but it isn't what the law asks of you.
+      </>
+    ),
+  },
+  {
     q: "Why doesn't my homeowners or renters policy cover my e-bike?",
     a: (
       <>
@@ -294,9 +327,10 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
         motor, it's likely excluded from the policy's liability and property
         protection. Some carriers offer a rider or endorsement that extends
         coverage to e-bikes, but you have to ask explicitly and confirm in
-        writing — and most do not bring coverage anywhere near the $35k / $70k /
-        $25k statutory minimums S4834 requires for motorized bicycles. Don't
-        assume; verify with your carrier.
+        writing, and an endorsement that does exist still has to meet the $15k /
+        $30k / $5k liability minimums, and carry pedestrian PIP, before it
+        satisfies S4834 for a motorized bicycle. Don't assume; verify with your
+        carrier.
       </>
     ),
   },
