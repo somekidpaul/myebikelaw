@@ -311,10 +311,10 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
         <em>automobile</em> minimums under N.J.S.A. 39:6B-1, which rose on
         January 1, 2026. They apply to cars, not to motorized bicycles. DOBI's
         bulletin announcing the increase is addressed to auto insurers and says
-        nothing about mopeds or motorized bicycles. This site quoted the auto
-        figures until August 3, 2026; that was our error, and it overstated what
-        you need. Buying more coverage than the minimum is still a reasonable
-        choice, but it isn't what the law asks of you.
+        nothing about mopeds or motorized bicycles. This site previously quoted
+        the auto figures; that was our error, and it overstated what you need.
+        Buying more coverage than the minimum is still a reasonable choice, but
+        it isn't what the law asks of you.
       </>
     ),
   },
