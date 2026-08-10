@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { checkCompliance } from './compliance'
 import { NJ_S4834 } from '../data/statutes/nj'
 import { HI_HB2021 } from '../data/statutes/hi'
+import { STATUTES } from '../data/statutes'
 import type { BikeProfile, ExistingPolicy, OperatorProfile } from '../types'
 import { mph, usd, watts, years } from '../types'
 
@@ -1137,4 +1138,39 @@ describe('Hawaii HB 2021', () => {
     })
     expect(withPolicy.status).toBe('compliant')
   })
+})
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Registration authority naming
+//
+// The UI drops `registration.authority.name` straight into three sentences
+// ("Your bike must be registered with X.", "Register your bike with X.",
+// "This bike is already registered with X"), so the name has to arrive
+// sentence-ready with its own article. It did not on 2026-08-10: Verdict.tsx
+// hardcoded "the" in the remedy line, which shipped "the your county's
+// director of finance" for Hawaii and dropped the article entirely from the
+// New Jersey verdict line.
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('registration authority names are sentence-ready', () => {
+  const SENTENCE_READY = /^(the|your|a|an) /
+
+  for (const [jurisdiction, statute] of Object.entries(STATUTES)) {
+    const name = statute.registration.authority.name
+
+    it(`${jurisdiction}: "${name}" carries its own article`, () => {
+      expect(name).toMatch(SENTENCE_READY)
+    })
+
+    it(`${jurisdiction}: reads correctly in every sentence that uses it`, () => {
+      for (const sentence of [
+        `Your bike must be registered with ${name}.`,
+        `Register your bike with ${name}.`,
+        `This bike is already registered with ${name}`,
+      ]) {
+        expect(sentence).not.toMatch(/\b(the|your|a|an) (the|your|a|an)\b/i)
+        expect(sentence).not.toMatch(/\bwith [A-Z]/)
+      }
+    })
+  }
 })

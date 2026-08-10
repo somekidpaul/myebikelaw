@@ -529,7 +529,10 @@ function renderRemedy(r: Remedy): React.ReactNode {
     case 'register':
       return (
         <>
-          Register your bike with the{' '}
+          {/* The article lives in `authority.name` (see nj.ts / hi.ts) so each
+              jurisdiction reads correctly: "the NJ Motor Vehicle Commission"
+              vs "your county's director of finance". */}
+          Register your bike with{' '}
           <a href={r.authorityUrl} target="_blank" rel="noopener noreferrer">
             {r.authorityName} ↗
           </a>

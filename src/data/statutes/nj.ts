@@ -150,7 +150,9 @@ export const NJ_S4834: StatutoryRequirement = {
   registration: {
     appliesToCategories: ['low-speed-electric', 'motorized'],
     rentalExemptionCategories: ['low-speed-electric'],
-    authority: { name: 'NJ Motor Vehicle Commission', url: mvcPage },
+    // Includes the leading article so the name drops cleanly into every
+    // sentence that uses it (verdict copy, remedy link, form checkbox).
+    authority: { name: 'the NJ Motor Vehicle Commission', url: mvcPage },
     feeWaiverUntil: '2027-01-19',
     citations: [
       {
