@@ -8,6 +8,7 @@ import type {
   ThrottleKind,
 } from '../types'
 import { mph, usd, watts, years } from '../types'
+import { FORM_BOUNDS, FORM_DEFAULTS } from '../lib/field-bounds'
 
 type FormState = {
   throttle: ThrottleKind
@@ -25,8 +26,8 @@ type FormState = {
 
 const initialState: FormState = {
   throttle: 'pedal-assist-only',
-  topSpeed: '20',
-  motorWatts: '500',
+  topSpeed: FORM_DEFAULTS.topSpeed,
+  motorWatts: FORM_DEFAULTS.motorWatts,
   isRental: false,
   isRegistered: false,
   age: '',
@@ -71,19 +72,37 @@ export function Form({
   // doesn't exist. Only enforced when the bike has a motor.
   const validate = (): Partial<Record<keyof FormState, string>> => {
     const next: Partial<Record<keyof FormState, string>> = {}
+    const check = (
+      raw: string,
+      { min, max }: { min: number; max: number },
+      unit: string,
+    ): string | undefined => {
+      const n = Number(raw)
+      if (raw.trim() === '' || !Number.isFinite(n) || !Number.isInteger(n) || n < min) {
+        return `Enter a whole number of at least ${min} ${unit}.`
+      }
+      if (n > max) return `Enter ${max.toLocaleString('en-US')} ${unit} or less.`
+      return undefined
+    }
+
     if (s.throttle !== 'none') {
-      const speed = Number(s.topSpeed)
-      if (s.topSpeed.trim() === '' || !Number.isFinite(speed) || speed < 1) {
-        next.topSpeed = 'Enter a top speed of at least 1 mph.'
-      } else if (speed > 50) {
-        next.topSpeed = 'Enter a speed of 50 mph or less.'
-      }
-      const wattsVal = Number(s.motorWatts)
-      if (s.motorWatts.trim() === '' || !Number.isFinite(wattsVal) || wattsVal < 1) {
-        next.motorWatts = 'Enter a motor wattage of at least 1 W.'
-      } else if (wattsVal > 5000) {
-        next.motorWatts = 'Enter a wattage of 5000 W or less.'
-      }
+      next.topSpeed = check(s.topSpeed, FORM_BOUNDS.topSpeed, 'mph')
+      next.motorWatts = check(s.motorWatts, FORM_BOUNDS.motorWatts, 'W')
+    }
+    // Age is asked on every path and is the only always-required field. It used
+    // to lean entirely on the input's `required` attribute, which let a typed 0
+    // through into a share URL the decoder then rejected.
+    next.age = check(s.age, FORM_BOUNDS.age, 'years')
+
+    if (asksInsurance && s.policy === 'specialty') {
+      next.bipp = check(s.bipp, FORM_BOUNDS.coverage, 'dollars')
+      next.bipa = check(s.bipa, FORM_BOUNDS.coverage, 'dollars')
+      next.pd = check(s.pd, FORM_BOUNDS.coverage, 'dollars')
+    }
+
+    // Strip the keys that came back clean so the caller's emptiness check works.
+    for (const k of Object.keys(next) as Array<keyof FormState>) {
+      if (next[k] === undefined) delete next[k]
     }
     return next
   }
@@ -96,10 +115,17 @@ export function Form({
       return
     }
     const ageNum = Number(s.age) || 0
+    // A bike with no motor has no speed or wattage answer. The inputs unmount
+    // when the rider picks "no motor", but their last typed values stay in
+    // state — and they still get encoded into the share URL. Fall back to the
+    // defaults so a stale out-of-range value can never ride along.
+    const hasMotor = s.throttle !== 'none'
+    const speedRaw = hasMotor ? s.topSpeed : FORM_DEFAULTS.topSpeed
+    const wattsRaw = hasMotor ? s.motorWatts : FORM_DEFAULTS.motorWatts
     onSubmit({
       bike: {
-        motorWatts: watts(Number(s.motorWatts) || 0),
-        topMotorAssistedSpeed: mph(Number(s.topSpeed) || 0),
+        motorWatts: watts(Number(wattsRaw) || 0),
+        topMotorAssistedSpeed: mph(Number(speedRaw) || 0),
         throttle: s.throttle,
         isRentalFromSharedSystem: s.isRental,
         isRegistered: s.isRegistered,
@@ -135,8 +161,8 @@ export function Form({
                   type="number"
                   value={s.topSpeed}
                   onChange={(v) => set('topSpeed', v)}
-                  min={1}
-                  max={50}
+                  min={FORM_BOUNDS.topSpeed.min}
+                  max={FORM_BOUNDS.topSpeed.max}
                   step={1}
                   error={errors.topSpeed}
                 />
@@ -146,8 +172,8 @@ export function Form({
                   type="number"
                   value={s.motorWatts}
                   onChange={(v) => set('motorWatts', v)}
-                  min={1}
-                  max={5000}
+                  min={FORM_BOUNDS.motorWatts.min}
+                  max={FORM_BOUNDS.motorWatts.max}
                   step={1}
                   error={errors.motorWatts}
                 />
@@ -178,9 +204,10 @@ export function Form({
               type="number"
               value={s.age}
               onChange={(v) => set('age', v)}
-              min={0}
-              max={120}
+              min={FORM_BOUNDS.age.min}
+              max={FORM_BOUNDS.age.max}
               required
+              error={errors.age}
               placeholder="35"
             />
           </Field>
@@ -230,7 +257,10 @@ export function Form({
                   type="number"
                   value={s.bipp}
                   onChange={(v) => set('bipp', v)}
-                  min={0}
+                  min={FORM_BOUNDS.coverage.min}
+                  max={FORM_BOUNDS.coverage.max}
+                  step={1}
+                  error={errors.bipp}
                   placeholder="15000"
                 />
               </Field>
@@ -239,7 +269,10 @@ export function Form({
                   type="number"
                   value={s.bipa}
                   onChange={(v) => set('bipa', v)}
-                  min={0}
+                  min={FORM_BOUNDS.coverage.min}
+                  max={FORM_BOUNDS.coverage.max}
+                  step={1}
+                  error={errors.bipa}
                   placeholder="30000"
                 />
               </Field>
@@ -248,7 +281,10 @@ export function Form({
                   type="number"
                   value={s.pd}
                   onChange={(v) => set('pd', v)}
-                  min={0}
+                  min={FORM_BOUNDS.coverage.min}
+                  max={FORM_BOUNDS.coverage.max}
+                  step={1}
+                  error={errors.pd}
                   placeholder="5000"
                 />
               </Field>

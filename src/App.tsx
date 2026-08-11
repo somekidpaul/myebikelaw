@@ -12,6 +12,7 @@ import {
   type CheckerJurisdiction,
 } from './data/statutes'
 import { decodeAnswers, encodeAnswers } from './lib/share'
+import { formatLastReviewed } from './data/site-meta'
 import type { BikeProfile, Compliance } from './types'
 
 type AppState =
@@ -308,7 +309,10 @@ function SiteFooter() {
         </strong>{' '}
         It does not provide legal or insurance advice. The output reflects a
         good-faith reading of the cited statutes, last reviewed{' '}
-        <strong className="text-[var(--color-ink-soft)]">August 10, 2026</strong>;
+        <strong className="text-[var(--color-ink-soft)]">
+          {formatLastReviewed()}
+        </strong>
+        ;
         verify details with your insurance agent and{' '}
         <a
           href="https://www.nj.gov/mvc/vehicletopics/ebike.htm"

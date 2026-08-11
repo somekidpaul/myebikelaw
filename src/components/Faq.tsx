@@ -399,10 +399,15 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
             privilege for 30 days.
           </li>
         </ul>
-        The big exception: a bike over 750 W or 28 mph is legally a{' '}
-        <strong>motorcycle</strong>, and the full motor-vehicle penalty stack
-        applies — including 39:6B-2's $300–$1,000 fine, community service, and
-        possible license suspension for riding uninsured. Separately, the MVC
+        The big exception: a bike over 750 W <em>and</em> capable of more than
+        28 mph is legally a <strong>motorcycle</strong>, and the full
+        motor-vehicle penalty stack applies, including 39:6B-2's $300–$1,000
+        fine, community service, and possible license suspension for riding
+        uninsured. (The statute's definition is conjunctive, so both thresholds
+        have to be crossed. A bike over only one of them sits in the statutory
+        gap described in the classification answer above: this tool routes it to
+        the motorcycle rules so you are not under-warned, but that is a
+        conservative reading rather than settled law.) Separately, the MVC
         can suspend or revoke an e-bike registration for violations, and
         knowingly submitting false proof of ownership is a fourth-degree crime.
         <br />

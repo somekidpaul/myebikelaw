@@ -29,6 +29,27 @@ export type BikeProfile = {
   readonly isRegistered?: boolean
 }
 
+/**
+ * Lowercase forms, for dropping into the middle of a sentence ("we classified
+ * it conservatively as a class 3 electric bicycle"). Separate from
+ * bikeCategoryLabels because that one is Title Case for standalone display.
+ *
+ * Typed as a total Record on purpose: adding a category to BikeCategory
+ * without adding its prose here is a COMPILE error. It used to be a loose
+ * lookup with a `?? slug` fallback, which is how every Hawaii category
+ * silently rendered as "class-3" / "high-speed-electric" in the verdict copy.
+ */
+export const bikeCategoryProse: Readonly<Record<BikeCategory, string>> = {
+  'low-speed-electric': 'low-speed electric bicycle',
+  motorized: 'motorized bicycle',
+  'electric-motorized': 'electric motorized bicycle',
+  'class-1': 'class 1 electric bicycle',
+  'class-2': 'class 2 electric bicycle',
+  'class-3': 'class 3 electric bicycle',
+  'high-speed-electric': 'high-speed electric device',
+  standard: 'standard bicycle',
+}
+
 export const bikeCategoryLabels: Readonly<Record<BikeCategory, string>> = {
   'low-speed-electric': 'Low-speed electric bicycle',
   'motorized': 'Motorized bicycle',

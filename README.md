@@ -1,10 +1,10 @@
 # MyEBikeLaw
 
-![CI](https://github.com/somekidpaul/ebikelaw/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/somekidpaul/myebikelaw/actions/workflows/ci.yml/badge.svg)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6.svg)
 
-A neutral compliance checker for New Jersey's e-bike law (**S4834 / P.L.2025, c.285**, effective Jan 19, 2026 — compliance deadline July 19, 2026).
+A neutral compliance checker for the US states whose e-bike laws actually add a requirement. Two are live: New Jersey (**S4834 / P.L.2025, c.285**, in effect Jan 19, 2026, compliance deadline July 19, 2026) and Hawaii (**HB 2021 / Act 259**, in effect July 15, 2026). Seven more states are tracked as info cards.
 
 Cycling-insurance carriers all want to sell you a policy. The NJ MVC has a static info page. Every blog says "you need insurance now" — but the statute is more nuanced than that. This tool reads the actual bill, checks your specific situation against it, and tells you what (if anything) you need to do.
 
@@ -18,7 +18,7 @@ The bill defines **three** categories of e-bike, not one. Each category has diff
 |---|---|---|---|
 | Low-speed electric bicycle (pedal-assist ≤20 mph) | ✅ | ✅ | ❌ **not required** |
 | Motorized bicycle (throttle, or 21–28 mph) | ✅ | ✅ | ✅ |
-| Electric motorized bicycle (>750W or >28 mph) | — reclassified as **motorcycle** — |
+| Electric motorized bicycle (>750W **and** >28 mph) | — reclassified as **motorcycle** — |
 
 Blog headlines lumping all e-bikes together as "needs insurance" are wrong, and that gap was the moat for this tool.
 
@@ -52,11 +52,11 @@ The engine is the portfolio piece. Single-page React app on top, but the interes
 function checkCompliance(input: ComplianceInput): Compliance
 ```
 
-Pure function in `src/engine/compliance.ts`. 28 Vitest cases cover every bike category × every operator path × every policy kind × every gap shape × the ambiguity flagging.
+Pure function in `src/engine/compliance.ts`. The Vitest suite covers every bike category × every operator path × every policy kind × every gap shape × the ambiguity flagging, for both live statutes. (Deliberately not quoting a case count here: it went stale the first time it was written.)
 
 ### Multi-state ready
 
-The engine is jurisdiction-keyed from day one. Adding California's AB 1942, Hawaii's pending registration bill, or Florida's SB 382 would be a data PR — drop in a new `StatutoryRequirement`, add the corresponding route, no engine changes.
+The engine is jurisdiction-keyed from day one. Hawaii proved it: HB 2021 shipped as a second live checker (`src/data/statutes/hi.ts`) with no engine rewrite, just a new `StatutoryRequirement` plus the generalizations it needed (operating-age rules, operation bans, a per-statute registration authority). Adding California's AB 1942 or any other state is the same shape of change.
 
 ### Static carrier directory
 
@@ -75,7 +75,7 @@ The engine is jurisdiction-keyed from day one. Adding California's AB 1942, Hawa
 ```sh
 npm install
 npm run dev       # localhost:5174
-npm test          # 28 cases
+npm test          # engine, share-link, and copy guards
 npm run build     # production bundle
 ```
 
@@ -94,10 +94,12 @@ src/
 │   └── carrier.ts          CarrierEntry for the directory
 ├── data/
 │   ├── statutes/nj.ts      S4834 encoded as data, with citations
+│   ├── statutes/hi.ts      HB 2021 (Act 259) encoded the same way
+│   ├── pending-bills.ts    The seven tracked, non-live states
 │   └── insurance/nj-carriers.ts
 ├── engine/
 │   ├── compliance.ts       Pure checkCompliance() function
-│   └── compliance.test.ts  Vitest suite (28 cases)
+│   └── compliance.test.ts  Vitest suite
 └── components/             React UI on top
     ├── Form.tsx
     ├── Verdict.tsx

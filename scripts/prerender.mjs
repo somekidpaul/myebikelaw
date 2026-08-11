@@ -2,9 +2,10 @@
 // client build's index.html, so the page ships with real content in the
 // HTML body instead of an empty <div id="root">.
 import { readFileSync, writeFileSync } from 'node:fs'
-import { render, renderFaqJsonLd } from '../dist-ssr/entry-server.js'
+import { LAST_REVIEWED, render, renderFaqJsonLd } from '../dist-ssr/entry-server.js'
 
 const TEMPLATE = 'dist/index.html'
+const SITEMAP = 'dist/sitemap.xml'
 const ROOT = '<div id="root"></div>'
 // Placeholder in index.html's FAQPage node, replaced with JSON-LD derived from
 // the same source that renders the visible FAQ (no hand-maintained duplicate).
@@ -34,6 +35,26 @@ if (faqItems.some((it) => !it.name || !it.acceptedAnswer?.text)) {
 html = html.replace(FAQ_TOKEN, faqJson)
 
 writeFileSync(TEMPLATE, html)
+
+// Stamp the sitemap's <lastmod> from the same constant the footer renders, so
+// the two can't drift. They did: the footer said August 2026 while sitemap.xml
+// still claimed 2026-07-09, telling crawlers the page had not changed in a
+// month when it had shipped three times.
+if (!/^\d{4}-\d{2}-\d{2}$/.test(LAST_REVIEWED)) {
+  throw new Error(`prerender: LAST_REVIEWED is not an ISO date: ${LAST_REVIEWED}`)
+}
+const sitemap = readFileSync(SITEMAP, 'utf-8')
+if (!/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(sitemap)) {
+  throw new Error(`prerender: no <lastmod> to stamp in ${SITEMAP}`)
+}
+writeFileSync(
+  SITEMAP,
+  sitemap.replace(
+    /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g,
+    `<lastmod>${LAST_REVIEWED}</lastmod>`,
+  ),
+)
+
 console.log(
-  `prerender: injected ${appHtml.length} chars of markup + ${faqItems.length} FAQ schema entries into ${TEMPLATE}`,
+  `prerender: injected ${appHtml.length} chars of markup + ${faqItems.length} FAQ schema entries into ${TEMPLATE}; stamped sitemap lastmod ${LAST_REVIEWED}`,
 )
