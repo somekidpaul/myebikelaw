@@ -5,10 +5,13 @@ Reference doc for picking up in a new Claude Code session without losing context
 ## Where the site stands
 
 - **Live:** [myebikelaw.com](https://myebikelaw.com) (Cloudflare Pages, custom domain)
-- **Repo:** `github.com/somekidpaul/myebikelaw` (private)
+- **Repo:** `github.com/somekidpaul/myebikelaw` — **PUBLIC**. (Older notes here and in project
+  memory said private; `gh repo view` reports `visibility=PUBLIC`.) The README is therefore a public
+  artifact on a portfolio piece. Keep it true.
 - **Auto-deploy:** every push to `main` → CI runs tests → if green, `cloudflare/wrangler-action@v3` ships `dist/`
 - **Status:** shipped, polished, every path empirically verified through the form on the live URL
-- **Tests:** 117 / 117 passing (Vitest)
+- **Tests:** 268 / 268 passing (Vitest) — engine, share round-trip, form logic, form inputs,
+  rendered verdict copy, and site consistency
 - **LinkedIn:** launch post PUBLISHED 2026-05-21 (meniscus origin + all 6 state statuses incl. CA "stalled in committee" + "91 test scenarios" — the post's count is a point-in-time number, the suite is now 117)
 
 ## Build pipeline
@@ -72,6 +75,122 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 7 | throttle 32mph 1000W | RECLASSIFIED as motorcycle |
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
+
+## August 10, 2026 — full QA pass: 14 defects fixed, and a guard layer that is proven to work
+
+Branch `law-sync/2026-08-10`, PR #15 (draft). Started as a routine law sync (**no law changed**) and
+became the biggest correctness pass since the insurance-minimums fix. **Read this before writing any
+user-facing copy or touching the form.**
+
+### The two lessons
+
+**1. The engine suite cannot see what a rider reads.** Three copy defects shipped to production
+behind a 100% green suite, because every test asserted on `Compliance` objects and nothing ever
+rendered a component. A verdict being *correct* and a verdict being *readable* are tested by
+different things, and only one of those tests existed.
+
+**2. A guard you have not tried to break is not a guard.** The first version of the bounds guard
+looked thorough and was hollow: reverting BOTH bounds fixes left the suite green at 240 passing,
+because the test exercised `encodeAnswers`/`decodeAnswers` directly and never went through the form's
+own submit path. That was only discovered by deliberately reintroducing each bug and checking the
+suite went red. **Do that every time you add a regression test.**
+
+Every one of the 14 defects is one of two shapes: a value reaching a rider untranslated, or one fact
+living in two places with nothing keeping the copies equal.
+
+### What was wrong (all verified against the real files, all fixed)
+
+Copy composition:
+- `labelOf()` held only New Jersey's four categories and fell through `?? slug`, so **every Hawaii
+  rider in the ambiguity band read "we classified it conservatively as class-3 ... the alternate
+  reading would be class-2"**.
+- The license gap and its remedy joined raw enum ids: **"Accepted: basic-drivers or
+  motorized-bicycle."**
+- The registration line hardcoded "the" before an interpolated authority name → **"the your county's
+  director of finance"** (HI) and a missing article (NJ).
+
+Bounds (the app emitting a link it cannot read back):
+- Speed/wattage were only checked while the throttle question was answered "has a throttle".
+  **Answer it, type 100 mph, switch to "no motor"** → inputs unmount, native validation stops
+  applying, state keeps 100, `s=100` goes in the URL, decoder's max is 50 → the rider gets a working
+  verdict and a **dead "Copy share link"**.
+- Age accepted `0` while the decoder required `>= 1`; `validate()` never checked age at all.
+- The three coverage inputs had no max, so anything over `MAX_SAFE_INTEGER` produced a dead link.
+
+Duplicated facts:
+- **The FAQ stated ">750 W or 28 mph is legally a motorcycle" as settled law**, contradicting the
+  correct conjunctive statement four answers above it. The statute is **conjunctive** (re-verified
+  against the R1a enacted text). README carried the same "or".
+- `sitemap.xml` lastmod was 2026-07-09 while the footer said August 2026.
+- `index.html` meta + og descriptions named **5** tracked states; the app renders **7**.
+- The README's **CI badge 404s** (pointed at `somekidpaul/ebikelaw`; the repo is `myebikelaw`), still
+  called Hawaii an unbuilt "pending" bill, and quoted a test count of 28 in three places.
+
+Other:
+- The Illinois card read **"Effective: Jan 2027" for a bill still with the governor**, because the
+  label keyed off `isInformational` ("nothing for a rider to do") instead of enactment.
+- The splash heading "Bills in motion elsewhere" labelled seven cards, five stalled/vetoed/enacted.
+- The FAQ's structured data **quoted a UI control to Google**: an `acceptedAnswer.text` ended
+  "Add deadline to calendar".
+
+### The guard layer
+
+| Guard | File | Catches |
+|---|---|---|
+| Type-level totality | `types/bike.ts`, `types/operator.ts` | `bikeCategoryProse` / `licenseKindProse` are `Record<Union, string>`. A new category or license with no prose is a **compile error**, not a slug shipped to a rider. |
+| Rendered copy | `components/verdict-copy.test.tsx` | Renders the real `<Verdict>` for **both statutes across 12 verdict paths**; asserts no leaked enum id in any composed sentence, no doubled article, no unarticled authority name. |
+| Form → URL property | `components/form-logic.test.ts` | **The one that matters:** anything `validateFormState` accepts must produce a URL `decodeAnswers` accepts. Covers both bounds bugs and the ones not thought of yet. |
+| Form input attrs | `components/form-inputs.test.tsx` | Renders the real `<Form>` and reads `min`/`max` off the HTML, so browser-enforced bounds match `FORM_BOUNDS`. |
+| Share round-trip | `lib/share-roundtrip.test.ts` | Boundary matrix survives encode → decode; decoder stays **looser** than the form so legacy links keep opening. |
+| Site consistency | `data/site-consistency.test.ts` | Reads the real files: sitemap↔footer date, meta descriptions vs actual tracked states, CI badge slug, and that no file says "750 W **or** 28 mph". |
+
+Structure that makes the above possible:
+- `components/form-logic.ts` — the form's pure logic, lifted out of the component where it was
+  unreachable closures. **Form.tsx must keep importing this.** It briefly did not, and the tests went
+  green against code the app was not running. That is the failure mode to watch.
+- `lib/field-bounds.ts` — `FORM_BOUNDS`, the single source for input attrs and validation.
+- `data/site-meta.ts` — `LAST_REVIEWED`, the single source for the footer; **`prerender.mjs` stamps
+  `dist/sitemap.xml` from it**, so that drift is now structurally impossible.
+- `vite.config.ts` test include is `{ts,tsx}`. Without it a rendered-output test cannot exist.
+- `site-consistency.test.ts` loads files via Vite `?raw`, not `node:fs`, so no node types leak into
+  the app tsconfig.
+
+### Falsification results (every guard was deliberately broken and confirmed to fail)
+
+All 14 reintroduced bugs were caught. `nj-article` 6 tests, `hi-double-article` 8,
+`category-slug-leak` tsc **and** 4 HI render tests, `license-slug-leak` 1, `age-zero` 5,
+`age-input-min` 2, `hidden-field-bounds` 3, `coverage-no-max` 4, `sitemap-drift` 1,
+`footer-hardcoded-date` 1, `meta-undercount` 2, `readme-badge` 1, `readme-hawaii-pending` 1,
+`faq-or-and` 1. Two were initially caught only by an "unused variable" tsc error; both were re-tested
+with a realistic full revert (dropping the now-unused import too) and are caught by vitest on merit.
+
+### Scope discipline for future guards
+
+- Date guards compare against `LAST_REVIEWED`, **never the wall clock**. A test that reads the clock
+  starts failing on its own with no code change, and that trains everyone to ignore it.
+- The rendered-copy guard checks **only sentences the app composes**, not the whole page. Verbatim
+  statutory quotes legitimately contain hyphenated compounds ("your motorized-bicycle policy must
+  carry pedestrian PIP") that collide with the enum ids.
+
+### Open, needs Paul's call: Cloudflare Web Analytics is dead on the live site
+
+Cloudflare Pages injects its beacon (`static.cloudflareinsights.com/beacon.min.js`) into the served
+HTML at the edge. Our CSP in `public/_headers` is `script-src 'self' 'unsafe-inline'`, which
+**blocks it**. So no analytics are collected, and every real visitor gets a CSP error in console. Not
+caused by anything in the repo (the tag is not in `dist/index.html`; it is injected for browser
+requests only, so `curl` will not show it and a real browser will). The `_headers` comment says the
+"no analytics" stance is deliberate, so:
+1. **Turn the beacon off** in the Cloudflare dashboard (Web Analytics → this site). Keeps CSP tight.
+2. Or allow `https://static.cloudflareinsights.com` in `script-src` **and** `connect-src`.
+
+### Also confirmed working (no action)
+
+All 9 NJ and 9 HI verdict paths through the real UI; insurance boundaries exact ($15k/$30k/$5k
+compliant, one dollar under → gaps); zero horizontal overflow at 320/375/768/1280; print stylesheet
+and letterhead; FAQ JSON-LD 15 entries; legacy NJ share links and old `pi=` links still decode;
+malformed params fall back to the splash rather than crashing; the throttle dropdown is a correctly
+implemented ARIA combobox (Enter opens, arrows move, `aria-activedescendant` tracks, Enter commits);
+apex and www both 200 with all six security headers.
 
 ## August 6-7, 2026 — PR #14 SHIPPED: the NJ insurance minimums were wrong
 
