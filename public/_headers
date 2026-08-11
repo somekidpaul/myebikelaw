@@ -1,13 +1,29 @@
 # Security headers for Cloudflare Pages (applied to every response).
+#
 # CSP is scoped to exactly what the site loads: its own bundle, Google Fonts,
-# and data: URIs (the inline SVG chevron). No external scripts, no analytics,
-# no network calls — so connect-src is 'self'. 'unsafe-inline' is required for
-# React's inline style attributes and the JSON-LD block; everything else is
-# locked to same-origin. frame-ancestors + X-Frame-Options block clickjacking.
+# data: URIs (the inline SVG chevron), and Cloudflare Web Analytics.
+# 'unsafe-inline' is required for React's inline style attributes and the
+# JSON-LD block; everything else is locked to same-origin. frame-ancestors +
+# X-Frame-Options block clickjacking.
+#
+# ⚠️ CLOUDFLARE WEB ANALYTICS — do not remove these two allowances.
+# Cloudflare Pages injects its beacon into the HTML at the edge, for browser
+# requests only (curl will not show it; a real browser will). This CSP used to
+# be script-src 'self' 'unsafe-inline' / connect-src 'self', which BLOCKED the
+# injected beacon: the site collected zero analytics from launch until
+# 2026-08-10, and every visitor got a CSP violation in their console. The two
+# hosts below are what the beacon actually needs, verified by reading
+# beacon.min.js itself:
+#   - static.cloudflareinsights.com  serves beacon.min.js          (script-src)
+#   - cloudflareinsights.com         /cdn-cgi/rum fallback POST    (connect-src)
+# On a proxied zone the beacon prefers SAME-ORIGIN /cdn-cgi/rum, which 'self'
+# already covers (confirmed live on isoride.app). The cross-origin host is the
+# documented fallback, so both are allowed.
+# Guarded by src/data/site-consistency.test.ts.
 /*
   Strict-Transport-Security: max-age=31536000
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=()
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com

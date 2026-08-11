@@ -27,6 +27,7 @@ import indexHtml from '../../index.html?raw'
 import readmeSource from '../../README.md?raw'
 import sitemapSource from '../../public/sitemap.xml?raw'
 import faqSource from '../components/Faq.tsx?raw'
+import headersSource from '../../public/_headers?raw'
 
 const FILES: Record<string, string> = {
   'src/App.tsx': appSource,
@@ -34,6 +35,7 @@ const FILES: Record<string, string> = {
   'README.md': readmeSource,
   'public/sitemap.xml': sitemapSource,
   'src/components/Faq.tsx': faqSource,
+  'public/_headers': headersSource,
 }
 const read = (p: string): string => {
   const f = FILES[p]
@@ -142,4 +144,59 @@ describe('the conjunctive threshold is never stated as a disjunction', () => {
       expect(text).not.toMatch(/over 750W? or 28 mph/i)
     })
   }
+})
+
+describe('the CSP does not block Cloudflare Web Analytics', () => {
+  // Cloudflare Pages injects its beacon at the edge, for browser requests only.
+  // A CSP of script-src 'self' blocked it silently from launch until 2026-08-10:
+  // zero analytics collected, and a console error for every visitor. curl never
+  // shows the tag, so nothing but a real browser or this test catches it.
+  const headers = read('public/_headers')
+  const csp = headers.match(/Content-Security-Policy:\s*([^\n]+)/)?.[1] ?? ''
+
+  const directive = (name: string): string => {
+    const m = csp.match(new RegExp(`(?:^|;)\\s*${name}\\s+([^;]+)`))
+    return (m?.[1] ?? '').trim()
+  }
+
+  it('has a CSP to check', () => {
+    expect(csp, 'no Content-Security-Policy in public/_headers').not.toBe('')
+  })
+
+  it('script-src allows the beacon host', () => {
+    // beacon.min.js is served from here. Verified by reading the script itself.
+    expect(directive('script-src')).toContain('https://static.cloudflareinsights.com')
+  })
+
+  it('connect-src allows the RUM endpoint', () => {
+    // On a proxied zone the beacon POSTs to same-origin /cdn-cgi/rum ('self'
+    // covers that); this is the documented cross-origin fallback it hardcodes.
+    const connect = directive('connect-src')
+    expect(connect).toContain("'self'")
+    expect(connect).toContain('https://cloudflareinsights.com')
+  })
+
+  it('still locks down everything else', () => {
+    // Allowing analytics must not become a general loosening.
+    expect(directive('default-src')).toBe("'self'")
+    expect(directive('object-src')).toBe("'none'")
+    expect(directive('frame-ancestors')).toBe("'none'")
+    expect(directive('base-uri')).toBe("'self'")
+    expect(csp).not.toContain('*')
+  })
+})
+
+describe('privacy copy stays true now that analytics is on', () => {
+  it('does not claim nothing at all is collected', () => {
+    // "We never store, share, or sell anything" and "No data is collected"
+    // both became false the moment the beacon was unblocked. The promise that
+    // survives, and the one that matters, is about the rider's ANSWERS.
+    const app = read('src/App.tsx')
+    expect(app).not.toMatch(/never store, share, or sell anything/i)
+    expect(read('README.md')).not.toMatch(/No data is collected/i)
+  })
+
+  it('the site discloses the analytics somewhere a visitor can read it', () => {
+    expect(read('src/components/Faq.tsx')).toMatch(/Cloudflare Web Analytics/)
+  })
 })

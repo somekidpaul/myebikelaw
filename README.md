@@ -112,7 +112,9 @@ src/
 
 MyEBikeLaw.com is an **informational tool**, not a law firm or insurance broker. It does not provide legal or insurance advice. The output reflects a good-faith reading of the cited statutes; verify all details with your insurance agent and [the NJ MVC](https://www.nj.gov/mvc/vehicletopics/ebike.htm) before relying on it.
 
-No affiliate links. No referral fees. No data is collected; answers stay in the browser.
+No affiliate links. No referral fees. Your answers never leave the browser: the compliance engine runs entirely client-side and nothing you type is transmitted, stored, or sold.
+
+Site traffic is measured with Cloudflare Web Analytics, which is cookieless. Per Cloudflare, it uses no client-side state and does not track visitors over time via IP address, User Agent, or any other immutable attribute. It counts page views; it does not build a profile of you.
 
 ## License
 

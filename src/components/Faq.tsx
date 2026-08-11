@@ -216,6 +216,27 @@ const GENERAL: ReadonlyArray<QA> = [
       </>
     ),
   },
+  {
+    q: 'What do you do with my answers? Do you track me?',
+    a: (
+      <>
+        <strong>Your answers never leave your browser.</strong> The compliance
+        engine is plain JavaScript running on your device. Nothing you type
+        about your bike, your age, your license, or your insurance is
+        transmitted to a server, stored, or sold. There is no account, no
+        database, and no ad tech on this site. The "copy share link" button
+        encodes your answers into the URL so <em>you</em> can share the result
+        if you want to, and that link only goes wherever you paste it.
+        <br /><br />
+        For traffic, this site uses <strong>Cloudflare Web Analytics</strong>,
+        which counts page views. Cloudflare states that it uses no client-side
+        state (no cookies, no localStorage) and does not track visitors over
+        time via IP address, User Agent, or any other immutable attribute. It
+        tells us that a page was viewed. It does not tell us who you are, and
+        it cannot follow you to another site.
+      </>
+    ),
+  },
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
