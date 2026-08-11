@@ -172,16 +172,46 @@ with a realistic full revert (dropping the now-unused import too) and are caught
   statutory quotes legitimately contain hyphenated compounds ("your motorized-bicycle policy must
   carry pedestrian PIP") that collide with the enum ids.
 
-### Open, needs Paul's call: Cloudflare Web Analytics is dead on the live site
+### RESOLVED 2026-08-11: Cloudflare Web Analytics was blocked by our own CSP
 
-Cloudflare Pages injects its beacon (`static.cloudflareinsights.com/beacon.min.js`) into the served
-HTML at the edge. Our CSP in `public/_headers` is `script-src 'self' 'unsafe-inline'`, which
-**blocks it**. So no analytics are collected, and every real visitor gets a CSP error in console. Not
-caused by anything in the repo (the tag is not in `dist/index.html`; it is injected for browser
-requests only, so `curl` will not show it and a real browser will). The `_headers` comment says the
-"no analytics" stance is deliberate, so:
-1. **Turn the beacon off** in the Cloudflare dashboard (Web Analytics → this site). Keeps CSP tight.
-2. Or allow `https://static.cloudflareinsights.com` in `script-src` **and** `connect-src`.
+**myebikelaw.com had Web Analytics enabled since launch and collected zero.** The Cloudflare side was
+right the whole time (the injected tag carries a real site token); this repo's CSP blocked the beacon,
+and every visitor got a console CSP violation. Fixed in `public/_headers`.
+
+⭐ **The trap to remember: Cloudflare injects the beacon for BROWSER requests only.** `curl` will never
+show the tag; a real browser will. That is why it went unnoticed from launch.
+
+What the beacon needs, read out of `beacon.min.js` itself:
+- `script-src https://static.cloudflareinsights.com` (serves beacon.min.js)
+- `connect-src https://cloudflareinsights.com` (the `/cdn-cgi/rum` fallback POST)
+- On a **proxied** zone it prefers **same-origin** `/cdn-cgi/rum`, already covered by `'self'`.
+
+Verified before shipping by serving the built `dist/` from a local server applying the exact new CSP
+with the beacon injected the way the edge injects it: script loads, `__cfBeacon` defined, POST fires,
+console clean.
+
+⚠️ **Enabling analytics made two site claims false**, so they were rewritten: the form said "we never
+store, share, or sell *anything*" (now "…sell *them*") and the README said "No data is collected".
+A public FAQ answer now states both halves, sourced to Cloudflare's own wording. **The rider's answers
+still never leave the browser; that promise is unchanged and is the one that matters.**
+
+### Analytics across every Cloudflare property (audited 2026-08-11)
+
+| Site | Served by | Proxied | Analytics | Collecting? |
+|---|---|---|---|---|
+| myebikelaw.com | CF Pages | yes | Cloudflare WA | **Fixed here.** Takes effect when PR #15 merges |
+| isoride.app | CF Pages | yes | Cloudflare WA | ✅ working (POSTs to `/cdn-cgi/rum`) |
+| somekidpaul.com | **Vercel** | **no** | **Vercel Analytics** | ✅ working (fires `/8aff503df5214e64/view`) |
+| gamerstats.gg | **Vercel** | **no** | **Vercel Analytics** | ✅ working (`/_vercel/insights/view`) |
+| astro-portfolio-eay.pages.dev | CF Pages | n/a | none | ❌ never enabled (retired preview, no custom domain) |
+
+⛔ **somekidpaul.com and gamerstats.gg are DNS-only on Cloudflare (grey cloud) and served by Vercel.**
+Cloudflare never sees their traffic, so CF Web Analytics *cannot* auto-inject there. They already run
+Vercel Analytics instead. To pull them into the Cloudflare dashboard you would add CF's manual Web
+Analytics snippet per site, which needs a site token created in the dashboard.
+
+⚠️ The repo `.env` `CLOUDFLARE_API_TOKEN` can read Pages, zones and DNS but **not** Web Analytics
+(`/rum/site_info/list` returns "Authentication error"), so tokens have to come from the dashboard.
 
 ### Also confirmed working (no action)
 
