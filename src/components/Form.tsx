@@ -1,48 +1,16 @@
 import { cloneElement, isValidElement, useEffect, useId, useRef, useState } from 'react'
-import type {
-  BikeProfile,
-  ExistingPolicy,
-  LicenseKind,
-  OperatorProfile,
-  StatutoryRequirement,
-  ThrottleKind,
-} from '../types'
-import { mph, usd, watts, years } from '../types'
-import { FORM_BOUNDS, FORM_DEFAULTS } from '../lib/field-bounds'
+import type { LicenseKind, StatutoryRequirement, ThrottleKind } from '../types'
+import { FORM_BOUNDS } from '../lib/field-bounds'
+import {
+  initialFormState,
+  toFormResult,
+  validateFormState,
+  type FormErrors,
+  type FormResult,
+  type FormState,
+} from './form-logic'
 
-type FormState = {
-  throttle: ThrottleKind
-  topSpeed: string
-  motorWatts: string
-  isRental: boolean
-  isRegistered: boolean
-  age: string
-  license: LicenseKind
-  policy: 'specialty' | 'homeowners' | 'renters' | 'auto' | 'none'
-  bipp: string
-  bipa: string
-  pd: string
-}
-
-const initialState: FormState = {
-  throttle: 'pedal-assist-only',
-  topSpeed: FORM_DEFAULTS.topSpeed,
-  motorWatts: FORM_DEFAULTS.motorWatts,
-  isRental: false,
-  isRegistered: false,
-  age: '',
-  license: 'basic-drivers',
-  policy: 'none',
-  bipp: '',
-  bipa: '',
-  pd: '',
-}
-
-export type FormResult = {
-  bike: BikeProfile
-  operator: OperatorProfile
-  policies: ReadonlyArray<ExistingPolicy>
-}
+export type { FormResult, FormState }
 
 export function Form({
   statute,
@@ -51,10 +19,8 @@ export function Form({
   statute: StatutoryRequirement
   onSubmit: (r: FormResult) => void
 }) {
-  const [s, setS] = useState<FormState>(initialState)
-  const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>(
-    {},
-  )
+  const [s, setS] = useState<FormState>(initialFormState)
+  const [errors, setErrors] = useState<FormErrors>({})
 
   // Sections are statute-driven: a state with no licensing or insurance
   // requirement simply never shows those questions.
@@ -67,75 +33,16 @@ export function Form({
     setErrors((prev) => (prev[k] ? { ...prev, [k]: undefined } : prev))
   }
 
-  // Validate the two load-bearing bike inputs: a blank/zero speed or wattage
-  // would otherwise coerce to 0 and yield a confident verdict for a bike that
-  // doesn't exist. Only enforced when the bike has a motor.
-  const validate = (): Partial<Record<keyof FormState, string>> => {
-    const next: Partial<Record<keyof FormState, string>> = {}
-    const check = (
-      raw: string,
-      { min, max }: { min: number; max: number },
-      unit: string,
-    ): string | undefined => {
-      const n = Number(raw)
-      if (raw.trim() === '' || !Number.isFinite(n) || !Number.isInteger(n) || n < min) {
-        return `Enter a whole number of at least ${min} ${unit}.`
-      }
-      if (n > max) return `Enter ${max.toLocaleString('en-US')} ${unit} or less.`
-      return undefined
-    }
-
-    if (s.throttle !== 'none') {
-      next.topSpeed = check(s.topSpeed, FORM_BOUNDS.topSpeed, 'mph')
-      next.motorWatts = check(s.motorWatts, FORM_BOUNDS.motorWatts, 'W')
-    }
-    // Age is asked on every path and is the only always-required field. It used
-    // to lean entirely on the input's `required` attribute, which let a typed 0
-    // through into a share URL the decoder then rejected.
-    next.age = check(s.age, FORM_BOUNDS.age, 'years')
-
-    if (asksInsurance && s.policy === 'specialty') {
-      next.bipp = check(s.bipp, FORM_BOUNDS.coverage, 'dollars')
-      next.bipa = check(s.bipa, FORM_BOUNDS.coverage, 'dollars')
-      next.pd = check(s.pd, FORM_BOUNDS.coverage, 'dollars')
-    }
-
-    // Strip the keys that came back clean so the caller's emptiness check works.
-    for (const k of Object.keys(next) as Array<keyof FormState>) {
-      if (next[k] === undefined) delete next[k]
-    }
-    return next
-  }
+  const sections = { asksLicense, asksInsurance }
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault()
-    const found = validate()
+    const found = validateFormState(s, sections)
     if (Object.keys(found).length > 0) {
       setErrors(found)
       return
     }
-    const ageNum = Number(s.age) || 0
-    // A bike with no motor has no speed or wattage answer. The inputs unmount
-    // when the rider picks "no motor", but their last typed values stay in
-    // state — and they still get encoded into the share URL. Fall back to the
-    // defaults so a stale out-of-range value can never ride along.
-    const hasMotor = s.throttle !== 'none'
-    const speedRaw = hasMotor ? s.topSpeed : FORM_DEFAULTS.topSpeed
-    const wattsRaw = hasMotor ? s.motorWatts : FORM_DEFAULTS.motorWatts
-    onSubmit({
-      bike: {
-        motorWatts: watts(Number(wattsRaw) || 0),
-        topMotorAssistedSpeed: mph(Number(speedRaw) || 0),
-        throttle: s.throttle,
-        isRentalFromSharedSystem: s.isRental,
-        isRegistered: s.isRegistered,
-      },
-      operator: {
-        age: years(ageNum),
-        license: asksLicense ? s.license : 'none',
-      },
-      policies: [asksInsurance ? buildPolicy(s) : { kind: 'none' }],
-    })
+    onSubmit(toFormResult(s, sections))
   }
 
   return (
@@ -304,43 +211,6 @@ export function Form({
       </button>
     </form>
   )
-}
-
-function buildPolicy(s: FormState): ExistingPolicy {
-  if (s.policy === 'none') return { kind: 'none' }
-  if (s.policy === 'specialty') {
-    return {
-      kind: 'specialty-ebike',
-      coverage: {
-        bodilyInjuryPerPerson: usd(Number(s.bipp) || 0),
-        bodilyInjuryPerAccident: usd(Number(s.bipa) || 0),
-        propertyDamage: usd(Number(s.pd) || 0),
-        pip: null,
-      },
-    }
-  }
-  if (s.policy === 'auto') {
-    return {
-      kind: 'auto',
-      extendsToEbike: 'unknown',
-      coverage: {
-        bodilyInjuryPerPerson: usd(0),
-        bodilyInjuryPerAccident: usd(0),
-        propertyDamage: usd(0),
-        pip: null,
-      },
-    }
-  }
-  return {
-    kind: s.policy,
-    includesEbike: 'unknown',
-    coverage: {
-      bodilyInjuryPerPerson: null,
-      bodilyInjuryPerAccident: null,
-      propertyDamage: null,
-      pip: null,
-    },
-  }
 }
 
 function Card({
