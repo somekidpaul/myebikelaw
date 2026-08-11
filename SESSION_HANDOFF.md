@@ -10,7 +10,7 @@ Reference doc for picking up in a new Claude Code session without losing context
   artifact on a portfolio piece. Keep it true.
 - **Auto-deploy:** every push to `main` → CI runs tests → if green, `cloudflare/wrangler-action@v3` ships `dist/`
 - **Status:** shipped, polished, every path empirically verified through the form on the live URL
-- **Tests:** 268 / 268 passing (Vitest) — engine, share round-trip, form logic, form inputs,
+- **Tests:** 274 / 274 passing (Vitest) — engine, share round-trip, form logic, form inputs,
   rendered verdict copy, and site consistency
 - **LinkedIn:** launch post PUBLISHED 2026-05-21 (meniscus origin + all 6 state statuses incl. CA "stalled in committee" + "91 test scenarios" — the post's count is a point-in-time number, the suite is now 117)
 
