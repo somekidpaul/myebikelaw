@@ -76,6 +76,75 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## August 17, 2026 — law sync (Monday): no law changed; one carrier page moved under us again
+
+Folded into the same branch/PR as the 8/10 pass (PR #15 is still unmerged, so branching a second
+draft off an unmerged base would have stacked two reviews; this repeats what PR #14 did with the
+8/3 → 8/6 → 8/7 commits). **No statute, bill, or effective date changed anywhere.**
+
+**Every tracked item re-verified against a primary source:**
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged. Conjunctive ">750 W **and** >28 mph", s.11 six-month grace, s.13 immediate effect, s.10 one-year fee waiver, **no dollar figures**, low-speed needs registration **and** a license (s.5(f)(2)) |
+| NJ new-bill scan | All **10,712** 2026 bills pulled; **20** e-bike-adjacent, **none** with a `GovernorAction`. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 **and** A1538 all still at a single action, "Introduced" 1/13/2026; S4524 still 6/26/2026. Zero movement |
+| HI Act 259 | In effect. `enactedOn: '2026-07-15'` already correct; the watch item is **resolved** |
+| HI county guidance | Honolulu CSD still shows only the generic $30 e-bike / $15 pedal fee and **no Act 259 mention**, so the FAQ caveat stays accurate |
+| IL SB 3484 | Still "Sent to the Governor" 6/30/2026. Confirmed against the **ILGA's own Public Acts list for the 104th GA (104-0001 → 104-0741): no entry for SB 3484.** 60-day clock still runs to **Aug 29** |
+| CA AB 1942 | Held under submission 5/14/2026, unchanged |
+| FL CS/SB 382 | Vetoed 6/25/2026, no override, unchanged |
+| MA S 3077 | "Accompanied a study order (under JR10), see S3194" 7/22/2026, unchanged |
+| NY S08573 | Senate Transportation, last action 1/7/2026, unchanged |
+| UT HB 381 / WA ESSB 6110 | No amending legislation. `lastVerified` deliberately **left at 2026-08-07** (enrolled texts not re-read this run) |
+| New states | None. Nothing new in OH / PA / VA / MD / CT or the national scan |
+| NJ post-deadline UI | **Verified on the live URL in a real browser** (curl cannot see it, it is client-computed): eyebrow "IN EFFECT · DEADLINE PASSED", "deadline has passed, but you can still come into compliance … fees stay waived through January 19, 2027", **0 calendar buttons**, no countdown. HI card "IN EFFECT" |
+
+### ⚠️ Velosurance's NJ page was rewritten again, and this time it states two things the law does not
+
+Same shape as the 8/7 finding, opposite conclusion. Our card's **product** claims survived; their
+**legal summary** did not.
+
+- `liability-only` and `500,000` now appear **zero times** on their NJ page (checked against the raw
+  HTML, not a summarizer's negative claim). My first read was that our card had gone stale. It had
+  not: the liability-only option and the "limits up to $500,000" figure are both still carried by
+  **Bicycle Retailer, 2026-07-08**, which quotes the NJ minimums as $15k/$30k/$5k. **The card was
+  right and I nearly "fixed" correct copy.** The page's own $15k/$30k/$5k statement is still there,
+  verbatim, so the one claim we source to the page is intact.
+- What is new: the page now tells riders **"Insurance is required for every e-bike class in New
+  Jersey under New Jersey S4834"** and **"A helmet is mandatory for every e-bike rider, regardless
+  of age, under New Jersey S4834."** Both are false, and the page **contradicts itself** on the
+  first one (elsewhere it correctly limits insurance to bikes that "do not qualify as Class 1 or
+  Class 2").
+  - Insurance: **grepped the enacted R1a text** — the insurance evidence provisions attach to a
+    *motorized bicycle*, and s.5(f) strikes "furnish proof of insurance" for low-speed. NJ MVC's own
+    page says it verbatim: *"Only motorized bicycles are required to have insurance coverage.
+    Low-Speed Electric Bicycles do not require insurance but must be registered with MVC."*
+  - Helmets: the word **"helmet" appears 0 times in the entire enacted act**. A universal helmet
+    rule is S4524, still parked in committee since 6/26. They are quoting a pending bill as law.
+  - The Velosurance card now carries a short caution, mirroring the one already on the VOOM card.
+- **VOOM unchanged**: still waitlist ("we will be launching soon", "Register to Our Waitlist"), still
+  states the minimum as **$35,000 bodily injury** (the automobile figure), zero `15,000` on the page.
+- **Sundays unchanged**, re-confirmed verbatim: *"We do not offer cyclist liability insurance."*
+- **Markel + Progressive**: still no on-page NJ e-bike liability evidence, still deliberately unlisted.
+
+⭐ **The lesson worth keeping: a carrier page changing is not the same as our card being wrong.**
+Check whether the *claim* still has a source before rewriting around the *page*. On 8/7 the page had
+outrun our card; on 8/17 our card had outlived the page but kept its evidence.
+
+### New guard
+
+`site-consistency.test.ts` now asserts that any carrier whose `oneLiner` dates itself
+("still pre-launch in NJ **as of August 17, 2026**") uses the same date as its own
+`source.lastVerified`. VOOM's prose said August 10 after the carrier had actually been re-checked, so
+the card was advertising a staleness it no longer had. **Falsified**: confirmed the test runs (not
+silently skipped by the regex), goes red with `expected 'August 10, 2026' to be 'August 17, 2026'`
+when the stale date is reintroduced, and green when restored. **275 tests**, build + prerender green.
+
+Dates bumped: the **5** cards actually re-checked (CA/FL/IL/MA/NY) and all **3** carriers → `2026-08-17`;
+footer + sitemap → August 17, 2026. Built-artifact verified: 5 "Aug 17, 2026" chips + 2 "Aug 7, 2026"
+(UT/WA), footer "last reviewed August 17, 2026", **zero** stale August 10 strings.
+
 ## August 10, 2026 — full QA pass: 14 defects fixed, and a guard layer that is proven to work
 
 Branch `law-sync/2026-08-10`, PR #15 (draft). Started as a routine law sync (**no law changed**) and

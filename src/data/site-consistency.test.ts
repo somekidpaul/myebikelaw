@@ -86,6 +86,20 @@ describe('verification dates are real and not in the future', () => {
       expect(carrier.source.lastVerified <= LAST_REVIEWED).toBe(true)
     })
   }
+
+  // VOOM's card says "still pre-launch in NJ as of <date>" in prose while its
+  // real re-check date lives in source.lastVerified. That is the same
+  // one-fact-in-two-places shape as the sitemap/footer drift: on 2026-08-17 the
+  // prose still read August 10 after the carrier had been re-checked, so the
+  // card asserted a staleness it no longer had. Any carrier that dates itself
+  // in copy has to date itself the day it was actually verified.
+  for (const carrier of NJ_CARRIERS) {
+    const dated = carrier.oneLiner.match(/as of ([A-Z][a-z]+ \d{1,2}, \d{4})/)
+    if (dated === null) continue
+    it(`${carrier.id} oneLiner's "as of" date matches its lastVerified`, () => {
+      expect(dated[1]).toBe(formatLastReviewed(carrier.source.lastVerified))
+    })
+  }
 })
 
 describe('index.html describes the product the app actually ships', () => {
