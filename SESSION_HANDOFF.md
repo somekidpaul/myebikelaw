@@ -76,6 +76,109 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## August 18, 2026 law sync: no law changed; ILGA's scraper block found, and a stale citation corrected
+
+Folded into the same branch/PR as the 8/10 and 8/17 passes (PR #15 is still unmerged, so a second
+draft off an unmerged base would stack reviews). **No statute, bill, or effective date changed
+anywhere.** Two things did change: the way Illinois has to be verified, and one now-false sentence
+this repo was carrying.
+
+### ⭐ ilga.gov now blocks automated requests. Use the file repository instead.
+
+`https://www.ilga.gov/Legislation/BillStatus?...` returns a 3,988-byte **"Access Denied /
+Automated Request Blocked"** page to `curl` and to WebFetch. It is not a transient failure and it is
+not our IP; the page itself says so and points at the fix.
+
+**The replacement is better than what it replaced, and it is a genuine primary source:**
+
+| What | Where |
+|---|---|
+| Repository root | `https://ftp.ilga.gov/` (IIS directory listing, synced nightly from ILGA production) |
+| One bill's full status as XML | `https://ftp.ilga.gov/Legislation/104/BillStatus/XML/10400SB3484.xml` |
+| Every bill's status (12,800 files) | `https://ftp.ilga.gov/Legislation/104/BillStatus/XML/` |
+| Public Acts, one HTML file each | `https://ftp.ilga.gov/Public%20Acts/104/104-0834.htm` |
+
+The XML carries `<lastaction>` with chamber and date, the full action list, sponsors and synopsis.
+⭐ **The `Last-Modified` header is itself evidence**: `10400SB3484.xml` is stamped
+**Wed, 01 Jul 2026 04:20:42 GMT**, so ILGA's nightly sync has not rewritten that bill's record since
+the day after it went to the Governor. No action has happened, rather than no action being reported.
+
+### The stale sentence, and how it got there
+
+The IL card's `details` said the 104th GA's Public Acts list ran **104-0001 through 104-0741**. The
+repository's own directory listing shows it runs to **104-0834** (plus one out-of-sequence
+104-5446), with files dated 8/7, 8/10, 8/11 and 8/17. The 8/17 run read a source that was either
+paginated or stale and recorded its bottom edge as the end of the list. The **conclusion** was right
+and is still right; the **number backing it** was wrong the moment it was written.
+
+Rewritten to cite what was actually checked, which is also the harder-to-be-wrong-about source: the
+bill-status record itself. `details` is dead data (rendered nowhere), so this is data accuracy only,
+not a user-visible change.
+
+**Falsified the conclusion two independent ways before rewriting:**
+1. ILGA's own bill-status XML for SB 3484: last action **"Sent to the Governor" 6/30/2026**, zero
+   occurrences of "Public Act" anywhere in the record.
+2. Downloaded **236 Public Acts** (104-0600 through 104-0834, plus 104-5446) and grepped them.
+   114 of the 236 are Senate bills. **Zero** mention SB 3484.
+
+The 60-day clock under Illinois Constitution Art. IV, Sec. 9 still runs to **August 29, 2026**.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full. Conjunctive ">750 watts **and** ... greater than 28 miles per hour"; s.10 one-year fee waiver; s.11 six-month grace; s.13 immediate effect except s.4 at the 12th month. **"helmet" appears 0 times.** Only **4** dollar figures in the whole act, and they are the `$5` permit fee and the `$50` dismissible carry offense, so **no insurance minimums**, which is the premise the N.J.A.C. 11:3-11.1 chain rests on. s.5(f)(1) strikes "furnish proof of insurance" for low-speed; s.5(f)(2) requires it to be registered **and** licensed |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API; **18** e-bike-adjacent; **none** with a `GovernorAction`. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still at a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026 ("Introduced in the Senate, Referred to Senate Transportation Committee"). Zero movement |
+| IL SB 3484 | Still "Sent to the Governor" 6/30/2026, no Public Act. See above |
+| CA AB 1942 | Held under submission 5/14/2026. Full history read; **no action after 5/14** |
+| FL CS/SB 382 | "6/25/2026 Vetoed by Governor" on flsenate.gov, no override |
+| MA S 3077 | 5 actions total, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194" |
+| NY S08573 | nysenate.gov is behind a Cloudflare challenge; **nyassembly.gov mirrors the same bill** and shows 11/07/2025 REFERRED TO RULES, 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. `enactedOn: '2026-07-15'` correct. Watch item stays **resolved** |
+| HI county guidance | Honolulu CSD still lists only the generic `$30` e-bike / `$15` pedal fee with **no** Act 259 mention, so the FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-07** (enrolled texts not re-read this run) |
+| Carriers | **Not re-checked.** Tuesday, and outside the July 19 window. All 3 stay `2026-08-17`, and VOOM's "as of August 17, 2026" prose stays matched to its own date |
+| NJ + HI live UI | **Verified in a real browser** on the live URL: NJ eyebrow "IN EFFECT · DEADLINE PASSED", "fees stay waived through January 19, 2027", **0** calendar buttons, no countdown; HI "IN EFFECT" with no "Not in effect yet" banner |
+
+### ⭐ Oregon HB 4007 found and deliberately ruled out
+
+A national scan surfaced **Oregon HB 4007 (2026 Oregon Laws ch. 101)**, which this repo does not
+track. Read the **enrolled PDF** (18 pages) rather than the coverage. It gets **no card**, not even
+an informational one:
+
+- The word **"insurance" appears 0 times in the entire act.**
+- It creates "powered micromobility device" (max 28 mph, under 100 lb) and **expressly excludes
+  electric assisted bicycles** from that definition (Sec. 2(2)(b)(A)), so ordinary e-bikes are
+  outside the new category entirely.
+- Where it touches title (ORS 803.030), registration (ORS 803.305) and financial responsibility
+  (ORS 806.020), it **adds devices to the exemption lists**. It removes obligations; it does not
+  create them.
+- ORS 807.020(15) as amended lets a person ride "without any grant of driving privileges" and
+  **lowers** the Class 1 floor from 16 to 14. That is a licensing **exemption** getting wider.
+- The new offenses ("selling an impostor vehicle", improper sale of a battery or conversion kit)
+  bind **sellers**, not riders.
+- Substance is protective headgear, minimum ages, and sales labeling, and the amendments are
+  **operative January 1, 2027** (Sec. 33) even though the act took effect 91 days after sine die.
+
+The informational-card carve-out exists for bills that are **widely misreported** as license or
+registration mandates (the FL and IL pattern). Oregon is not: BikePortland states plainly that "no
+license, no registration, no plates are required in Oregon" and contrasts it with New Jersey.
+Nothing to correct, so nothing to publish.
+
+No other state surfaced. NJ and HI remain the only two states with a live compliance requirement.
+
+### Changes in this commit
+
+`details` sentence on the IL card rewritten; the **5** cards actually re-checked (CA/FL/IL/MA/NY)
+bumped to `2026-08-18`; UT/WA left at `2026-08-07`; footer and sitemap to August 18, 2026. Carrier
+dates untouched. **The sitemap guard earned its keep**: bumping `LAST_REVIEWED` alone turned
+`site-consistency.test.ts` red with `expected '2026-08-17' to be '2026-08-18'` until
+`public/sitemap.xml` was updated too. **275 tests green**, build + prerender green. Built artifact
+verified: **5** "Aug 18, 2026" chips + **2** "Aug 7, 2026" (UT/WA), footer "last reviewed August 18,
+2026", sitemap stamped `2026-08-18`, FAQPage JSON-LD 16 entries, and the only three surviving
+`2026-08-17` strings in the bundle are the three carrier `lastVerified` values, which is correct.
+
 ## August 17, 2026 — law sync (Monday): no law changed; one carrier page moved under us again
 
 Folded into the same branch/PR as the 8/10 pass (PR #15 is still unmerged, so branching a second
