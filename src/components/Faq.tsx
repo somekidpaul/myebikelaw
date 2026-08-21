@@ -150,9 +150,15 @@ const GENERAL: ReadonlyArray<QA> = [
             reclassified "high power electric devices" and "electric
             motorcycles" (over 750 W, or capable of over 20 mph on the motor
             alone — including a tampered e-bike) fall under motorcycle rules,
-            which already require all three. New for ordinary e-bike riders:
-            only a helmet for riders under 21 on highways and a ban on riding
-            while drinking.
+            which already require all three. Utah's driver-licensing statute
+            says so outright: a rider 16 or older may ride an e-bike on a
+            highway without a driver license, a motorcycle endorsement, or a
+            safety certificate. What HB 381 does add for ordinary riders is
+            safety rules, not vehicle paperwork: a helmet under 21 on highways
+            and a ban on riding while drinking, both in effect now, and then
+            from May 5, 2027 a minimum age of 8 to ride on a highway plus a
+            rule that riders under 16 either earn a safety certificate (online,
+            fee capped at $10) or ride under direct adult supervision.
           </li>
           <li>
             <strong>Washington</strong> — ESSB 6110 (Chapter 159, Laws of 2026)

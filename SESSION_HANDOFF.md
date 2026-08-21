@@ -76,6 +76,127 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## August 21, 2026 law sync: no law changed anywhere; the Utah card was telling riders a half-truth
+
+Folded into the same branch/PR as the 8/10, 8/17 and 8/18 passes (PR #15 is still unmerged, so a
+second draft off an unmerged base would stack reviews). **No statute, bill, or effective date changed
+in any tracked state.** What changed is one of our own claims, and it was user-visible on the live
+site.
+
+### ⛔ The UT card said a partial list of HB 381's new rules was the whole list
+
+Live copy, on the card and in the FAQ:
+
+> New for ordinary e-bikes: a helmet for riders under 21 on highways and a ban on riding while drinking.
+
+The FAQ's version was stronger and worse: *"New for ordinary e-bike riders: **only** a helmet …"*.
+
+Reading the enrolled PDF again, that list is incomplete, and the word "only" makes it false. HB 381
+also enacts **Sec. 41-6a-1512**, a "personal electric vehicle safety certificate" program whose
+definition of *personal electric vehicle* **expressly includes an electric assisted bicycle**. From
+**May 5, 2027**:
+
+- A rider **8 or older and under 16** may not operate an e-bike with the motor engaged **on a
+  highway** unless they either obtain the certificate **or** ride under the direct supervision of a
+  parent or another responsible adult (Sec. 41-6a-1115.5(4), repeated verbatim at Sec. 53-3-202(5)(b)).
+- A rider **under 8** may not operate one on a highway at all (Sec. 41-6a-1115.5(6)).
+- A rider **under 16** may not use a freeway (Sec. 41-6a-1512(5)).
+- The certificate is online-completable, the fee is capped at **$10**, and a violation is an
+  infraction capped at **$150**.
+
+⭐ **This REPLACED a narrower prior rule that required supervision only under age 14**, so it is a
+genuine tightening, not a restatement. A Utah parent reading our card would have concluded there was
+nothing coming for their 15-year-old. There is.
+
+**The card's verdict never moved.** Scope discipline still puts Utah in the informational/gray bucket
+with `requirementHints: []`: a youth safety certificate that an adult riding along satisfies is an
+age/supervision rule, not license, registration, title, or insurance. The conclusion was right; the
+list backing it was not. Same shape as the 8/18 Illinois fix.
+
+⭐ **The re-read also produced better evidence FOR the conclusion than we had before.** Utah's
+driver-licensing statute now says it outright, so we no longer have to infer it from the "motor
+vehicle" exclusion alone:
+
+- Sec. 53-3-202(5)(b)(i), an under-16 rider "is not required to hold a class D driver license or a
+  motorcycle endorsement" to ride an e-bike on a highway.
+- Sec. 53-3-202(5)(c), a rider **16 or older** may ride "without" a class D driver license, a
+  motorcycle endorsement, **or** a safety certificate.
+
+Both are now quoted in the card and the FAQ.
+
+⚠️ **A secondary source had this backwards and would have taken us with it.** Search summaries
+claimed "riders 16–17 without a driver's license also need the certificate; riders 18+ … similarly
+required." Sec. 53-3-202(5)(c) says the exact opposite. The statute contradicted the summary, and the
+statute won. Two other card claims were checked the same way and held: the under-21 helmet rule is
+real (Sec. 41-6a-1505(1)(b), broadened from class-3-only, **and it does not apply to a rented class 1
+e-bike**, Sec. 41-6a-1505(3), a carve-out the card had also omitted), and the Jan 1 2027 point-of-sale
+disclosure is real. One citation in `details` was wrong and is fixed: that disclosure is
+**Sec. 41-6a-1511(6)(a)**, not 41-6a-1115.6. `details` also claimed a single "driver-licensing
+disclosure section" carried the May 5 2027 date; **four** sections do (41-6a-1115, 41-6a-1115.5,
+41-6a-1512, 53-3-202), and 53-3-202 is not a disclosure section.
+
+### New guard, and it was wrong on the first try
+
+`site-consistency.test.ts` now asserts the UT card's `oneLiner` and the FAQ's Utah bullet **both**
+carry the May 5 2027 certificate rule, and that neither frames its safety-rule list as exhaustive.
+This is the repo's recurring defect shape: one fact in two files with nothing keeping the copies equal.
+
+⚠️ **The first version scanned all of `Faq.tsx` and went red on correct copy**, Massachusetts'
+bullet legitimately says S 3077 "required only a helmet and a minimum age of 16", which is true of
+that bill. Rescoped to slice out the Utah `<li>` alone. Exactly the caveat already written down for
+the rendered-copy guard: check the sentence that makes the claim, not the whole page.
+
+**Falsified both ways before trusting it:** reverting the card `oneLiner` alone → 1 test red;
+reverting the FAQ bullet alone → 2 tests red; restored → **279 green**. The MA sentence stays green
+throughout.
+
+### ⭐ Three new states found, all three deliberately ruled out
+
+| Bill | What the operative text actually says | Card? |
+|---|---|---|
+| **CA AB 2346** (Wilson), **passed both chambers 8/19/2026**, 77-0 / 38-0, now enrolling for Newsom | **"insurance" 0, "registration" 0, "driver's license" 0, "license plate" 0, "certificate of title" 0.** Sidewalk/path speed limits, an under-16 15 mph cap (warnings only until 12/31/2027), 2029 lamp + speedometer mandates **on sellers**, point-of-sale disclosures. New Sec. 12810.1 **REMOVES** a driver's-license violation point rather than adding one. The only mention of registering/insuring sits inside a point-of-sale warning about what happens if a buyer **modifies** the bike past legal limits, i.e. existing motorcycle law | **No.** Speed/equipment/age bill. Coverage frames it accurately, so the FL/IL "widely misreported" carve-out does not apply |
+| **NC HB 1094 §19 / SL 2026-46**, signed 7/7/2026, effective **12/1/2026** | **Zero** occurrences of insurance, registration, drivers license, financial responsibility, certificate of title, or license plate in the entire e-bike section. Adopts the 3-class definition, grants statewide roadway/bike-lane/multiuse-path access, requires a helmet under 18 on Class 3, lets cities and counties regulate paths and sidewalks | **No.** Classification + access + helmet |
+| **CA SB 956** (Choi), the Orange County e-bike plate pilot | Never got a hearing (**first hearing canceled at the author's request, 4/20/2026**) and never left its first policy committee. Text only **authorizes** local ordinances, it mandates nothing, which is the MA S 3077 pattern. "insurance" 0, "driver's license" 0 | **No.** Deader than the AB 1942 already tracked for California, and authorizing rather than mandating |
+
+CA's other e-bike bills were checked and are all dead or out of scope: **AB 1557** held under
+submission 5/14/26, **AB 2284** failed passage 4/20/26, **SB 455** returned under Joint Rule 56 on
+2/2/26. NJ and HI remain the only two states with a live compliance requirement.
+
+⚠️ **Watch item for the next runs: if Newsom signs AB 2346**, California gets a real e-bike law. It
+still adds no license, registration, or insurance, so the ruling-out holds, but if coverage starts
+framing it as a crackdown the informational-card test should be re-applied.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full. Conjunctive: "greater than 750 watts **that is** capable of reaching a speed greater than 28 miles per hour". **"helmet" 0 times.** Exactly **4** dollar figures in the act ($5, $5, $50, $50), so still **no insurance minimums**, the premise the N.J.A.C. 11:3-11.1 chain rests on. s.5(f)(1) strikes "furnish proof of insurance" for low-speed; s.5(f)(2) requires it registered **and** licensed; s.10 one-year fee waiver; s.11 six-month grace; s.13 immediate effect except s.4 at the 12th month |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to 8/18); **18** e-bike-adjacent; **none** with a `GovernorAction`. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. Zero movement |
+| IL SB 3484 | Still "Sent to the Governor" 6/30/2026, **zero** "public act" strings in its status record, and its XML's `Last-Modified` is **still 2026-07-01** while the nightly sync keeps running. Falsified a second way: the Public Acts list has grown to **104-0837** since the last run, and the three new acts are **SB3044, SB3048, SB3506**, none is SB 3484. 60-day clock still runs to **August 29, 2026** (8 days out) |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." Unchanged |
+| FL CS/SB 382 | Enrolled 3/17, presented to the Governor **6/15/2026**, **"Vetoed by Governor" 6/25/2026**, no override. Card's dates confirmed correct |
+| MA S 3077 | 5 actions total, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194" |
+| NY S08573 | nyassembly.gov mirror: 11/07/2025 REFERRED TO RULES, 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Confirmed via HDOT's own page: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026 … took effect upon the Governor's signature". `enactedOn: '2026-07-15'` correct; watch item stays **resolved**. ⚠️ Note HDOT's own summary writes the high-speed threshold as "750 watts **or** … 28 miles per hour"; the CD1 statutory text is conjunctive and the site follows the text, not the agency summary |
+| HI county guidance | Honolulu CSD still lists only the generic **$30** e-bike / **$15** pedal fee, **no** Act 259 mention and no register-before-you-ride rule, so the FAQ caveat stays accurate |
+| UT HB 381 | **Re-read in full against the enrolled PDF. See the correction above.** |
+| WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-07** (enrolled text not re-read this run) |
+| Carriers | **Not re-checked.** Friday, and outside the July 19 window. All 3 stay `2026-08-17` |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ eyebrow "IN EFFECT · DEADLINE PASSED", "fees stay waived through January 19, 2027", **0** calendar buttons, no countdown; HI card "IN EFFECT", no "Not in effect yet" banner |
+
+### Changes in this commit
+
+UT card `oneLiner` and `details` rewritten; FAQ Utah bullet rewritten (auto-propagates to the FAQPage
+JSON-LD); IL `details` date reference moved to August 21 and its Public Acts ceiling updated to
+104-0837; new cross-file guard in `site-consistency.test.ts`; the **6** cards actually re-checked
+(CA/FL/IL/MA/NY/UT) bumped to `2026-08-21`; **WA left at `2026-08-07`**; carrier dates untouched;
+footer and sitemap to August 21, 2026. **279 tests green**, build + prerender green. Built artifact
+verified: **zero** occurrences of the old false sentence anywhere in `dist/`, the new copy present
+twice in the prerendered HTML, **6** "Aug 21, 2026" chips + **1** "Aug 7, 2026" (WA), footer "last
+reviewed August 21, 2026", sitemap stamped `2026-08-21`, FAQPage JSON-LD 16 entries, and the
+Massachusetts "required only a helmet and a minimum age of 16" sentence still intact.
+
 ## August 18, 2026 law sync: no law changed; ILGA's scraper block found, and a stale citation corrected
 
 Folded into the same branch/PR as the 8/10 and 8/17 passes (PR #15 is still unmerged, so a second

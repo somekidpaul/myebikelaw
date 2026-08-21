@@ -214,3 +214,47 @@ describe('privacy copy stays true now that analytics is on', () => {
     expect(read('src/components/Faq.tsx')).toMatch(/Cloudflare Web Analytics/)
   })
 })
+
+describe('an informational card never claims a partial rule list is complete', () => {
+  // The UT card and the FAQ's Utah bullet each enumerated HB 381's new
+  // rider-facing rules and each said those were the ONLY ones. Both omitted
+  // Sec. 41-6a-1512, which from May 5, 2027 bars an under-16 rider from a
+  // highway unless they hold a safety certificate or ride supervised. The
+  // conclusion (no license/registration/insurance) was right; the list behind
+  // it was not. Same failure shape as every other defect this suite guards:
+  // one fact in two files with nothing keeping the copies equal.
+  const utah = PENDING_STATE_BILLS.find((b) => b.state === 'UT')
+  // Scope to the Utah bullet alone. Massachusetts' bullet legitimately says
+  // S 3077 "required only a helmet and a minimum age of 16", which is true of
+  // that bill; a whole-file scan would flag it. Same lesson as the rendered-copy
+  // guard: check the sentence that makes the claim, not the whole page.
+  const faqFlat = faqSource.replace(/\s+/g, ' ')
+  const utahStart = faqFlat.indexOf('<strong>Utah</strong>')
+  const faqText = faqFlat.slice(utahStart, faqFlat.indexOf('<li>', utahStart + 1))
+
+  it('the UT card and the FAQ Utah bullet both exist to check', () => {
+    expect(utah).toBeDefined()
+    expect(utahStart).toBeGreaterThan(-1)
+    expect(faqText).toContain('HB 381')
+    expect(faqText).not.toContain('Washington')
+  })
+
+  for (const [label, text] of [
+    ['the UT card oneLiner', utah?.oneLiner ?? ''],
+    ['the FAQ Utah bullet', faqText],
+  ] as const) {
+    it(`${label} does not call the safety-rule list exhaustive`, () => {
+      expect(text).not.toMatch(/only a helmet/i)
+      expect(text).not.toMatch(/only[^.]{0,40}helmet[^.]{0,60}drinking/i)
+    })
+  }
+
+  it('both copies carry the May 5, 2027 under-16 certificate rule', () => {
+    // Stated in Sec. 41-6a-1115.5(4) and again in Sec. 53-3-202(5)(b).
+    for (const text of [utah?.oneLiner ?? '', faqText]) {
+      expect(text).toMatch(/May 5, 2027/)
+      expect(text).toMatch(/safety certificate/i)
+      expect(text).toMatch(/supervision/i)
+    }
+  })
+})
