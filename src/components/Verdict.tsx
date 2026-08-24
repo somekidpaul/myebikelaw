@@ -592,6 +592,9 @@ function Citations({ compliance }: { compliance: Compliance }) {
                 "{c.quote}"
               </p>
             )}
+            {c.note && (
+              <p className="mt-1 text-[var(--color-ink-faint)]">{c.note}</p>
+            )}
           </li>
         ))}
       </ul>

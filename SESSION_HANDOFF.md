@@ -10,7 +10,7 @@ Reference doc for picking up in a new Claude Code session without losing context
   artifact on a portfolio piece. Keep it true.
 - **Auto-deploy:** every push to `main` → CI runs tests → if green, `cloudflare/wrangler-action@v3` ships `dist/`
 - **Status:** shipped, polished, every path empirically verified through the form on the live URL
-- **Tests:** 279 / 279 passing (Vitest) — engine, share round-trip, form logic, form inputs,
+- **Tests:** 299 / 299 passing (Vitest) — engine, share round-trip, form logic, form inputs,
   rendered verdict copy, and site consistency
 - **LinkedIn:** launch post PUBLISHED 2026-05-21 (meniscus origin + all 6 state statuses incl. CA "stalled in committee" + "91 test scenarios" — the post's count is a point-in-time number, the suite is now 117)
 
@@ -75,6 +75,130 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 7 | throttle 32mph 1000W | RECLASSIFIED as motorcycle |
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
+
+## August 24, 2026 (same day, second pass): "make everything 1:1 with the law"
+
+Paul asked for a full fidelity pass. Every tracked statute was re-read against its own enacted text
+and every claim the site makes was checked against it. **No rule, verdict, threshold, dollar figure,
+age, or date was wrong.** The engine is sound. What was wrong was the **citations**, and they are
+user-visible on every verdict.
+
+### ⛔ The site was showing riders paraphrases inside quotation marks
+
+`Verdict.tsx` renders `citation.quote` wrapped in literal `"` characters. So whatever sits in that
+field is a claim that the statute says exactly that. Most of New Jersey's did not:
+
+> `"No person under 15 may operate. 15-16 requires a motorized bicycle license/permit. 17+ requires a basic driver's license or motorized bicycle license/permit."`
+
+That is a summary someone wrote, shown to the rider as the text of the law. Worse, several appended
+**our own commentary inside the quote marks**, so the statute appeared to say:
+
+> `"... shall by regulation fix the amounts and limits of coverage of, and requirements for, such insurance. (The statute names no dollar figures. The regulation below does.)"`
+
+On a site whose entire product is neutral legal accuracy, that is the defect that matters most.
+
+**Fix:** `Citation` gains a `note` field for our own words, rendered **outside** the quotation marks.
+Every `quote` is now verbatim statutory text, with `...` marking real elisions.
+
+### ⛔ Five citations pointed at the wrong section of the act
+
+Read against the enacted R1a text, section by section:
+
+| Claim | Was cited as | Actually |
+|---|---|---|
+| Operator age and licence tiers | S4834 **§3** | **§5**, C.39:4-14.3(c)(1)-(3) |
+| Minimum operating age | S4834 **§3** | **§5**, C.39:4-14.3(c)(1) |
+| Rental licence exemption | S4834 **§3** | **§5**, C.39:4-14.3(c)(4) |
+| Low-speed electric **scooters** exempt | S4834 **§10** (the fee waiver) | **§3**, C.39:4-14.16(f)(1) |
+| Insurance not required for low-speed | S4834 **§5** | **§3**, C.39:4-14.16(f)(2) |
+| Six-month grace to get insurance | S4834 **§5** | **§11** |
+
+§3 is C.39:4-14.16, which is about where a low-speed e-bike may be ridden. The age and licence tiers
+were never in it. The registration citation also bundled three different sections under one label
+(§6 registration, §10 fee waiver, §7(b) quarterly reporting); it is now three separate citations.
+
+⭐ **One claim I expected to be wrong turned out to be right.** The old §6 quote asserted
+"Shared-rental companies may bulk-register quarterly in lieu of per-bike registration." The phrase
+"bulk" appears nowhere in the act and I went looking to delete it. **§7(b) says exactly that**, in
+different words: a shared-fleet company "may provide the serial number or other identifying numbers
+of each low-speed electric bicycle ... on a quarterly basis in lieu of registering each shared
+low-speed electric bicycle." The substance was right and the citation was wrong, which is the same
+shape as the Velosurance near-miss. Check the claim before deleting it.
+
+### Every rule re-verified against the enacted text, all correct
+
+| Rule | Source read | Result |
+|---|---|---|
+| Min age 15; 15-16 moped licence; 17+ basic **or** moped licence | §5, C.39:4-14.3(c)(1)-(3) | 1:1 |
+| Rental exemption, low-speed only, age 16+ | §5, C.39:4-14.3(c)(4) | 1:1 |
+| Registration binds low-speed **and** motorized | §6, C.39:4-14.3i | 1:1 |
+| Insurance binds motorized only | §11(a) + C.39:4-14.3e | 1:1 |
+| $15,000 / $30,000 / $5,000, and (b) pedestrian PIP | N.J.A.C. 11:3-11.1, read verbatim | 1:1 |
+| Fee waiver one year → 2027-01-19 | §10 | 1:1 |
+| Six-month grace → 2026-07-19 | §11 | 1:1 |
+| Conjunctive ">750 W **that is** capable of ... >28 mph" | R.S.39:1-1 as amended | 1:1 |
+| §4 pedestrian PIP reaches bicycle + low-speed only, eff. 1/1/2027 | §4 + §13 | 1:1 |
+
+**Hawaii was already almost exact.** Two quote-fidelity nits fixed: §249-14(b) silently dropped its
+final clause ("by a law enforcement officer or designated official pursuant to section 249-15") with
+no ellipsis, and the high-speed-device definition used `'single quotes'` where the statute uses
+`"double quotes"`. All five HI quotes were then confirmed character-for-character against the live
+CD1 text in a browser. **The conjunctive definition is confirmed again from the statute itself:**
+"any device with a motor exceeding seven hundred fifty watts **and** capable of speeds over
+twenty-eight miles per hour."
+
+**Utah and Washington were re-read in full this time** (this morning's pass had deliberately skipped
+them). Every card claim checked out 1:1, including UT 53-3-202(5)(c) ("may operate ... without: (i) a
+class D driver license; (ii) a motorcycle endorsement; or (iii) a personal electric vehicle safety
+certificate"), 41-6a-1512's $10 fee cap / $150 infraction cap / under-8 and under-16 rules, and
+41-6a-1505(3)'s rented-class-1 carve-out. ⭐ **WA ESSB 6110 contains the word "insurance" zero times**,
+and its only mentions of registration and licensing sit inside the *work group's* list of things to
+*study* for a future electric-motorcycle framework. Both cards' informational classification is
+correct, so **UT and WA `lastVerified` legitimately move to 2026-08-24** along with the other five.
+
+### The guard: `citation-fidelity.test.tsx`
+
+Data-only assertions would not have caught this, because the data looked fine until it was wrapped in
+quotation marks. So the guard works on both levels:
+
+- **Fetchable sources (NJ):** the enacted text is stored in `__fixtures__/nj-s4834-enacted.txt` with
+  struck-through material removed so it reads as enacted law. Every quote must appear in it verbatim.
+  Ellipses and bracketed substitutions are treated as gaps; the fragments around them still must match.
+- **Unfetchable sources (HI):** capitol.hawaii.gov 403s curl **and** WebFetch, so those quotes live in
+  `__fixtures__/verified-quotes.json` alongside the **SHA-256 of the enacted text they were checked
+  against** (`9ab9c0de…`). Editing a quote turns the suite red until someone re-reads the statute.
+- A **rendered** check: renders the real `<Verdict>` and asserts the note text is NOT inside quote marks.
+- A commentary sniff test: statutes do not say "your", "we", or "this site".
+
+⚠️ **Two normalization traps found while building it.** The reprint leaves stray spaces before
+punctuation once struck text is removed ("motorized bicycle . (2)", "R.S. 39:1-1 ,"), which is markup
+noise, not different wording. And the source is **cp1252**, not UTF-8; decoding it as UTF-8 turns
+every apostrophe into a replacement character and "driver's license" silently becomes "driver s
+license". Both are handled in `normalize()` and in the fixture build.
+
+**Falsified five ways, every one caught:** restoring the old paraphrase quote → red; putting our
+commentary back inside the quote marks → red; altering a Hawaii quote away from the manifest → red;
+re-wrapping `note` in quotation marks in the component → red; reverting one section label to §3 → red.
+Restored, **299 green**. 16 real per-quote checks run, and a test asserts the set is non-empty so a
+silent empty pass cannot look like success.
+
+### Also, at Paul's request: "The law (NJ MVC)" removed from the nav
+
+The header carried a hardcoded link to New Jersey's MVC page on every page, including Hawaii's. The
+site tracks seven states now. Removed. **The statute-specific authority link is untouched** in the
+verdict disclaimer and the registration remedy, where it correctly resolves per jurisdiction (NJ MVC
+for NJ, the county director of finance for HI).
+
+### Changes in this commit
+
+`Citation` gains `note`; `Verdict.tsx` renders it outside the quotation marks; all NJ citation
+sections corrected and all NJ quotes replaced with verbatim text; registration split into §6 / §10 /
+§7(b); two HI quotes made exact; UT and WA `lastVerified` → `2026-08-24` after a full re-read; the
+NJ-only nav link removed; new fixtures and `citation-fidelity.test.tsx`. **299 tests green**, tsc
+clean, build + prerender green. Built artifact: **7** "Aug 24, 2026" chips, footer "last reviewed
+August 24, 2026", sitemap `2026-08-24`, FAQPage JSON-LD 16 entries, and **zero** occurrences anywhere
+in `dist/` of the old wrong section labels, the paraphrase quotes, the in-quote commentary, the
+"bulk-register" wording, or the removed nav link.
 
 ## August 24, 2026 law sync (Monday): no law changed; Illinois is 5 days from becoming law by default
 

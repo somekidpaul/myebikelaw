@@ -90,7 +90,7 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     requirementHints: [],
     proposedEffectiveDate: '2026-05-06',
     sourceUrl: 'https://le.utah.gov/Session/2026/bills/enrolled/HB0381.pdf',
-    lastVerified: '2026-08-21',
+    lastVerified: '2026-08-24',
   },
   {
     state: 'WA',
@@ -106,6 +106,6 @@ export const PENDING_STATE_BILLS: ReadonlyArray<PendingStateBill> = [
     proposedEffectiveDate: '2026-06-11',
     sourceUrl:
       'https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bills/Session%20Laws/Senate/6110-S.SL.pdf',
-    lastVerified: '2026-08-07',
+    lastVerified: '2026-08-24',
   },
 ]

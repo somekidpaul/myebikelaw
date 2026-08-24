@@ -115,34 +115,44 @@ export const NJ_S4834: StatutoryRequirement = {
     },
     citations: [
       {
-        statute: 'S4834 §5 — insurance for a motorized bicycle',
+        statute: 'S4834 §11 — six-month grace period to obtain insurance',
         url: billText,
         quote:
-          'A person shall have six months following the effective date to obtain insurance for a motorized bicycle. (Insurance is not enumerated as a requirement for a low-speed electric bicycle.)',
+          'A person shall have six months following the effective date ... to obtain: a. insurance for a motorized bicycle that was not required to have insurance prior to the effective date ...',
+        note:
+          'Only a motorized bicycle is named. The act nowhere requires insurance for a low-speed electric bicycle; §3 (C.39:4-14.16(f)(2)) requires that rider to register and to hold a license, and stops there.',
       },
       {
         statute: 'C.39:4-14.3e (the policy requirement, and who sets the amounts)',
         url: 'https://law.justia.com/codes/new-jersey/title-39/section-39-4-14-3e/',
         quote:
-          'Every owner of a motorized bicycle principally garaged or operated in this State... shall maintain liability insurance coverage... insuring against loss resulting from liability imposed by law for bodily injury, death and property damage... The Commissioner of Insurance, in consultation with the Director of the Division of Motor Vehicles, shall by regulation fix the amounts and limits of coverage of, and requirements for, such insurance. (The statute names no dollar figures. The regulation below does.)',
+          "Every owner of a motorized bicycle principally garaged or operated in this State and every person in the business of renting motorized bicycles shall maintain liability insurance coverage, under provisions approved by the Commissioner of Insurance, insuring against loss resulting from liability imposed by law for bodily injury, death and property damage sustained by any person arising out of the ownership, operation or use of a motorized bicycle. The Commissioner of Insurance, in consultation with the Director of the Division of Motor Vehicles, shall by regulation fix the amounts and limits of coverage of, and requirements for, such insurance.",
+        note:
+          'This statute names no dollar figures. It delegates them to the regulation below.',
       },
       {
         statute: 'N.J.A.C. 11:3-11.1 (the regulation that fixes the amounts)',
         url: 'https://www.law.cornell.edu/regulations/new-jersey/N-J-A-C-11-3-11-1',
         quote:
-          'No policy... arising out of the ownership, operation or use of a motorized bicycle as defined in N.J.S.A. 39:1-1... shall be issued... unless it includes coverage... [of] $15,000... on account of injury to, or death of, one person, in any one accident; and... $30,000... on account of injury to or death of more than one person, in any one accident... [and] $5,000 in the aggregate for damage to property of others resulting from one accident.',
+          "No policy insuring against loss resulting from liability imposed by law for bodily injury, death and property damage sustained by any person arising out of the ownership, operation or use of a motorized bicycle as defined in N.J.S.A. 39:1-1, as amended, shall be issued in the State to the owner (or parent or guardian of an owner under 18 years of age) of any motorized bicycle principally garaged or operated in this State unless it includes coverage for the owner and operator in the following minimum amounts or limits. 1. Bodily injury; i. An amount or limit of $15,000, exclusive of interest and costs, on account of injury to, or death of, one person, in any one accident; and ii. An amount or limit, subject to such limit for any one person so injured or killed, of $30,000, exclusive of interest and costs, on account of injury to or death of more than one person, in any one accident. 2. Property damage: An amount or limit of $5,000 in the aggregate for damage to property of others resulting from one accident.",
+        note:
+          'This is the regulation S4834 ultimately points to, and it is where the $15,000 / $30,000 / $5,000 figures come from.',
       },
       {
         statute: 'N.J.A.C. 11:3-11.1(b): pedestrian PIP is built into the policy',
         url: 'https://www.law.cornell.edu/regulations/new-jersey/N-J-A-C-11-3-11-1',
         quote:
-          "Every liability insurance policy as described in (a) above... shall provide personal injury protection coverage benefits, in accordance with N.J.S.A. 39:6A-4, to pedestrians who sustain bodily injury in this State caused by the named insured's motorized bicycle. (Your insurer must include this at the statutory schedule. There is no limit for you to choose, which is why the form does not ask.)",
+          "Every liability insurance policy as described in (a) above, issued or renewed on or after April 22, 1985, shall provide personal injury protection coverage benefits, in accordance with N.J.S.A. 39:6A-4, to pedestrians who sustain bodily injury in this State caused by the named insured's motorized bicycle or caused by being struck by or from the motorized bicycle.",
+        note:
+          'Your insurer must build this in at the statutory schedule. There is no limit for you to pick, which is why the form does not ask for one.',
       },
       {
         statute: 'S4834 §4 / C.39:6A-4.8 (a separate, later pedestrian-PIP change to AUTO policies)',
         url: billText,
         quote:
-          "\"'Pedestrian' shall include any person operating a bicycle or low-speed electric bicycle... the injury or death shall be covered by the pedestrian's personal injury coverage.\" Takes effect for standard auto policies issued or renewed on or after January 1, 2027. This one rides on the injured rider's OWN auto policy and covers bicycle and low-speed e-bike riders. It is not the same as the pedestrian PIP your motorized-bicycle policy must carry under N.J.A.C. 11:3-11.1(b).",
+          `"Pedestrian" shall include any person operating a bicycle or low-speed electric bicycle, as those terms are defined in R.S.39:1-1. ... If a pedestrian is involved in an accident resulting in injury or death to the pedestrian, the injury or death shall be covered by the pedestrian's personal injury coverage in accordance with section 4 of P.L.1972, c.70 (C.39:6A-4).`,
+        note:
+          "Per §13 this section takes effect on the first day of the 12th month after enactment, so it applies to standard automobile policies issued or renewed on or after January 1, 2027. It rides on the injured rider's OWN auto policy and reaches bicycle and low-speed e-bike riders, not motorized-bicycle riders. It is not the same thing as the pedestrian PIP a motorized-bicycle policy must carry under N.J.A.C. 11:3-11.1(b).",
       },
     ],
   },
@@ -156,10 +166,24 @@ export const NJ_S4834: StatutoryRequirement = {
     feeWaiverUntil: '2027-01-19',
     citations: [
       {
-        statute: 'S4834 §6 — registration requirement',
+        statute: 'S4834 §6 — C.39:4-14.3i (registration requirement)',
         url: billText,
         quote:
-          'No low-speed electric bicycle or motorized bicycle shall be operated on the public highways unless registered. The Motor Vehicle Commission shall waive all examination, registration, and licensing fees for one year following the effective date. Shared-rental companies may bulk-register quarterly in lieu of per-bike registration.',
+          'no low-speed electric bicycle or motorized bicycle, as those terms are defined by R.S. 39:1-1, shall be operated on the public highways or on public lands of this State unless registered by the owner thereof as provided by this act ...',
+      },
+      {
+        statute: 'S4834 §10 — one-year fee waiver',
+        url: billText,
+        quote:
+          'Notwithstanding any law, rule, or regulation to the contrary, for one year following the effective date ... the New Jersey Motor Vehicle Commission shall waive all examination, registration, and licensing fees required pursuant to [this act] for the operation of low-speed electric bicycles and motorized bicycles.',
+        note:
+          'The act took effect January 19, 2026, so the waiver runs through January 19, 2027.',
+      },
+      {
+        statute: 'S4834 §7(b) — shared-rental fleets report quarterly instead of registering each bike',
+        url: billText,
+        quote:
+          'a company operating shared low-speed electric bicycles under a contract with a local government may provide the serial number or other identifying numbers of each low-speed electric bicycle owned by the company to the commission on a quarterly basis in lieu of registering each shared low-speed electric bicycle.',
       },
       { statute: 'NJ MVC e-bike requirements page', url: mvcPage },
     ],
@@ -176,10 +200,10 @@ export const NJ_S4834: StatutoryRequirement = {
     rentalExemptionMinAge: years(16),
     citations: [
       {
-        statute: 'S4834 §3 — operator age and licensing',
+        statute: 'S4834 §5 — C.39:4-14.3(c) (operator age and licensing)',
         url: billText,
         quote:
-          'No person under 15 may operate. 15-16 requires a motorized bicycle license/permit. 17+ requires a basic driver\'s license or motorized bicycle license/permit. Renters of shared low-speed electric bicycles are exempt if the operator is 16 or older.',
+          "(1) No person who is under 15 years of age shall be permitted to operate a low-speed electric bicycle or motorized bicycle. (2) No person who is 17 years of age or older shall be permitted to operate a low-speed electric bicycle or motorized bicycle, unless the person shall be in possession of a valid basic driver's license or a valid motorized bicycle license or permit. (3) No person who is 15 years of age or older but under the age of 17 shall be permitted to operate a low-speed electric bicycle or motorized bicycle, unless the person shall be in possession of a valid motorized bicycle license or permit issued pursuant to subsection d. of this section.",
       },
     ],
   },
@@ -190,10 +214,10 @@ export const NJ_S4834: StatutoryRequirement = {
       minAge: years(15),
       citations: [
         {
-          statute: 'S4834 §3 — operator age and licensing',
+          statute: 'S4834 §5 — C.39:4-14.3(c)(1) (minimum operating age)',
           url: billText,
           quote:
-            'No person under 15 may operate. 15-16 requires a motorized bicycle license/permit. 17+ requires a basic driver\'s license or motorized bicycle license/permit.',
+            'No person who is under 15 years of age shall be permitted to operate a low-speed electric bicycle or motorized bicycle.',
         },
       ],
     },
@@ -211,7 +235,7 @@ export const NJ_S4834: StatutoryRequirement = {
           statute: 'S4834 — electric motorized bicycle definition',
           url: billText,
           quote:
-            'Electric motorized bicycle: any two-wheeled vehicle with fully operable pedals and an electric motor capable of greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour.',
+            '"Electric motorized bicycle" means any two-wheeled vehicle with fully operable pedals and an electric motor capable of greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour.',
         },
         {
           statute: 'NJ MVC motorcycle requirements',
@@ -225,17 +249,34 @@ export const NJ_S4834: StatutoryRequirement = {
     {
       description:
         'Low-speed electric scooters are fully exempt from registration and licensing.',
-      citation: { statute: 'S4834 §10', url: billText },
+      citation: {
+        statute: 'S4834 §3 — C.39:4-14.16(f)(1)',
+        url: billText,
+        quote:
+          "The operator of a low-speed electric scooter shall not be required to register the low-speed electric scooter or have a driver's license.",
+      },
     },
     {
       description:
-        'Operators of rental shared low-speed electric bicycles do not need a license if they are 16 or older and the operator is contracted with a local government.',
-      citation: { statute: 'S4834 §3', url: billText },
+        'Operators of rental shared low-speed electric bicycles do not need a license if they are 16 or older and the company is contracted with a local government.',
+      citation: {
+        statute: 'S4834 §5 — C.39:4-14.3(c)(4)',
+        url: billText,
+        quote:
+          "Notwithstanding anything to the contrary herein, the operator of a low-speed electric bicycle shall not be required to be in possession of a valid basic driver's license or valid motorized bicycle license or permit if the operator is renting a low-speed electric bicycle from a company operating shared low-speed electric bicycles under a contract with a local government, provided that the company requires the operator to be 16 years of age or older.",
+      },
     },
     {
       description:
         'Insurance is NOT required for low-speed electric bicycles (pedal-assist, motor cuts at 20 mph) per the bill — only motorized bicycles need insurance.',
-      citation: { statute: 'S4834 §5', url: billText },
+      citation: {
+        statute: 'S4834 §3 — C.39:4-14.16(f)(2)',
+        url: billText,
+        quote:
+          "The operator of a low-speed electric bicycle shall be required to register the low-speed electric bicycle and have a driver's license to operate the low-speed electric bicycle pursuant to section 2 of P.L.1975, c.250 (C.39:4-14.3).",
+        note:
+          'Registration and a license, and nothing else. The insurance duty sits in C.39:4-14.3e, which reaches only a motorized bicycle.',
+      },
     },
   ],
 }

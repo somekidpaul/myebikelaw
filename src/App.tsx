@@ -203,13 +203,6 @@ function SiteHeader({ onHowItWorks }: { onHowItWorks: () => void }) {
         >
           How it works
         </a>
-        <a
-          href="https://www.nj.gov/mvc/vehicletopics/ebike.htm"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          The law (NJ MVC)
-        </a>
       </nav>
     </header>
   )
