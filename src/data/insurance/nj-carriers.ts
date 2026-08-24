@@ -21,7 +21,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://velosurance.com/usa/new-jersey/',
     source: {
       url: 'https://velosurance.com/usa/new-jersey/',
-      lastVerified: '2026-08-17',
+      lastVerified: '2026-08-24',
     },
   },
   {
@@ -44,7 +44,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://quote.sundaysinsurance.com/',
     source: {
       url: 'https://sundaysinsurance.com/faq',
-      lastVerified: '2026-08-17',
+      lastVerified: '2026-08-24',
     },
   },
   {
@@ -52,7 +52,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     name: 'VOOM Insurance',
     underwriter: 'Markel American Insurance Co. (A.M. Best A)',
     oneLiner:
-      "Still pre-launch in NJ as of August 17, 2026, waitlist only, and the compliance deadline has already passed. VOOM's NJ S4834 guide still promises coverage \"launching soon\" but they aren't writing e-bike policies in the state yet. Their motorcycle product is active. Heads up: that guide also states the minimum as $35,000 bodily injury, which is the automobile figure, not what the regulation requires of a motorized bicycle.",
+      "Still pre-launch in NJ as of August 24, 2026, waitlist only, and the compliance deadline has already passed. VOOM's NJ S4834 guide still promises coverage \"launching soon\" but they aren't writing e-bike policies in the state yet. Their motorcycle product is active. Heads up: that guide also states the minimum as $35,000 bodily injury, which is the automobile figure, not what the regulation requires of a motorized bicycle.",
     jurisdictions: ['NJ'],
     pricing: {
       kind: 'starting',
@@ -69,7 +69,7 @@ export const NJ_CARRIERS: ReadonlyArray<CarrierEntry> = [
     quoteUrl: 'https://www.voominsurance.com/blog/nj-ebike-insurance-legislation-guide-2026',
     source: {
       url: 'https://www.voominsurance.com/blog/nj-ebike-insurance-legislation-guide-2026',
-      lastVerified: '2026-08-17',
+      lastVerified: '2026-08-24',
     },
   },
 ]
