@@ -76,6 +76,84 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## August 26, 2026 law sync (Wednesday): no law changed; Illinois is 3 days from becoming law by default
+
+Folded into the same branch/PR as the 8/10 → 8/24 passes (PR #15 is still unmerged, so a second draft
+off an unmerged base would stack reviews). **No statute, bill, or effective date changed in any
+tracked state.** Carriers were not re-checked (Wednesday, outside the Monday cadence and outside the
+July 19 window), so all three stay `2026-08-24`.
+
+### Illinois: a fresher control, and the deadline is now three days out
+
+The 8/24 run proved SB 3484 is genuinely stalled by pairing its frozen status file against a control
+bill whose file had just been rewritten. That control is now four days old, so this run took a newer
+one. The General Assembly published **Public Act 104-0853 on August 25, 2026** (its file is stamped
+`8/25/2026 2:37 PM`), and reading the act itself, it is **SB 3086**, not SB 3484:
+
+| Evidence | Value |
+|---|---|
+| Public Act files in the 104th GA repository | **854** (was 852 on 8/24) |
+| Newest act, 104-0853, file timestamp | **8/25/2026 2:37 PM** |
+| 104-0853's own text | "Public Act 104-0853 SB3086 Enrolled" |
+| Occurrences of "3484" in 104-0853 | **0** |
+| SB 3484 status XML, `Last-Modified` | **still Wed, 01 Jul 2026 04:20:42 GMT** |
+| SB 3484, last action | still "Sent to the Governor", 6/30/2026 (78 action rows) |
+| SB 3484, occurrences of "public act" / "veto" | **0 / 0** |
+
+The publishing pipeline moved as recently as yesterday and SB 3484 is still not in it. The 60-day
+clock under Illinois Constitution Art. IV, Sec. 9 runs to **August 29, 2026**.
+
+⛔ **The schedule problem flagged on 8/24 is now imminent and still needs Paul's call.** The cron is
+`0 13 * * 1-5`, August 29 is a **Saturday**, and the last weekday run before it is **Friday August
+28**. The next run after the deadline is **Monday August 31**, which must move the IL card off
+"awaiting governor". Nothing in the schedule was changed unilaterally.
+
+The IL card's `details` was updated to cite the August 25 control and to date itself August 26.
+`details` is dead data (rendered nowhere), so this is data accuracy only, not user-visible.
+
+### ⭐ California AB 2346 was presented to the Governor yesterday
+
+Not a site change — AB 2346 is deliberately untracked (the 8/21 pass read its operative text and
+found "insurance" 0, "registration" 0, "driver's license" 0, "license plate" 0) — but the watch item
+moved. leginfo's status table now shows **"08/25/26 Enrolled and presented to the Governor at 4
+p.m."**, one step past the 8/19 concurrence vote the last run recorded. Status is still
+`Active Bill - Enrolled`: **0** "Chaptered", **0** "Vetoed", **0** "Approved by the Governor". Under
+Cal. Const. Art. IV, Sec. 10(b) the Governor has 12 days from presentment, so a signature, a veto, or
+a becomes-law-unsigned outcome lands around **September 6, 2026**. The ruling-out holds either way;
+re-apply the informational-card test only if it is signed and coverage starts framing it as a
+license/registration crackdown.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov`. Conjunctive, verbatim: "an electric motor capable of greater than 750 watts **that is** capable of reaching a speed greater than 28 miles per hour". **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**, the premise the N.J.A.C. 11:3-11.1 chain rests on. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to 8/18, 8/21 and 8/24); **18** e-bike/scooter/moped-adjacent; **none** with a `GovernorAction`; **0** synopses mentioning 4834 or c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still the two rows ending "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| IL SB 3484 | Unchanged. **See the control evidence above** |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." Unchanged |
+| CA AB 2346 | **Presented to the Governor 8/25/2026.** Untracked; see above |
+| FL CS/SB 382 | "Vetoed by Governor" stands; **0** chapter-law citations, **0** "Override". Unchanged |
+| MA S 3077 | Still exactly **5** action rows, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action dates, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT's page: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s** WebFetch, as documented |
+| HI county guidance | Honolulu CSD's bicycle registration page still lists only the generic **$30** e-bike / **$15** pedal fee, with **0** mentions of Act 259 or HB 2021 and no register-before-you-ride rule. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None.** The national scan surfaced only NJ/HI/UT/WA coverage already tracked, plus **San Diego Ordinance O-22123** (under-12 ban on Class 1 and 2, effective 8/13/2026) — a **municipal** ordinance and an age rule, not license, registration, or insurance. No card |
+| Carriers | **Not re-checked.** Wednesday, outside the Monday cadence and the July 19 window. All 3 stay `2026-08-24` |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ "DEADLINE PASSED" ×1, "January 19, 2027" fee-waiver copy ×1, **0** calendar buttons, **0** "days to comply" countdowns; "IN EFFECT" ×4 with **0** "Not in effect yet" banners. Live still serves main from 8/7 (footer "last reviewed August 7, 2026", 7 chips at "Aug 7, 2026"), because everything since sits in the unmerged PR #15 |
+
+### Changes in this commit
+
+IL card `details` rewritten around the August 25 control; the **5** cards actually re-checked
+(CA/FL/IL/MA/NY) bumped to `2026-08-26`; **UT and WA left at `2026-08-24`**; carrier dates untouched;
+footer and sitemap to August 26, 2026. **299 tests green**, build + prerender green. **The sitemap
+date guard was falsified before being trusted:** reverting `public/sitemap.xml` alone goes red with
+`expected '2026-08-24' to be '2026-08-26'`; restored, 299 green. Built artifact verified: **5**
+"Aug 26, 2026" chips + **2** "Aug 24, 2026" (UT/WA), footer "last reviewed August 26, 2026", sitemap
+stamped `2026-08-26`, FAQPage JSON-LD 16 entries, `104-0853` present once in the bundle, and **0**
+occurrences of `104-0837` or "As of August 24, 2026".
+
 ## August 24, 2026 (same day, second pass): "make everything 1:1 with the law"
 
 Paul asked for a full fidelity pass. Every tracked statute was re-read against its own enacted text
