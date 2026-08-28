@@ -258,3 +258,58 @@ describe('an informational card never claims a partial rule list is complete', (
     }
   })
 })
+
+describe('an enacted bill is never still described as awaiting a governor', () => {
+  // Illinois SB 3484 sat with Governor Pritzker for 57 days. He signed it on
+  // August 26, 2026 (Public Act 104-0854, effective January 1, 2027). The
+  // status lived in two files, and the card additionally drives a rendered
+  // chip: Splash keys "Effective:" vs "If signed:" off status === 'enacted',
+  // so a stale status would have told riders a law in force was still a maybe.
+  // Same failure shape this suite exists for: one fact in two files with
+  // nothing keeping the copies equal.
+  const il = PENDING_STATE_BILLS.find((b) => b.state === 'IL')
+  // Scope to the Illinois bullet alone, per the Utah lesson above: check the
+  // sentence that makes the claim, not the whole page.
+  const faqFlat = faqSource.replace(/\s+/g, ' ')
+  const ilStart = faqFlat.indexOf('<strong>Illinois</strong>')
+  const faqText = faqFlat.slice(ilStart, faqFlat.indexOf('<li>', ilStart + 1))
+
+  it('the IL card and the FAQ Illinois bullet both exist to check', () => {
+    expect(il).toBeDefined()
+    expect(ilStart).toBeGreaterThan(-1)
+    expect(faqText).toContain('SB 3484')
+    expect(faqText).not.toContain('Massachusetts')
+  })
+
+  it('the IL card is marked enacted so the card renders "Effective:", not "If signed:"', () => {
+    expect(il?.status).toBe('enacted')
+    expect(il?.statusLabel).not.toMatch(/awaiting|pending governor/i)
+    expect(il?.proposedEffectiveDate).toBe('2027-01-01')
+  })
+
+  for (const [label, text] of [
+    ['the IL card', `${il?.oneLiner ?? ''} ${il?.details ?? ''}`],
+    ['the FAQ Illinois bullet', faqText],
+  ] as const) {
+    it(`${label} says it was signed and names the Public Act`, () => {
+      expect(text).toMatch(/August 26, 2026/)
+      expect(text).toMatch(/104-0854/)
+      expect(text).not.toMatch(/awaits Governor|awaiting governor/i)
+      expect(text).not.toMatch(/if signed/i)
+    })
+
+    it(`${label} still says it adds no license, registration, or insurance`, () => {
+      // Scope discipline: the act binds only motor driven cycles (>750W, or
+      // any e-bike that is not a low-speed electric bicycle). Verified against
+      // the enacted Public Act text with struck material removed: zero
+      // sentences place such a duty on a low-speed electric bicycle.
+      expect(text).toMatch(/does NOT (add|require)/i)
+      expect(text).toMatch(/registration/i)
+      expect(text).toMatch(/insurance/i)
+    })
+  }
+
+  it('Illinois carries no rider requirement hints', () => {
+    expect(il?.requirementHints).toEqual([])
+  })
+})

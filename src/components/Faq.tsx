@@ -114,13 +114,16 @@ const GENERAL: ReadonlyArray<QA> = [
             3336, but that bill stalled at Senate concurrence (its May 29, 2026
             concurrence vote was never taken) and is dead for the session. The
             final language was carried by SB 3484, which passed both chambers on
-            June 1, 2026 (House 84-16; Senate 48-7) and now awaits Governor
-            Pritzker. Despite news reports, it does NOT require a license,
-            registration, or insurance for normal e-bikes — for Class 1/2/3 it
-            adds only a minimum riding age (15, or 16 for Class 3). Those
-            vehicle rules apply only to devices over 28 mph (or over 750 W),
-            which Illinois already treats as motor-driven cycles. Effective
-            January 1, 2027 if signed.
+            June 1, 2026 (House 84-16; Senate 48-7). Governor Pritzker{' '}
+            <strong>signed it on August 26, 2026</strong>, so it is now Public
+            Act 104-0854 and takes effect January 1, 2027. Despite news reports,
+            it does NOT require a license, registration, or insurance for normal
+            e-bikes — for Class 1/2/3 it adds only a minimum riding age (15, or
+            16 for Class 3). Those vehicle rules apply only to devices over 28
+            mph (or over 750 W), which Illinois already treats as motor-driven
+            cycles. It also removes low-speed e-bikes from the list of vehicles
+            an Illinois town may require riders to register, so it narrows
+            e-bike paperwork rather than adding any.
           </li>
           <li>
             <strong>Massachusetts</strong> — S 3077 (Ride Safe Act), filed by

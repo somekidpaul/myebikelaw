@@ -8,9 +8,9 @@
  * a month apart. scripts/prerender.mjs now stamps the sitemap from this value at
  * build time, and site-consistency.test.ts fails if they ever disagree again.
  */
-export const LAST_REVIEWED = '2026-08-26'
+export const LAST_REVIEWED = '2026-08-28'
 
-/** "August 26, 2026" — the footer's display form. Parsed as UTC so the
+/** "August 28, 2026" — the footer's display form. Parsed as UTC so the
  *  rendered date never shifts by a day depending on the reader's timezone. */
 export function formatLastReviewed(iso: string = LAST_REVIEWED): string {
   return new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', {

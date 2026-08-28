@@ -76,6 +76,142 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## August 28, 2026 law sync (Friday): ⭐ ILLINOIS BECAME LAW. SB 3484 signed August 26 as Public Act 104-0854
+
+Folded into the same branch/PR as the 8/10 → 8/26 passes (PR #15 is still unmerged, so a second draft
+off an unmerged base would stack reviews). **This is the first run since 2026-08-03 where a tracked
+bill actually changed status.** Everything else in every other tracked state is unchanged.
+
+### ⭐ The Illinois watch item resolved, two days before the deadline the schedule could not see
+
+Prior runs had this exactly right and the reasoning held all the way to the end: SB 3484 was going to
+become law on or before **August 29, 2026** under Ill. Const. Art. IV, Sec. 9 whether or not Pritzker
+signed it. He signed it. The 8/24 and 8/26 runs both flagged that the cron (`0 13 * * 1-5`) could not
+land on August 29 (a Saturday). **That worry turned out not to matter: the Governor acted on
+Wednesday August 26, and this Friday run caught it three days early.** No weekend run was needed.
+
+⚠️ Worth keeping: **the 8/26 run was not wrong to report "still awaiting governor."** He signed on
+8/26, but ILGA's nightly sync did not rewrite the bill's status file until **Thu, 27 Aug 2026
+04:20:39 GMT**. The routine read the truth that was published at the time it ran.
+
+| Evidence | Value |
+|---|---|
+| SB 3484 status XML, `Last-Modified` | **Thu, 27 Aug 2026 04:20:39 GMT** (was frozen at 1 Jul 2026 for eight weeks) |
+| Action rows | **81** (was 78 on 8/26) |
+| The three new rows, all dated **8/26/2026** | "Governor Approved", "Effective Date January 1, 2027", "Public Act . . . 104-0854" |
+| Occurrences of "public act" in the status record | **2** (was 0) |
+| Occurrences of "veto" | **0** |
+| Public Act file `104-0854.htm`, `Last-Modified` | **Wed, 26 Aug 2026 20:58:58 GMT** |
+| Its own first line | "Public Act 104-0854 **SB3484** Enrolled" |
+
+Corroborated independently by the **Illinois Secretary of State's own newsroom** (August 26, 2026,
+"Giannoulias' Landmark Micromobility Safety Legislation Signed into Law").
+
+### ⛔ The scope-discipline read was redone against the ENACTED act, and a flattening trap nearly inverted it
+
+The card's whole claim is that Illinois adds nothing for ordinary e-bikes. That claim was previously
+verified against the *bill*; it is now law, so it was re-read against **Public Act 104-0854 itself**.
+
+⚠️ **The trap: stripping HTML tags from an ILGA act silently promotes struck-through text into the
+operative law.** A first pass on the flattened text appeared to show Sec. 11-208(8) letting local
+authorities require "the registration and licensing" of low-speed electric bicycles, which would have
+been a brand-new (if local) registration power worth flagging to riders. Reading the **markup**
+instead showed `<strike>, low-speed electric bicycles, and low-speed gas bicycles,</strike>` — the act
+**REMOVES** them. As enacted the provision reads "mobile carrying devices and bicycles". **Illinois
+municipalities lost, rather than gained, the power to make riders register a low-speed e-bike.**
+
+This is the same normalization discipline already written down for the NJ fixture (`citation-fidelity`
+strips struck material before comparing). Applied here, the finding flips from "a new local
+registration power" to "a narrowing of e-bike paperwork", which is the opposite conclusion.
+
+With struck material removed, the enacted act was swept again:
+
+| Check against enacted PA 104-0854 | Result |
+|---|---|
+| Sentences imposing register / title / insure / driver's-license duty on a **low-speed electric bicycle** | **ZERO** |
+| Sec. 1-146 "motor vehicle" | expressly **EXCLUDES** low-speed electric bicycles, so Sec. 7-601's mandatory liability insurance (which binds "a motor vehicle") cannot reach them |
+| Sec. 1-140.10 | "A 'low-speed electric bicycle' is not a moped or a motor driven cycle. Any electric bicycle that is not a low-speed electric bicycle shall be considered a motor driven cycle" |
+| Sec. 1-145.001 "motor driven cycle" | includes an electric motor "greater than 750 watts but less than or equal to 8,000 watts" — confirms the card's 750/8,000 figures |
+| Sec. 11-1517 | "Every owner of a motor driven cycle is subject to the mandatory insurance requirements specified in Article VI of Chapter 7" — binds **motor driven cycles only** |
+| Age rule, verbatim | "may operate a Class 1 or Class 2 low-speed electric bicycle only if the person is 15 years of age or older … a Class 3 … 16 years of age or older" — card's "15+, or 16+ for Class 3" is 1:1 |
+| Home rule | Sec. 11-1517 denies home-rule units concurrent power over electric micromobility devices |
+
+**Verdict unchanged: `requirementHints: []`, informational/gray card.** The conclusion the routine has
+carried since June is confirmed against the law as enacted.
+
+⚠️ **Coverage is blurring it exactly as predicted.** Insurance Journal (8/28) ran "New Illinois Law
+Requires Insurance for High-Speed E-Bikes" and wrote that "Illinois joins New Jersey as the only
+states to require insurance for high-speed e-bikes." That sentence is *true* but reads as equivalence,
+and the two states are not equivalent: **New Jersey binds ordinary low-speed e-bikes and Illinois does
+not.** The card and the FAQ now say so in as many words.
+
+### Changes in this commit
+
+IL card `status` `passed-both-chambers` → **`enacted`**, `statusLabel` → "Enacted; effective January 1,
+2027", `oneLiner` and `details` rewritten around the signing, and `sourceUrl` repointed from the
+ilga.gov BillStatus page (which blocks automated requests) to the **Public Act itself**. The FAQ
+Illinois bullet rewritten to match. `index.html` needed **no** change (it carries no hard-coded IL
+status, only a state list). The **5** cards actually re-checked (CA/FL/IL/MA/NY) bumped to
+`2026-08-28`; **UT and WA left at `2026-08-24`** (enrolled texts not re-read this run); carrier dates
+untouched (Friday, outside the Monday cadence and the July 19 window); footer and sitemap to
+August 28, 2026.
+
+⭐ **The status flip is user-visible beyond the eyebrow.** `Splash.tsx` keys the effective-date chip off
+`status === 'enacted'`, so the card moves from "**If signed:** Jan 1, 2027" to "**Effective:** Jan 1,
+2027". That is the exact bug the 8/10 pass fixed in the other direction, and it now resolves correctly
+on its own.
+
+### New guard: an enacted bill is never still described as awaiting a governor
+
+Same failure shape this suite exists for: the Illinois status lived in two files with nothing keeping
+the copies equal, and it additionally drives a rendered chip. Seven assertions in
+`site-consistency.test.ts` pin the card and the FAQ bullet to the signing date and the Public Act
+number, forbid "awaits Governor" / "if signed" in either, require both to keep the no-license /
+no-registration / no-insurance claim, and pin `requirementHints` to `[]`.
+
+**Falsified four ways, every one caught:** reverting the card `status` → red; reverting the FAQ bullet
+to "awaits Governor Pritzker" → red; flipping the oneLiner to claim Illinois extends the requirements
+to low-speed e-bikes → red; sneaking `requirementHints: ['registration']` onto the card → red.
+Restored, **306 green** (was 299).
+
+### Every other tracked item re-verified against a primary source, all unchanged
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov`. **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**. Conjunctive phrase "greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour" present. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to 8/18, 8/21, 8/24 and 8/26); **20** e-bike/scooter/moped-adjacent; **none** with a `GovernorAction`; **0** synopses mentioning 4834 or c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows ending "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." **0** "Chaptered", **0** "Vetoed". Unchanged |
+| CA AB 2346 | Untracked watch item, still open. Enrolled, "presented to the Governor" ×1, **0** Chaptered / **0** Vetoed / **0** Approved by the Governor. Presented 8/25, so the Art. IV Sec. 10(b) 12-day clock still runs to about **September 6, 2026** |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** chapter-law citations, **0** "Override". Unchanged |
+| MA S 3077 | Still exactly **5** action dates, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action dates, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s** both the status page and the CD1 text, as documented |
+| HI county guidance | Honolulu CSD's page still has **0** mentions of Act 259 or HB 2021 and still lists only the generic $30 / $15 fees. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None.** The national scan surfaced only the Illinois signing plus NJ/HI/UT/WA coverage already tracked |
+| Carriers | **Not re-checked.** Friday, outside the Monday cadence and the July 19 window. All 3 stay `2026-08-24` |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ "DEADLINE PASSED" ×1, "January 19, 2027" ×1, **0** calendar buttons, **0** "days to comply" countdowns; HI "IN EFFECT" ×4 with **0** "Not in effect yet" banners |
+
+### ⛔ The live site is now carrying a factually wrong status, and only a merge fixes it
+
+Read off production in a real browser this run, the Illinois card says:
+
+> PASSED BOTH CHAMBERS; AWAITING GOVERNOR
+
+That became false on August 26. Live still serves main from 8/7 (footer "last reviewed August 7,
+2026") because **everything since sits in the unmerged PR #15**. The correction is ready in the PR;
+it reaches riders only when Paul merges.
+
+**306 tests green**, build + prerender green. **The sitemap date guard was falsified before being
+trusted:** bumping `LAST_REVIEWED` alone went red with `expected '2026-08-26' to be '2026-08-28'`
+until `public/sitemap.xml` was updated too. Built artifact verified: "Public Act 104-0854" ×3,
+"signed it on August 26, 2026" ×2, "Enacted; effective January 1, 2027" ×1, **"Effective: Jan" ×1**,
+and **0** occurrences of "awaiting governor" / "awaits Governor" / "If signed" / "Passed both
+chambers" / `104-0853` anywhere in `dist/`; **5** "Aug 28, 2026" chips + **2** "Aug 24, 2026"
+(UT/WA); footer "last reviewed August 28, 2026"; sitemap stamped `2026-08-28`; FAQPage JSON-LD 16
+entries with the Illinois signing text carried into it.
+
 ## August 26, 2026 law sync (Wednesday): no law changed; Illinois is 3 days from becoming law by default
 
 Folded into the same branch/PR as the 8/10 → 8/24 passes (PR #15 is still unmerged, so a second draft
