@@ -76,6 +76,96 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## August 31, 2026 law sync (Monday): all laws in sync; the Illinois deadline the schedule could not see is now closed
+
+Folded into the same branch/PR as the 8/10 through 8/28 passes (PR #15 is still unmerged, so a second
+draft off an unmerged base would stack reviews). **No statute, bill, or effective date changed in any
+tracked state, and no carrier claim moved.** Carriers were re-verified (Monday cadence) and all three
+are unchanged.
+
+### The calendar worry flagged on 8/24 and 8/26 is formally closed
+
+Those runs both warned that the cron (`0 13 * * 1-5`) could not land on **Saturday August 29**, the
+Illinois 60-day constitutional deadline, and that **the August 31 run must move the IL card off
+"awaiting governor."** It already did: Pritzker signed on Wednesday **August 26** and the Friday
+**August 28** run caught it. This run re-confirmed the signing against ILGA and found the card already
+correct, so **there is nothing left for the 8/31 run to fix and the watch item is closed.**
+
+| Evidence re-read this run | Value |
+|---|---|
+| SB 3484 status XML, `Last-Modified` | **Thu, 27 Aug 2026 04:20:39 GMT** (unchanged since the 8/28 run) |
+| Occurrences of "public act" in the status record | **2** |
+| Occurrences of "veto" | **0** |
+| `104-0854` in the status record | **2** |
+| Last four actions | "Sent to the Governor", "Governor Approved", "Effective Date January 1, 2027", "Public Act . . . 104-0854" |
+
+⚠️ **The coverage blur is still spreading and the card already answers it.** Claims Journal re-ran the
+Insurance Journal piece **today, August 31**, carrying the same "Illinois joins New Jersey as the only
+states to require insurance for high-speed e-bikes" sentence. True, but it reads as equivalence, and
+**New Jersey binds ordinary low-speed e-bikes while Illinois does not.** The card and the FAQ say so
+outright already, so no copy change was needed.
+
+### Every tracked item re-verified against a primary source, all unchanged
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov`. **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**. Conjunctive phrase "greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour" present. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to every run since 8/18); **16** e-bike/scooter/moped-adjacent by synopsis; **none** with a `GovernorAction`; **0** synopses mentioning 4834 or c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." **0** "Chaptered", **0** "Vetoed". Unchanged |
+| CA AB 2346 | Untracked watch item, still open. **0** Chaptered / **0** Vetoed / **0** "Approved by the Governor"; last action still "08/25/26 Enrolled and presented to the Governor at 4 p.m." The Art. IV Sec. 10(b) 12-day clock still runs to about **September 6, 2026** |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** "Override", **0** chapter-law citations. Unchanged |
+| MA S 3077 | Still exactly **5** action dates, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action rows, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s**, as documented |
+| HI county guidance | Honolulu CSD's page still has **0** mentions of Act 259 or HB 2021 and still lists only the generic $30 / $15 fees. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None.** The national scan surfaced only the Illinois signing and NJ coverage already tracked |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ "DEADLINE PASSED" ×1, "January 19, 2027" ×1, **0** calendar buttons, **0** "days to comply" countdowns; HI "IN EFFECT" ×4 with **0** "Not in effect yet" banners |
+
+### Carriers re-verified (Monday cadence), all three unchanged
+
+| Carrier | Checked against the live page | Result |
+|---|---|---|
+| Velosurance | `$15,000` ×4 / `$30,000` ×4 / `$5,000` ×4 all present; "Insurance is required for every e-bike class in New Jersey under New Jersey S4834" ×2 verbatim; "A helmet is mandatory for every e-bike rider, regardless of age, under New Jersey S4834" ×1 verbatim; the self-contradicting correct line ("do not qualify as Class 1 or Class 2") ×1 | Card accurate, including both cautions. No change |
+| Sundays | "We do not offer cyclist liability insurance." ×1 verbatim | No change |
+| VOOM | "Register to our waiting list" ×1, "launching soon" ×1, `$35,000` ×2, `15,000` **0 times** | Still waitlist. No change |
+
+⚠️ **The recurring near-miss, avoided again.** `liability-only` and `500,000` still appear **zero**
+times on Velosurance's NJ page. Those two claims are **not** sourced to that page; they come from
+Bicycle Retailer (2026-07-08) and Velosurance's own launch announcement, which this run re-surfaced on
+Endurance Sportswire. **A carrier page not carrying a claim is not the same as the claim being wrong.**
+
+**Markel and Progressive stay deliberately unlisted.** Markel's bicycle page now redirects
+`markel.com/insurance/bicycle` → `markel.com/bicycle`; the live page has **0** occurrences of "New
+Jersey". Progressive's e-bike answers page still **404s**. A search for new NJ entrants found none:
+Velosurance remains the only carrier with an NJ-specific S4834 liability product.
+
+### Changes in this commit
+
+Date bumps only, plus the one self-dating sentence that has to move with them. The **5** cards actually
+re-checked (CA/FL/IL/MA/NY) → `2026-08-31`; **UT and WA left at `2026-08-24`** (enrolled texts not
+re-read this run); all **3** carriers → `2026-08-31` with VOOM's self-dating prose moved to "as of
+August 31, 2026" to match; footer and sitemap to August 31, 2026. No legal copy changed anywhere.
+
+**306 tests green**, build + prerender green. **Both date guards falsified before being trusted:**
+reverting the sitemap `lastmod` alone goes red with `expected '2026-08-28' to be '2026-08-31'`; pushing
+a carrier `lastVerified` past `LAST_REVIEWED` goes red 4 ways including `expected 'August 31, 2026' to
+be 'September 15, 2026'` from the VOOM prose guard; restored, 306 green. Built artifact verified:
+**5** "Aug 31, 2026" chips + **2** "Aug 24, 2026" (UT/WA), **0** "Aug 28, 2026", footer "last reviewed
+August 31, 2026", sitemap stamped `2026-08-31`, "as of August 31, 2026" ×1 with **0** "as of August 24,
+2026", "Public Act 104-0854" ×5, and **0** occurrences of "awaiting governor" or "Passed both chambers"
+anywhere in `dist/`. ⚠️ The single `If signed` string left in the bundle is the **untaken branch** of
+the Splash chip ternary (`n ? "Effective: " : "If signed: "`), not rendered copy: the prerendered
+`index.html` has **0** "If signed" and renders "Effective: Jan 2027" for Illinois.
+
+### ⛔ Production is still carrying the false Illinois status, 21 days into an unmerged PR
+
+Read off the live site in a real browser this run, the Illinois card still says **"Passed both
+chambers; awaiting governor"** with **0** occurrences of `104-0854`, and the footer still reads "last
+reviewed August 7, 2026". That status became false on **August 26**. The correction has been sitting in
+**PR #15 since August 10**, and it reaches riders only when Paul merges.
+
 ## August 28, 2026 law sync (Friday): ⭐ ILLINOIS BECAME LAW. SB 3484 signed August 26 as Public Act 104-0854
 
 Folded into the same branch/PR as the 8/10 → 8/26 passes (PR #15 is still unmerged, so a second draft
