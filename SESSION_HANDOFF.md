@@ -76,6 +76,64 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## ✅ September 1, 2026: PR #15 SHIPPED. 22 days of unmerged work is live, and the false Illinois status is gone
+
+Paul authorized the deploy. **PR #15 merged as `6bff240`** (16 commits, 8/10 through 9/1, 32 files,
++3,038 / -234). CI on main: **test success, deploy success** (run 33546074203). `main` HEAD =
+**6bff240**. Merged branch pruned local and origin; **only `main` remains, zero open PRs.**
+
+### Pre-flight, run before merging because Actions is the only path to production
+
+The 8/6 scar (an Actions outage during which a merge publishes nothing) says check first. Checked:
+githubstatus reported **All Systems Operational**, **0 active incidents**, with Actions, Pages, Git
+Operations, API Requests and Webhooks all `operational`. CI was already green on the exact HEAD
+(`a8eb4df`), the PR was `MERGEABLE` / `CLEAN`, and the branch was in sync with origin.
+
+### The 1:1 proof that what shipped is what was tested
+
+Clean-rebuilt `dist/` locally, then downloaded the assets the live page actually references:
+
+| Asset | Local sha256 | Live sha256 | `cmp` |
+|---|---|---|---|
+| `index-DyDt4ZOr.js` | `714e822a…d80b` | `714e822a…d80b` | **IDENTICAL** |
+| `index-BYCnPguh.css` | `7ce02042…9dd8` | `7ce02042…9dd8` | **IDENTICAL** |
+
+Byte-for-byte, not just a matching filename hash.
+
+### Live verification in a real browser
+
+| Check | Result |
+|---|---|
+| Illinois card | **"ENACTED; EFFECTIVE JANUARY 1, 2027"**, "Signed August 26, 2026 as Public Act 104-0854", chip **"EFFECTIVE: JAN 2027"** |
+| California card | **"DEAD FOR THE SESSION"** with the new one-liner |
+| NJ card | "IN EFFECT · DEADLINE PASSED", fees waived through January 19, 2027, **0** calendar buttons, **0** countdowns |
+| HI card | "IN EFFECT", no stale banner |
+| Verified chips | **5** "SEP 1, 2026" (CA/FL/IL/MA/NY) + **2** "AUG 24, 2026" (UT/WA) |
+| Footer | "last reviewed **September 1, 2026**" |
+| Served HTML counts | `104-0854` ×4, "Dead for the session" ×1, "dead for the 2025-26 session" ×2, "AB 1569" ×2, "SB 1167" ×2; and **0** each of "awaiting governor", "Passed both chambers", "Unless it is revived", "Held in committee", "If signed", "Aug 7, 2026", "Aug 31, 2026" |
+| FAQPage JSON-LD | **16** Question entries, carrying the rewritten California answer |
+| Sitemap | `<lastmod>2026-09-01</lastmod>` |
+
+**The status that was factually false from August 26 to September 1 is off the site.**
+
+### ⭐ Cloudflare Web Analytics is finally collecting, three weeks after the fix was written
+
+The 8/11 CSP fix could not take effect until this merge. Verified live:
+
+- The `_headers` CSP now serves `script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com`
+  and `connect-src 'self' https://cloudflareinsights.com`, while `default-src`, `base-uri`,
+  `object-src` and `frame-ancestors` stay locked down.
+- In a **fresh** browser tab: **console clean, zero errors**, and the network log shows
+  **`POST https://myebikelaw.com/cdn-cgi/rum? → 204`**. On a proxied zone the beacon prefers the
+  same-origin `/cdn-cgi/rum` path, which `'self'` already covers, exactly as the 8/11 pass predicted.
+
+⚠️ **A stale console message nearly produced a false negative.** The pre-existing tab, which had
+loaded the site *before* the merge, still showed a CSP violation quoting the **old** policy
+(`script-src 'self' 'unsafe-inline'`, no beacon host) even after navigating. The served headers had
+already been checked and were correct, and there is no `<meta>` CSP anywhere to compete with them.
+A fresh tab was clean. **Console panels accumulate across navigations; open a new tab before
+concluding a CSP fix did not land.**
+
 ## September 1, 2026 law sync (Tuesday): ⭐ CALIFORNIA'S SESSION CLOSED AND AB 1942 IS NOW DEAD, NOT MERELY STALLED
 
 Folded into the same branch/PR as the 8/10 through 8/31 passes (PR #15 is still unmerged, so a second
