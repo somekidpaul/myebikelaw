@@ -77,7 +77,7 @@ export const HI_HB2021: StatutoryRequirement = {
             statute: 'HB 2021 CD1 §291C-1 — high-speed electric device definition',
             url: billText,
             quote:
-              "'High-speed electric device' means any device with a motor exceeding seven hundred fifty watts and capable of speeds over twenty-eight miles per hour.",
+              '"High-speed electric device" means any device with a motor exceeding seven hundred fifty watts and capable of speeds over twenty-eight miles per hour.',
           },
         ],
       }
@@ -137,7 +137,7 @@ export const HI_HB2021: StatutoryRequirement = {
         statute: 'HB 2021 CD1, SECTION 5 — HRS §249-14(b) (registration + operation ban)',
         url: billText,
         quote:
-          'An electric bicycle shall be required to be registered, and shall be subject to a permanent registration fee of $30, to be paid by the owners thereof to the director of finance. No person shall operate an electric bicycle on a public roadway, sidewalk, or bicycle facility unless it has been properly registered pursuant to this subsection. Failure to register may result in citation or temporary impoundment.',
+          'An electric bicycle shall be required to be registered, and shall be subject to a permanent registration fee of $30, to be paid by the owners thereof to the director of finance. No person shall operate an electric bicycle on a public roadway, sidewalk, or bicycle facility unless it has been properly registered pursuant to this subsection. Failure to register may result in citation or temporary impoundment by a law enforcement officer or designated official pursuant to section 249-15.',
       },
       {
         statute: 'HRS §249-14 — county bicycle registration (decal, proof of ownership)',
@@ -171,7 +171,7 @@ export const HI_HB2021: StatutoryRequirement = {
           statute: 'HB 2021 CD1, SECTION 12 — HRS §291C-143.5 (minimum age / supervision)',
           url: billText,
           quote:
-            'No person under the age of sixteen shall operate a class 2 or class 3 electric bicycle... unless under the direct supervision of a parent or guardian.',
+            'No person under the age of sixteen shall operate a class 2 or class 3 electric bicycle unless under the direct supervision of a parent or guardian.',
         },
       ],
     },

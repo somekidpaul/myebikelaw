@@ -1,0 +1,30 @@
+{
+  "_readme": [
+    "Quotes whose source text cannot be fetched by an automated request, so they cannot be",
+    "checked against a stored copy of the statute the way NJ's are (capitol.hawaii.gov returns",
+    "403 to curl and to WebFetch; only a real browser session gets the text).",
+    "",
+    "Each entry was checked character-for-character against the enacted text in a real browser",
+    "on the date shown. `enactedTextSha256` is the SHA-256 of that page's text after curly",
+    "punctuation was normalized, bracketed struck-through material was removed so it reads as",
+    "ENACTED law, and whitespace was collapsed. Re-verifying means loading the source, applying",
+    "the same normalization, and confirming both the hash and the quote.",
+    "",
+    "citation-fidelity.test.ts requires every quote in these statutes to appear here EXACTLY.",
+    "Editing a quote turns the suite red until someone re-reads the statute and updates this file.",
+    "That is the point: it makes re-verification the only way forward."
+  ],
+  "sources": {
+    "https://www.capitol.hawaii.gov/sessions/session2026/bills/HB2021_CD1_.HTM": {
+      "label": "HI HB 2021 CD1 (Act 259)",
+      "enactedTextSha256": "9ab9c0de41c9336c93d2c16b059fcd5e915e0286a834c58df052aefc9378c5a8",
+      "lastVerified": "2026-08-24",
+      "quotes": [
+        "\"High-speed electric device\" means any device with a motor exceeding seven hundred fifty watts and capable of speeds over twenty-eight miles per hour.",
+        "An electric bicycle shall be required to be registered, and shall be subject to a permanent registration fee of $30, to be paid by the owners thereof to the director of finance. No person shall operate an electric bicycle on a public roadway, sidewalk, or bicycle facility unless it has been properly registered pursuant to this subsection. Failure to register may result in citation or temporary impoundment by a law enforcement officer or designated official pursuant to section 249-15.",
+        "No person under the age of sixteen shall operate a class 2 or class 3 electric bicycle unless under the direct supervision of a parent or guardian.",
+        "No person shall operate a high-speed electric device on a public roadway, a bicycle lane, a travel path, a bicycle facility, or other public area, such as a street, highway, or sidewalk."
+      ]
+    }
+  }
+}

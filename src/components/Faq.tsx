@@ -107,20 +107,38 @@ const GENERAL: ReadonlyArray<QA> = [
             <strong>California</strong> — AB 1942 would have required DMV
             registration and license plates for Class 2 and Class 3 e-bikes,
             but it stalled: held in committee on the Appropriations suspense
-            file (May 14, 2026).
+            file (May 14, 2026), and it is now{' '}
+            <strong>dead for the 2025-26 session</strong>. August 31, 2026 was
+            the Legislature's last day to pass bills, and the state
+            constitution bars either house from passing an ordinary bill on or
+            after September 1 of an even-numbered year, so AB 1942 would have
+            to be reintroduced in 2027 to come back. Two other California
+            e-bike bills did move before that deadline, and neither adds a
+            license, registration, or insurance requirement for e-bikes: AB
+            1569 (signed August 27, 2026) creates a school e-bike safety and
+            training program, and SB 1167, which passed both chambers on August
+            28, 2026, is a labeling and seller-disclosure bill separating
+            e-bikes from e-motos. Its registration, plate, and insurance
+            provisions reach only mopeds and motor-driven cycles, and it
+            expressly excepts electric bicycles from the M2 licence category.
+            California still requires no license, registration, or insurance to
+            ride an e-bike.
           </li>
           <li>
             <strong>Illinois</strong> — the e-bike framework first rode on SB
             3336, but that bill stalled at Senate concurrence (its May 29, 2026
             concurrence vote was never taken) and is dead for the session. The
             final language was carried by SB 3484, which passed both chambers on
-            June 1, 2026 (House 84-16; Senate 48-7) and now awaits Governor
-            Pritzker. Despite news reports, it does NOT require a license,
-            registration, or insurance for normal e-bikes — for Class 1/2/3 it
-            adds only a minimum riding age (15, or 16 for Class 3). Those
-            vehicle rules apply only to devices over 28 mph (or over 750 W),
-            which Illinois already treats as motor-driven cycles. Effective
-            January 1, 2027 if signed.
+            June 1, 2026 (House 84-16; Senate 48-7). Governor Pritzker{' '}
+            <strong>signed it on August 26, 2026</strong>, so it is now Public
+            Act 104-0854 and takes effect January 1, 2027. Despite news reports,
+            it does NOT require a license, registration, or insurance for normal
+            e-bikes — for Class 1/2/3 it adds only a minimum riding age (15, or
+            16 for Class 3). Those vehicle rules apply only to devices over 28
+            mph (or over 750 W), which Illinois already treats as motor-driven
+            cycles. It also removes low-speed e-bikes from the list of vehicles
+            an Illinois town may require riders to register, so it narrows
+            e-bike paperwork rather than adding any.
           </li>
           <li>
             <strong>Massachusetts</strong> — S 3077 (Ride Safe Act), filed by
@@ -150,9 +168,15 @@ const GENERAL: ReadonlyArray<QA> = [
             reclassified "high power electric devices" and "electric
             motorcycles" (over 750 W, or capable of over 20 mph on the motor
             alone — including a tampered e-bike) fall under motorcycle rules,
-            which already require all three. New for ordinary e-bike riders:
-            only a helmet for riders under 21 on highways and a ban on riding
-            while drinking.
+            which already require all three. Utah's driver-licensing statute
+            says so outright: a rider 16 or older may ride an e-bike on a
+            highway without a driver license, a motorcycle endorsement, or a
+            safety certificate. What HB 381 does add for ordinary riders is
+            safety rules, not vehicle paperwork: a helmet under 21 on highways
+            and a ban on riding while drinking, both in effect now, and then
+            from May 5, 2027 a minimum age of 8 to ride on a highway plus a
+            rule that riders under 16 either earn a safety certificate (online,
+            fee capped at $10) or ride under direct adult supervision.
           </li>
           <li>
             <strong>Washington</strong> — ESSB 6110 (Chapter 159, Laws of 2026)
@@ -213,6 +237,27 @@ const GENERAL: ReadonlyArray<QA> = [
         S4524 (introduced June 26, 2026) would extend the helmet requirement to
         low-speed e-bike riders of <em>all</em> ages, not just under-17s. Most
         committee bills die there, but worth knowing.
+      </>
+    ),
+  },
+  {
+    q: 'What do you do with my answers? Do you track me?',
+    a: (
+      <>
+        <strong>Your answers never leave your browser.</strong> The compliance
+        engine is plain JavaScript running on your device. Nothing you type
+        about your bike, your age, your license, or your insurance is
+        transmitted to a server, stored, or sold. There is no account, no
+        database, and no ad tech on this site. The "copy share link" button
+        encodes your answers into the URL so <em>you</em> can share the result
+        if you want to, and that link only goes wherever you paste it.
+        <br /><br />
+        For traffic, this site uses <strong>Cloudflare Web Analytics</strong>,
+        which counts page views. Cloudflare states that it uses no client-side
+        state (no cookies, no localStorage) and does not track visitors over
+        time via IP address, User Agent, or any other immutable attribute. It
+        tells us that a page was viewed. It does not tell us who you are, and
+        it cannot follow you to another site.
       </>
     ),
   },
@@ -399,10 +444,15 @@ const NJ_QUESTIONS: ReadonlyArray<QA> = [
             privilege for 30 days.
           </li>
         </ul>
-        The big exception: a bike over 750 W or 28 mph is legally a{' '}
-        <strong>motorcycle</strong>, and the full motor-vehicle penalty stack
-        applies — including 39:6B-2's $300–$1,000 fine, community service, and
-        possible license suspension for riding uninsured. Separately, the MVC
+        The big exception: a bike over 750 W <em>and</em> capable of more than
+        28 mph is legally a <strong>motorcycle</strong>, and the full
+        motor-vehicle penalty stack applies, including 39:6B-2's $300–$1,000
+        fine, community service, and possible license suspension for riding
+        uninsured. (The statute's definition is conjunctive, so both thresholds
+        have to be crossed. A bike over only one of them sits in the statutory
+        gap described in the classification answer above: this tool routes it to
+        the motorcycle rules so you are not under-warned, but that is a
+        conservative reading rather than settled law.) Separately, the MVC
         can suspend or revoke an e-bike registration for violations, and
         knowingly submitting false proof of ownership is a fourth-degree crime.
         <br />

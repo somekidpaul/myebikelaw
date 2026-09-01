@@ -12,6 +12,7 @@ import {
   type CheckerJurisdiction,
 } from './data/statutes'
 import { decodeAnswers, encodeAnswers } from './lib/share'
+import { formatLastReviewed } from './data/site-meta'
 import type { BikeProfile, Compliance } from './types'
 
 type AppState =
@@ -139,7 +140,12 @@ function App() {
               A few questions about your bike.
             </h2>
             <p className="mt-3 text-[var(--color-ink-soft)]">
-              All answers stay in your browser. We never store, share, or sell anything.
+              {/* "them", not "anything". The broader claim stopped being true
+                  the moment Cloudflare Web Analytics was unblocked (page views
+                  are now counted). What is still absolutely true, and is the
+                  promise that matters, is that the ANSWERS never leave the
+                  browser. The FAQ spells out both halves. */}
+              All answers stay in your browser. We never store, share, or sell them.
             </p>
             <div className="mt-10">
               <Form
@@ -196,13 +202,6 @@ function SiteHeader({ onHowItWorks }: { onHowItWorks: () => void }) {
           }}
         >
           How it works
-        </a>
-        <a
-          href="https://www.nj.gov/mvc/vehicletopics/ebike.htm"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          The law (NJ MVC)
         </a>
       </nav>
     </header>
@@ -308,7 +307,10 @@ function SiteFooter() {
         </strong>{' '}
         It does not provide legal or insurance advice. The output reflects a
         good-faith reading of the cited statutes, last reviewed{' '}
-        <strong className="text-[var(--color-ink-soft)]">August 7, 2026</strong>;
+        <strong className="text-[var(--color-ink-soft)]">
+          {formatLastReviewed()}
+        </strong>
+        ;
         verify details with your insurance agent and{' '}
         <a
           href="https://www.nj.gov/mvc/vehicletopics/ebike.htm"

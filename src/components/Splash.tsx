@@ -77,8 +77,11 @@ function StateGrid({
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
             <span className="eyebrow">Other states to watch</span>
+            {/* Deliberately not "Bills in motion": five of the seven cards are
+                stalled, vetoed, or already enacted. The grid tracks what each
+                state's law does, not only what is moving. */}
             <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
-              Bills in motion elsewhere
+              Where every other tracked state stands
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm text-[var(--color-ink-soft)]">
               No other state adds a license, registration, or insurance
@@ -282,6 +285,9 @@ function PendingStateCard({ bill }: { bill: PendingStateBill }) {
   // either the bill passed but adds no requirements, or it stalled in committee.
   const isInformational =
     bill.requirementHints.length === 0 || bill.status === 'held-in-committee'
+  // Whether the bill is actually law yet. Distinct from isInformational, which
+  // is only about whether a rider has something to do.
+  const isEnacted = bill.status === 'enacted'
   const dotColor = isInformational
     ? 'var(--color-ink-soft)'
     : 'var(--color-warn)'
@@ -334,7 +340,13 @@ function PendingStateCard({ bill }: { bill: PendingStateBill }) {
                 color: 'var(--color-ink-soft)',
               }}
             >
-              {isInformational ? 'Effective: ' : 'If signed: '}
+              {/* Key this off enactment, NOT off isInformational. That flag
+                  means "nothing for a rider to act on", which is also true of
+                  bills that merely passed and are still sitting with a
+                  governor. Keying off it labelled Illinois SB 3484, unsigned,
+                  as "Effective: Jan 2027" while the same card's eyebrow read
+                  "awaiting governor". */}
+              {isEnacted ? 'Effective: ' : 'If signed: '}
               {formatProposed(bill.proposedEffectiveDate)}
             </span>
           )}

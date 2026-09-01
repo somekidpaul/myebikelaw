@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type {
+  BikeCategory,
   BikeProfile,
   ClassificationNote,
   Compliance,
@@ -8,6 +9,7 @@ import type {
   StatutoryRequirement,
   USD,
 } from '../types'
+import { bikeCategoryProse, licenseKindProse } from '../types'
 import { CarrierDirectory } from './CarrierDirectory'
 import {
   buildIcs,
@@ -273,15 +275,20 @@ function ClassificationCallout({ note }: { note: ClassificationNote }) {
   )
 }
 
-function labelOf(c: string): string {
-  return (
-    {
-      'low-speed-electric': 'low-speed electric bicycle',
-      motorized: 'motorized bicycle',
-      'electric-motorized': 'electric motorized bicycle',
-      standard: 'standard bicycle',
-    } as Record<string, string>
-  )[c] ?? c
+/**
+ * Category name for mid-sentence use. Delegates to the total
+ * Record<BikeCategory, string> in types/bike.ts, so a new category cannot
+ * reach a rider as a raw slug — it fails the build instead.
+ */
+function labelOf(c: BikeCategory): string {
+  return bikeCategoryProse[c]
+}
+
+/** "a, b, and c" — an Oxford-comma list, or just "a or b" for two. */
+function joinProse(items: ReadonlyArray<string>, conjunction: 'or' | 'and'): string {
+  if (items.length <= 1) return items[0] ?? ''
+  if (items.length === 2) return `${items[0]} ${conjunction} ${items[1]}`
+  return `${items.slice(0, -1).join(', ')}, ${conjunction} ${items[items.length - 1]}`
 }
 
 function VerdictHeader({ compliance }: { compliance: Compliance }) {
@@ -470,8 +477,8 @@ function GapItem({ gap, statute }: { gap: Gap; statute: StatutoryRequirement }) 
         <>
           <h4 className="text-base font-bold sm:text-lg">License required</h4>
           <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
-            Accepted: {gap.accepted.join(' or ')}. Operating without one is a
-            statutory violation.
+            Accepted: {joinProse(gap.accepted.map((k) => licenseKindProse[k]), 'or')}.
+            Operating without one is a statutory violation.
           </p>
         </>
       )
@@ -529,15 +536,24 @@ function renderRemedy(r: Remedy): React.ReactNode {
     case 'register':
       return (
         <>
-          Register your bike with the{' '}
+          {/* The article lives in `authority.name` (see nj.ts / hi.ts) so each
+              jurisdiction reads correctly: "the NJ Motor Vehicle Commission"
+              vs "your county's director of finance". */}
+          Register your bike with{' '}
           <a href={r.authorityUrl} target="_blank" rel="noopener noreferrer">
             {r.authorityName} ↗
           </a>
           .
         </>
       )
-    case 'obtain-license':
-      return `Obtain one of: ${r.options.join(', ')}.`
+    case 'obtain-license': {
+      // "one of" only makes sense with more than one option, and the options
+      // are enum ids — they have to be translated before a rider reads them.
+      const names = r.options.map((k) => licenseKindProse[k])
+      return names.length === 1
+        ? `Obtain ${names[0]}.`
+        : `Obtain one of: ${joinProse(names, 'or')}.`
+    }
     case 'verify-coverage-with-carrier':
       return `Call your existing carrier and ask in writing whether your e-bike is covered to the statutory limits. Most homeowners and renters policies exclude motorized vehicles — don't assume.`
   }
@@ -575,6 +591,9 @@ function Citations({ compliance }: { compliance: Compliance }) {
               <p className="mt-1 italic text-[var(--color-ink-faint)]">
                 "{c.quote}"
               </p>
+            )}
+            {c.note && (
+              <p className="mt-1 text-[var(--color-ink-faint)]">{c.note}</p>
             )}
           </li>
         ))}

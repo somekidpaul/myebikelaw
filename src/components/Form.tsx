@@ -1,47 +1,16 @@
 import { cloneElement, isValidElement, useEffect, useId, useRef, useState } from 'react'
-import type {
-  BikeProfile,
-  ExistingPolicy,
-  LicenseKind,
-  OperatorProfile,
-  StatutoryRequirement,
-  ThrottleKind,
-} from '../types'
-import { mph, usd, watts, years } from '../types'
+import type { LicenseKind, StatutoryRequirement, ThrottleKind } from '../types'
+import { FORM_BOUNDS } from '../lib/field-bounds'
+import {
+  initialFormState,
+  toFormResult,
+  validateFormState,
+  type FormErrors,
+  type FormResult,
+  type FormState,
+} from './form-logic'
 
-type FormState = {
-  throttle: ThrottleKind
-  topSpeed: string
-  motorWatts: string
-  isRental: boolean
-  isRegistered: boolean
-  age: string
-  license: LicenseKind
-  policy: 'specialty' | 'homeowners' | 'renters' | 'auto' | 'none'
-  bipp: string
-  bipa: string
-  pd: string
-}
-
-const initialState: FormState = {
-  throttle: 'pedal-assist-only',
-  topSpeed: '20',
-  motorWatts: '500',
-  isRental: false,
-  isRegistered: false,
-  age: '',
-  license: 'basic-drivers',
-  policy: 'none',
-  bipp: '',
-  bipa: '',
-  pd: '',
-}
-
-export type FormResult = {
-  bike: BikeProfile
-  operator: OperatorProfile
-  policies: ReadonlyArray<ExistingPolicy>
-}
+export type { FormResult, FormState }
 
 export function Form({
   statute,
@@ -50,10 +19,8 @@ export function Form({
   statute: StatutoryRequirement
   onSubmit: (r: FormResult) => void
 }) {
-  const [s, setS] = useState<FormState>(initialState)
-  const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>(
-    {},
-  )
+  const [s, setS] = useState<FormState>(initialFormState)
+  const [errors, setErrors] = useState<FormErrors>({})
 
   // Sections are statute-driven: a state with no licensing or insurance
   // requirement simply never shows those questions.
@@ -66,50 +33,16 @@ export function Form({
     setErrors((prev) => (prev[k] ? { ...prev, [k]: undefined } : prev))
   }
 
-  // Validate the two load-bearing bike inputs: a blank/zero speed or wattage
-  // would otherwise coerce to 0 and yield a confident verdict for a bike that
-  // doesn't exist. Only enforced when the bike has a motor.
-  const validate = (): Partial<Record<keyof FormState, string>> => {
-    const next: Partial<Record<keyof FormState, string>> = {}
-    if (s.throttle !== 'none') {
-      const speed = Number(s.topSpeed)
-      if (s.topSpeed.trim() === '' || !Number.isFinite(speed) || speed < 1) {
-        next.topSpeed = 'Enter a top speed of at least 1 mph.'
-      } else if (speed > 50) {
-        next.topSpeed = 'Enter a speed of 50 mph or less.'
-      }
-      const wattsVal = Number(s.motorWatts)
-      if (s.motorWatts.trim() === '' || !Number.isFinite(wattsVal) || wattsVal < 1) {
-        next.motorWatts = 'Enter a motor wattage of at least 1 W.'
-      } else if (wattsVal > 5000) {
-        next.motorWatts = 'Enter a wattage of 5000 W or less.'
-      }
-    }
-    return next
-  }
+  const sections = { asksLicense, asksInsurance }
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault()
-    const found = validate()
+    const found = validateFormState(s, sections)
     if (Object.keys(found).length > 0) {
       setErrors(found)
       return
     }
-    const ageNum = Number(s.age) || 0
-    onSubmit({
-      bike: {
-        motorWatts: watts(Number(s.motorWatts) || 0),
-        topMotorAssistedSpeed: mph(Number(s.topSpeed) || 0),
-        throttle: s.throttle,
-        isRentalFromSharedSystem: s.isRental,
-        isRegistered: s.isRegistered,
-      },
-      operator: {
-        age: years(ageNum),
-        license: asksLicense ? s.license : 'none',
-      },
-      policies: [asksInsurance ? buildPolicy(s) : { kind: 'none' }],
-    })
+    onSubmit(toFormResult(s, sections))
   }
 
   return (
@@ -135,8 +68,8 @@ export function Form({
                   type="number"
                   value={s.topSpeed}
                   onChange={(v) => set('topSpeed', v)}
-                  min={1}
-                  max={50}
+                  min={FORM_BOUNDS.topSpeed.min}
+                  max={FORM_BOUNDS.topSpeed.max}
                   step={1}
                   error={errors.topSpeed}
                 />
@@ -146,8 +79,8 @@ export function Form({
                   type="number"
                   value={s.motorWatts}
                   onChange={(v) => set('motorWatts', v)}
-                  min={1}
-                  max={5000}
+                  min={FORM_BOUNDS.motorWatts.min}
+                  max={FORM_BOUNDS.motorWatts.max}
                   step={1}
                   error={errors.motorWatts}
                 />
@@ -178,9 +111,10 @@ export function Form({
               type="number"
               value={s.age}
               onChange={(v) => set('age', v)}
-              min={0}
-              max={120}
+              min={FORM_BOUNDS.age.min}
+              max={FORM_BOUNDS.age.max}
               required
+              error={errors.age}
               placeholder="35"
             />
           </Field>
@@ -230,7 +164,10 @@ export function Form({
                   type="number"
                   value={s.bipp}
                   onChange={(v) => set('bipp', v)}
-                  min={0}
+                  min={FORM_BOUNDS.coverage.min}
+                  max={FORM_BOUNDS.coverage.max}
+                  step={1}
+                  error={errors.bipp}
                   placeholder="15000"
                 />
               </Field>
@@ -239,7 +176,10 @@ export function Form({
                   type="number"
                   value={s.bipa}
                   onChange={(v) => set('bipa', v)}
-                  min={0}
+                  min={FORM_BOUNDS.coverage.min}
+                  max={FORM_BOUNDS.coverage.max}
+                  step={1}
+                  error={errors.bipa}
                   placeholder="30000"
                 />
               </Field>
@@ -248,7 +188,10 @@ export function Form({
                   type="number"
                   value={s.pd}
                   onChange={(v) => set('pd', v)}
-                  min={0}
+                  min={FORM_BOUNDS.coverage.min}
+                  max={FORM_BOUNDS.coverage.max}
+                  step={1}
+                  error={errors.pd}
                   placeholder="5000"
                 />
               </Field>
@@ -268,43 +211,6 @@ export function Form({
       </button>
     </form>
   )
-}
-
-function buildPolicy(s: FormState): ExistingPolicy {
-  if (s.policy === 'none') return { kind: 'none' }
-  if (s.policy === 'specialty') {
-    return {
-      kind: 'specialty-ebike',
-      coverage: {
-        bodilyInjuryPerPerson: usd(Number(s.bipp) || 0),
-        bodilyInjuryPerAccident: usd(Number(s.bipa) || 0),
-        propertyDamage: usd(Number(s.pd) || 0),
-        pip: null,
-      },
-    }
-  }
-  if (s.policy === 'auto') {
-    return {
-      kind: 'auto',
-      extendsToEbike: 'unknown',
-      coverage: {
-        bodilyInjuryPerPerson: usd(0),
-        bodilyInjuryPerAccident: usd(0),
-        propertyDamage: usd(0),
-        pip: null,
-      },
-    }
-  }
-  return {
-    kind: s.policy,
-    includesEbike: 'unknown',
-    coverage: {
-      bodilyInjuryPerPerson: null,
-      bodilyInjuryPerAccident: null,
-      propertyDamage: null,
-      pip: null,
-    },
-  }
 }
 
 function Card({

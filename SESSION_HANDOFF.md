@@ -5,10 +5,13 @@ Reference doc for picking up in a new Claude Code session without losing context
 ## Where the site stands
 
 - **Live:** [myebikelaw.com](https://myebikelaw.com) (Cloudflare Pages, custom domain)
-- **Repo:** `github.com/somekidpaul/myebikelaw` (private)
+- **Repo:** `github.com/somekidpaul/myebikelaw` — **PUBLIC**. (Older notes here and in project
+  memory said private; `gh repo view` reports `visibility=PUBLIC`.) The README is therefore a public
+  artifact on a portfolio piece. Keep it true.
 - **Auto-deploy:** every push to `main` → CI runs tests → if green, `cloudflare/wrangler-action@v3` ships `dist/`
 - **Status:** shipped, polished, every path empirically verified through the form on the live URL
-- **Tests:** 117 / 117 passing (Vitest)
+- **Tests:** 299 / 299 passing (Vitest) — engine, share round-trip, form logic, form inputs,
+  rendered verdict copy, and site consistency
 - **LinkedIn:** launch post PUBLISHED 2026-05-21 (meniscus origin + all 6 state statuses incl. CA "stalled in committee" + "91 test scenarios" — the post's count is a point-in-time number, the suite is now 117)
 
 ## Build pipeline
@@ -72,6 +75,1119 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 7 | throttle 32mph 1000W | RECLASSIFIED as motorcycle |
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
+
+## September 1, 2026 law sync (Tuesday): ⭐ CALIFORNIA'S SESSION CLOSED AND AB 1942 IS NOW DEAD, NOT MERELY STALLED
+
+Folded into the same branch/PR as the 8/10 through 8/31 passes (PR #15 is still unmerged, so a second
+draft off an unmerged base would stack reviews). No statute changed in any tracked state, but a
+**calendar deadline passed overnight that made one of our own claims stale**, and it is a claim the
+site makes in two places.
+
+### ⭐ The change: August 31, 2026 was the California Legislature's last day to pass bills
+
+The 8/31 run finished at 09:00 ET; California's deadline fell at the end of that same day, so this is
+the first run that can see past it. Two primary sources, read this run:
+
+| Source | What it says |
+|---|---|
+| Cal. Const. art. IV, sec. 10(c), read verbatim off leginfo's printable section view | "No bill may be passed by either house on or after September 1 of an even-numbered year except statutes calling elections, statutes providing for tax levies or appropriations for the usual current expenses of the State, and urgency statutes, and bills passed after being vetoed by the Governor." |
+| The Assembly Clerk's own **2026 Legislative Calendar** PDF | "**Aug. 31** Last day for each house to pass bills (Art. IV, Sec 10(c), J.R. 61(b)(17))." and "Final Recess begins upon adjournment (J.R. 51(b)(3))." |
+
+AB 1942 was held under submission on the Appropriations suspense file on **May 14, 2026** (re-read
+this run: leginfo history unchanged, **0** "Chaptered", **0** "Vetoed", last action still 5/14/26) and
+never left its house of origin. It is not an elections, tax-levy, appropriation, urgency, or post-veto
+bill, so it is none of the exceptions. **It can no longer be passed and is dead for the 2025-26
+session.** Coming back means reintroduction in 2027-28.
+
+### ⛔ What was wrong on the site, and why it mattered
+
+Both the card and the FAQ described AB 1942 as stalled, and the card's `details` said in as many
+words: **"Unless it is revived, it is done for this session."** That sentence left revival on the
+table. As of today revival is off the table, and this is the same shape as the "never date a
+self-correction" lesson from 8/7: a conditional that was true when written goes quietly false when
+the condition resolves, and nothing in the build notices.
+
+### ⭐ Scope discipline re-applied to the two California bills that DID beat the deadline
+
+The California session closing means the set of 2026 California e-bike bills is now final, so both
+were read against their operative text, not coverage:
+
+| Bill | Status read this run | Scope finding |
+|---|---|---|
+| **AB 1569** (Davies) | **Approved by the Governor 8/27/2026, Chaptered by the Secretary of State the same day as Chapter 128, Statutes of 2026** (leginfo history: "Chaptered" ×2, "Approved by the Governor" ×1) | **insurance 0, registration 0, register 0, driver's license 0, license plate 0, certificate of title 0, financial responsibility 0.** It adds Education Code art. 9 (Sec. 49397 et seq.) directing the State Department of Education and the CHP to build a grades 7-12 e-bike safety and training program by March 1, 2028. No rider duty of any kind. **No card** |
+| **SB 1167** (Blakespear) | Assembly amendments concurred in **8/28/2026**, ordered to engrossing and enrolling. **0** "Chaptered", **0** "Vetoed", **0** "Enrolled and presented" | A definitional / labeling / seller-disclosure bill separating e-bikes from e-motos. Its 17 "insurance", 7 "registration" and 21 "license plate" hits **all** attach to **mopeds** (Veh. Code 5030-5038, existing law being renamed from "motorized bicycle"), **motor-driven cycles**, **off-highway electric motorcycles**, or **motorized scooters**. The one operator-facing prohibition reaches a 2- or 3-wheeled electric device capable of over 20 mph on motor alone that is **not** a Vehicle Code-defined authorized device. **No card** |
+
+⭐ **SB 1167's licensing amendment runs the opposite way from the headline shape**, exactly like Oregon
+HB 4007 and Illinois PA 104-0854: the class M2 category is amended to read "a bicycle with an attached
+motor, **except an electric bicycle as described in subdivision (a) of Section 312.5**." That is an
+exemption being written into the Vehicle Code, not a mandate.
+
+⚠️ **The informational-card carve-out was checked and does NOT apply to either.** That carve-out is
+for bills **widely misreported** as e-bike mandates (the Florida and Illinois pattern). Coverage of
+SB 1167 (CalBike, Bicycle Retailer, Streetsblog, bikelegalfirm) frames it accurately and says outright
+that legal Class 1/2/3 e-bikes need no plate, registration, or insurance. Nothing to correct, so no
+card.
+
+### ⛔ CORRECTION to the last four runs: California AB 2346's deadline is September 30, not September 6
+
+The 8/24 through 8/31 handoff entries all recorded that AB 2346's clock "runs to about September 6,
+2026" on a 12-day theory. **That is the wrong subdivision.** Read verbatim this run:
+
+- Art. IV, sec. 10(b)(3): "Any **other** bill presented to the Governor that is not returned within 12
+  days becomes a statute." It is the residual rule.
+- Art. IV, sec. 10(b)(2): "Any bill passed by the Legislature **before September 1** of the second
+  calendar year of the biennium of the legislative session and **in the possession of the Governor on
+  or after September 1** that is not returned **on or before September 30** of that year becomes a
+  statute."
+
+AB 2346 passed on **August 19, 2026** and was presented **August 25**. It is still unacted-on today,
+September 1, so it is in the Governor's possession on or after September 1 and (b)(2) governs.
+**The real deadline is September 30, 2026.** The watch item stays open about four more weeks, not
+five more days. Verified unchanged this run: **0** "Chaptered", **0** "Vetoed", **0** "Approved by the
+Governor", last action still "08/25/26 Enrolled and presented to the Governor at 4 p.m."
+
+This changed no site copy (AB 2346 is deliberately untracked, no card, and the 8/21 pass already read
+its operative text and found insurance / registration / driver's license / license plate all **0**).
+It is a correction to this document.
+
+### Every other tracked item re-verified against a primary source, all unchanged
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov` (`Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`). **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**. Conjunctive phrase "greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour" present. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to every run since 8/18); **22** e-bike/scooter/moped-adjacent by synopsis; **none** with a `GovernorAction`; **0** synopses mentioning 4834 or c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA AB 1942 | **The change this run. See above.** History itself unchanged: last action 5/14/26 "In committee: Held under submission", **0** Chaptered, **0** Vetoed |
+| CA AB 2346 | Untracked watch item, still open. **Deadline corrected to September 30.** See above |
+| IL PA 104-0854 | Unchanged since the 8/28 run. SB 3484 status XML `Last-Modified` **still Thu, 27 Aug 2026 04:20:39 GMT**, **81** action rows, "public act" ×2, "veto" ×0, `104-0854` ×2, last actions "Governor Approved" / "Effective Date January 1, 2027" / "Public Act . . . 104-0854" |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** "Override", **0** chapter-law citations. Unchanged |
+| MA S 3077 | Still exactly **5** action dates, last 7/22/2026, study order S 3194 still referenced. Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action rows, 11/07/2025 and 01/07/2026. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s**, as documented |
+| HI county guidance | Honolulu CSD's page still has **0** mentions of Act 259 or HB 2021 and still lists only the generic $30 / $15 fees. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None outside California.** The national scan surfaced only the NJ and IL coverage already tracked |
+| Carriers | **Not re-checked.** Tuesday, outside the Monday cadence and the July 19 window. All 3 stay `2026-08-31` |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ "DEADLINE PASSED" ×1, "January 19, 2027" ×1, **0** calendar buttons, **0** "days to comply" countdowns; HI "IN EFFECT" ×4 with **0** "Not in effect yet" banners |
+
+### New guard: a bill the session has killed is never still described as merely stalled
+
+Same failure shape the suite exists for: the California status lives in the card and the FAQ with
+nothing keeping the copies equal. Ten assertions pin both to "dead for the 2025-26 session" and to
+August 31, 2026, **forbid the phrase "unless it is revived" in either**, require both to keep the
+no-license / no-registration / no-insurance claim, and require both to name AB 1569 and SB 1167 so the
+scope finding cannot be quietly dropped. The card `status` stays `held-in-committee` so the grid keeps
+rendering it gray, and that is asserted too. Scoped to the California `<li>` alone, per the Utah
+lesson: Illinois' own bullet legitimately says "dead for the session" about SB 3336.
+
+**Falsified five ways, every one caught:** reverting the card `statusLabel` to "Held in committee" →
+red; putting "Unless it is revived, it is done for this session" back into `details` → red; reverting
+the FAQ bullet to "still stalled" → red; changing AB 1569 to a wrong bill number → red; reverting the
+sitemap `lastmod` alone → red with `expected '2026-08-31' to be '2026-09-01'`. Restored, **312 green**
+(was 306).
+
+### Changes in this commit
+
+CA card `statusLabel` "Held in committee" → **"Dead for the session"**, `oneLiner` rewritten to lead
+with the finality and to end on what a California rider actually owes (nothing), `details` rewritten
+around Art. IV sec. 10(c) plus the AB 1569 and SB 1167 scope findings. The FAQ California bullet
+rewritten to match. `index.html` needed **no** change (it carries no hard-coded California status,
+only a state list), and the FAQPage JSON-LD is generated from `Faq.tsx` at prerender time so it
+follows automatically. The **5** cards actually re-checked (CA/FL/IL/MA/NY) → `2026-09-01`; **UT and
+WA left at `2026-08-24`**; carrier dates untouched; footer and sitemap to September 1, 2026.
+
+**312 tests green**, build + prerender green. Built artifact verified: **5** "Sep 1, 2026" chips +
+**2** "Aug 24, 2026" (UT/WA), **0** "Aug 31, 2026"; footer "last reviewed September 1, 2026"; sitemap
+stamped `2026-09-01`; FAQPage JSON-LD 16 entries; "Dead for the session" ×1 and "dead for the 2025-26
+session" ×2 in the prerendered HTML with **0** occurrences of "Unless it is revived" or "Held in
+committee"; "AB 1569" ×2 and "SB 1167" ×2; Illinois untouched at "Public Act 104-0854" ×3 with **0**
+"awaiting governor". The only three surviving `2026-08-31` strings in the bundle are the **three
+carrier `lastVerified` values**, which is correct because carriers were not re-checked this run.
+
+### ⛔ Production is still carrying the false Illinois status, 22 days into an unmerged PR
+
+Read off the live site in a real browser this run: the Illinois card still says **"awaiting
+governor"** with **0** occurrences of `104-0854`, the California card still says **"Held in
+committee"**, and the footer still reads "last reviewed August 7, 2026". The Illinois status became
+false on **August 26**. Everything since August 10 sits in **PR #15**, and it reaches riders only when
+Paul merges.
+
+## August 31, 2026 law sync (Monday): all laws in sync; the Illinois deadline the schedule could not see is now closed
+
+Folded into the same branch/PR as the 8/10 through 8/28 passes (PR #15 is still unmerged, so a second
+draft off an unmerged base would stack reviews). **No statute, bill, or effective date changed in any
+tracked state, and no carrier claim moved.** Carriers were re-verified (Monday cadence) and all three
+are unchanged.
+
+### The calendar worry flagged on 8/24 and 8/26 is formally closed
+
+Those runs both warned that the cron (`0 13 * * 1-5`) could not land on **Saturday August 29**, the
+Illinois 60-day constitutional deadline, and that **the August 31 run must move the IL card off
+"awaiting governor."** It already did: Pritzker signed on Wednesday **August 26** and the Friday
+**August 28** run caught it. This run re-confirmed the signing against ILGA and found the card already
+correct, so **there is nothing left for the 8/31 run to fix and the watch item is closed.**
+
+| Evidence re-read this run | Value |
+|---|---|
+| SB 3484 status XML, `Last-Modified` | **Thu, 27 Aug 2026 04:20:39 GMT** (unchanged since the 8/28 run) |
+| Occurrences of "public act" in the status record | **2** |
+| Occurrences of "veto" | **0** |
+| `104-0854` in the status record | **2** |
+| Last four actions | "Sent to the Governor", "Governor Approved", "Effective Date January 1, 2027", "Public Act . . . 104-0854" |
+
+⚠️ **The coverage blur is still spreading and the card already answers it.** Claims Journal re-ran the
+Insurance Journal piece **today, August 31**, carrying the same "Illinois joins New Jersey as the only
+states to require insurance for high-speed e-bikes" sentence. True, but it reads as equivalence, and
+**New Jersey binds ordinary low-speed e-bikes while Illinois does not.** The card and the FAQ say so
+outright already, so no copy change was needed.
+
+### Every tracked item re-verified against a primary source, all unchanged
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov`. **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**. Conjunctive phrase "greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour" present. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to every run since 8/18); **16** e-bike/scooter/moped-adjacent by synopsis; **none** with a `GovernorAction`; **0** synopses mentioning 4834 or c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." **0** "Chaptered", **0** "Vetoed". Unchanged |
+| CA AB 2346 | Untracked watch item, still open. **0** Chaptered / **0** Vetoed / **0** "Approved by the Governor"; last action still "08/25/26 Enrolled and presented to the Governor at 4 p.m." The Art. IV Sec. 10(b) 12-day clock still runs to about **September 6, 2026** |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** "Override", **0** chapter-law citations. Unchanged |
+| MA S 3077 | Still exactly **5** action dates, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action rows, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s**, as documented |
+| HI county guidance | Honolulu CSD's page still has **0** mentions of Act 259 or HB 2021 and still lists only the generic $30 / $15 fees. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None.** The national scan surfaced only the Illinois signing and NJ coverage already tracked |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ "DEADLINE PASSED" ×1, "January 19, 2027" ×1, **0** calendar buttons, **0** "days to comply" countdowns; HI "IN EFFECT" ×4 with **0** "Not in effect yet" banners |
+
+### Carriers re-verified (Monday cadence), all three unchanged
+
+| Carrier | Checked against the live page | Result |
+|---|---|---|
+| Velosurance | `$15,000` ×4 / `$30,000` ×4 / `$5,000` ×4 all present; "Insurance is required for every e-bike class in New Jersey under New Jersey S4834" ×2 verbatim; "A helmet is mandatory for every e-bike rider, regardless of age, under New Jersey S4834" ×1 verbatim; the self-contradicting correct line ("do not qualify as Class 1 or Class 2") ×1 | Card accurate, including both cautions. No change |
+| Sundays | "We do not offer cyclist liability insurance." ×1 verbatim | No change |
+| VOOM | "Register to our waiting list" ×1, "launching soon" ×1, `$35,000` ×2, `15,000` **0 times** | Still waitlist. No change |
+
+⚠️ **The recurring near-miss, avoided again.** `liability-only` and `500,000` still appear **zero**
+times on Velosurance's NJ page. Those two claims are **not** sourced to that page; they come from
+Bicycle Retailer (2026-07-08) and Velosurance's own launch announcement, which this run re-surfaced on
+Endurance Sportswire. **A carrier page not carrying a claim is not the same as the claim being wrong.**
+
+**Markel and Progressive stay deliberately unlisted.** Markel's bicycle page now redirects
+`markel.com/insurance/bicycle` → `markel.com/bicycle`; the live page has **0** occurrences of "New
+Jersey". Progressive's e-bike answers page still **404s**. A search for new NJ entrants found none:
+Velosurance remains the only carrier with an NJ-specific S4834 liability product.
+
+### Changes in this commit
+
+Date bumps only, plus the one self-dating sentence that has to move with them. The **5** cards actually
+re-checked (CA/FL/IL/MA/NY) → `2026-08-31`; **UT and WA left at `2026-08-24`** (enrolled texts not
+re-read this run); all **3** carriers → `2026-08-31` with VOOM's self-dating prose moved to "as of
+August 31, 2026" to match; footer and sitemap to August 31, 2026. No legal copy changed anywhere.
+
+**306 tests green**, build + prerender green. **Both date guards falsified before being trusted:**
+reverting the sitemap `lastmod` alone goes red with `expected '2026-08-28' to be '2026-08-31'`; pushing
+a carrier `lastVerified` past `LAST_REVIEWED` goes red 4 ways including `expected 'August 31, 2026' to
+be 'September 15, 2026'` from the VOOM prose guard; restored, 306 green. Built artifact verified:
+**5** "Aug 31, 2026" chips + **2** "Aug 24, 2026" (UT/WA), **0** "Aug 28, 2026", footer "last reviewed
+August 31, 2026", sitemap stamped `2026-08-31`, "as of August 31, 2026" ×1 with **0** "as of August 24,
+2026", "Public Act 104-0854" ×5, and **0** occurrences of "awaiting governor" or "Passed both chambers"
+anywhere in `dist/`. ⚠️ The single `If signed` string left in the bundle is the **untaken branch** of
+the Splash chip ternary (`n ? "Effective: " : "If signed: "`), not rendered copy: the prerendered
+`index.html` has **0** "If signed" and renders "Effective: Jan 2027" for Illinois.
+
+### ⛔ Production is still carrying the false Illinois status, 21 days into an unmerged PR
+
+Read off the live site in a real browser this run, the Illinois card still says **"Passed both
+chambers; awaiting governor"** with **0** occurrences of `104-0854`, and the footer still reads "last
+reviewed August 7, 2026". That status became false on **August 26**. The correction has been sitting in
+**PR #15 since August 10**, and it reaches riders only when Paul merges.
+
+## August 28, 2026 law sync (Friday): ⭐ ILLINOIS BECAME LAW. SB 3484 signed August 26 as Public Act 104-0854
+
+Folded into the same branch/PR as the 8/10 → 8/26 passes (PR #15 is still unmerged, so a second draft
+off an unmerged base would stack reviews). **This is the first run since 2026-08-03 where a tracked
+bill actually changed status.** Everything else in every other tracked state is unchanged.
+
+### ⭐ The Illinois watch item resolved, two days before the deadline the schedule could not see
+
+Prior runs had this exactly right and the reasoning held all the way to the end: SB 3484 was going to
+become law on or before **August 29, 2026** under Ill. Const. Art. IV, Sec. 9 whether or not Pritzker
+signed it. He signed it. The 8/24 and 8/26 runs both flagged that the cron (`0 13 * * 1-5`) could not
+land on August 29 (a Saturday). **That worry turned out not to matter: the Governor acted on
+Wednesday August 26, and this Friday run caught it three days early.** No weekend run was needed.
+
+⚠️ Worth keeping: **the 8/26 run was not wrong to report "still awaiting governor."** He signed on
+8/26, but ILGA's nightly sync did not rewrite the bill's status file until **Thu, 27 Aug 2026
+04:20:39 GMT**. The routine read the truth that was published at the time it ran.
+
+| Evidence | Value |
+|---|---|
+| SB 3484 status XML, `Last-Modified` | **Thu, 27 Aug 2026 04:20:39 GMT** (was frozen at 1 Jul 2026 for eight weeks) |
+| Action rows | **81** (was 78 on 8/26) |
+| The three new rows, all dated **8/26/2026** | "Governor Approved", "Effective Date January 1, 2027", "Public Act . . . 104-0854" |
+| Occurrences of "public act" in the status record | **2** (was 0) |
+| Occurrences of "veto" | **0** |
+| Public Act file `104-0854.htm`, `Last-Modified` | **Wed, 26 Aug 2026 20:58:58 GMT** |
+| Its own first line | "Public Act 104-0854 **SB3484** Enrolled" |
+
+Corroborated independently by the **Illinois Secretary of State's own newsroom** (August 26, 2026,
+"Giannoulias' Landmark Micromobility Safety Legislation Signed into Law").
+
+### ⛔ The scope-discipline read was redone against the ENACTED act, and a flattening trap nearly inverted it
+
+The card's whole claim is that Illinois adds nothing for ordinary e-bikes. That claim was previously
+verified against the *bill*; it is now law, so it was re-read against **Public Act 104-0854 itself**.
+
+⚠️ **The trap: stripping HTML tags from an ILGA act silently promotes struck-through text into the
+operative law.** A first pass on the flattened text appeared to show Sec. 11-208(8) letting local
+authorities require "the registration and licensing" of low-speed electric bicycles, which would have
+been a brand-new (if local) registration power worth flagging to riders. Reading the **markup**
+instead showed `<strike>, low-speed electric bicycles, and low-speed gas bicycles,</strike>` — the act
+**REMOVES** them. As enacted the provision reads "mobile carrying devices and bicycles". **Illinois
+municipalities lost, rather than gained, the power to make riders register a low-speed e-bike.**
+
+This is the same normalization discipline already written down for the NJ fixture (`citation-fidelity`
+strips struck material before comparing). Applied here, the finding flips from "a new local
+registration power" to "a narrowing of e-bike paperwork", which is the opposite conclusion.
+
+With struck material removed, the enacted act was swept again:
+
+| Check against enacted PA 104-0854 | Result |
+|---|---|
+| Sentences imposing register / title / insure / driver's-license duty on a **low-speed electric bicycle** | **ZERO** |
+| Sec. 1-146 "motor vehicle" | expressly **EXCLUDES** low-speed electric bicycles, so Sec. 7-601's mandatory liability insurance (which binds "a motor vehicle") cannot reach them |
+| Sec. 1-140.10 | "A 'low-speed electric bicycle' is not a moped or a motor driven cycle. Any electric bicycle that is not a low-speed electric bicycle shall be considered a motor driven cycle" |
+| Sec. 1-145.001 "motor driven cycle" | includes an electric motor "greater than 750 watts but less than or equal to 8,000 watts" — confirms the card's 750/8,000 figures |
+| Sec. 11-1517 | "Every owner of a motor driven cycle is subject to the mandatory insurance requirements specified in Article VI of Chapter 7" — binds **motor driven cycles only** |
+| Age rule, verbatim | "may operate a Class 1 or Class 2 low-speed electric bicycle only if the person is 15 years of age or older … a Class 3 … 16 years of age or older" — card's "15+, or 16+ for Class 3" is 1:1 |
+| Home rule | Sec. 11-1517 denies home-rule units concurrent power over electric micromobility devices |
+
+**Verdict unchanged: `requirementHints: []`, informational/gray card.** The conclusion the routine has
+carried since June is confirmed against the law as enacted.
+
+⚠️ **Coverage is blurring it exactly as predicted.** Insurance Journal (8/28) ran "New Illinois Law
+Requires Insurance for High-Speed E-Bikes" and wrote that "Illinois joins New Jersey as the only
+states to require insurance for high-speed e-bikes." That sentence is *true* but reads as equivalence,
+and the two states are not equivalent: **New Jersey binds ordinary low-speed e-bikes and Illinois does
+not.** The card and the FAQ now say so in as many words.
+
+### Changes in this commit
+
+IL card `status` `passed-both-chambers` → **`enacted`**, `statusLabel` → "Enacted; effective January 1,
+2027", `oneLiner` and `details` rewritten around the signing, and `sourceUrl` repointed from the
+ilga.gov BillStatus page (which blocks automated requests) to the **Public Act itself**. The FAQ
+Illinois bullet rewritten to match. `index.html` needed **no** change (it carries no hard-coded IL
+status, only a state list). The **5** cards actually re-checked (CA/FL/IL/MA/NY) bumped to
+`2026-08-28`; **UT and WA left at `2026-08-24`** (enrolled texts not re-read this run); carrier dates
+untouched (Friday, outside the Monday cadence and the July 19 window); footer and sitemap to
+August 28, 2026.
+
+⭐ **The status flip is user-visible beyond the eyebrow.** `Splash.tsx` keys the effective-date chip off
+`status === 'enacted'`, so the card moves from "**If signed:** Jan 1, 2027" to "**Effective:** Jan 1,
+2027". That is the exact bug the 8/10 pass fixed in the other direction, and it now resolves correctly
+on its own.
+
+### New guard: an enacted bill is never still described as awaiting a governor
+
+Same failure shape this suite exists for: the Illinois status lived in two files with nothing keeping
+the copies equal, and it additionally drives a rendered chip. Seven assertions in
+`site-consistency.test.ts` pin the card and the FAQ bullet to the signing date and the Public Act
+number, forbid "awaits Governor" / "if signed" in either, require both to keep the no-license /
+no-registration / no-insurance claim, and pin `requirementHints` to `[]`.
+
+**Falsified four ways, every one caught:** reverting the card `status` → red; reverting the FAQ bullet
+to "awaits Governor Pritzker" → red; flipping the oneLiner to claim Illinois extends the requirements
+to low-speed e-bikes → red; sneaking `requirementHints: ['registration']` onto the card → red.
+Restored, **306 green** (was 299).
+
+### Every other tracked item re-verified against a primary source, all unchanged
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov`. **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**. Conjunctive phrase "greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour" present. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to 8/18, 8/21, 8/24 and 8/26); **20** e-bike/scooter/moped-adjacent; **none** with a `GovernorAction`; **0** synopses mentioning 4834 or c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows ending "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." **0** "Chaptered", **0** "Vetoed". Unchanged |
+| CA AB 2346 | Untracked watch item, still open. Enrolled, "presented to the Governor" ×1, **0** Chaptered / **0** Vetoed / **0** Approved by the Governor. Presented 8/25, so the Art. IV Sec. 10(b) 12-day clock still runs to about **September 6, 2026** |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** chapter-law citations, **0** "Override". Unchanged |
+| MA S 3077 | Still exactly **5** action dates, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action dates, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s** both the status page and the CD1 text, as documented |
+| HI county guidance | Honolulu CSD's page still has **0** mentions of Act 259 or HB 2021 and still lists only the generic $30 / $15 fees. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None.** The national scan surfaced only the Illinois signing plus NJ/HI/UT/WA coverage already tracked |
+| Carriers | **Not re-checked.** Friday, outside the Monday cadence and the July 19 window. All 3 stay `2026-08-24` |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ "DEADLINE PASSED" ×1, "January 19, 2027" ×1, **0** calendar buttons, **0** "days to comply" countdowns; HI "IN EFFECT" ×4 with **0** "Not in effect yet" banners |
+
+### ⛔ The live site is now carrying a factually wrong status, and only a merge fixes it
+
+Read off production in a real browser this run, the Illinois card says:
+
+> PASSED BOTH CHAMBERS; AWAITING GOVERNOR
+
+That became false on August 26. Live still serves main from 8/7 (footer "last reviewed August 7,
+2026") because **everything since sits in the unmerged PR #15**. The correction is ready in the PR;
+it reaches riders only when Paul merges.
+
+**306 tests green**, build + prerender green. **The sitemap date guard was falsified before being
+trusted:** bumping `LAST_REVIEWED` alone went red with `expected '2026-08-26' to be '2026-08-28'`
+until `public/sitemap.xml` was updated too. Built artifact verified: "Public Act 104-0854" ×3,
+"signed it on August 26, 2026" ×2, "Enacted; effective January 1, 2027" ×1, **"Effective: Jan" ×1**,
+and **0** occurrences of "awaiting governor" / "awaits Governor" / "If signed" / "Passed both
+chambers" / `104-0853` anywhere in `dist/`; **5** "Aug 28, 2026" chips + **2** "Aug 24, 2026"
+(UT/WA); footer "last reviewed August 28, 2026"; sitemap stamped `2026-08-28`; FAQPage JSON-LD 16
+entries with the Illinois signing text carried into it.
+
+## August 26, 2026 law sync (Wednesday): no law changed; Illinois is 3 days from becoming law by default
+
+Folded into the same branch/PR as the 8/10 → 8/24 passes (PR #15 is still unmerged, so a second draft
+off an unmerged base would stack reviews). **No statute, bill, or effective date changed in any
+tracked state.** Carriers were not re-checked (Wednesday, outside the Monday cadence and outside the
+July 19 window), so all three stay `2026-08-24`.
+
+### Illinois: a fresher control, and the deadline is now three days out
+
+The 8/24 run proved SB 3484 is genuinely stalled by pairing its frozen status file against a control
+bill whose file had just been rewritten. That control is now four days old, so this run took a newer
+one. The General Assembly published **Public Act 104-0853 on August 25, 2026** (its file is stamped
+`8/25/2026 2:37 PM`), and reading the act itself, it is **SB 3086**, not SB 3484:
+
+| Evidence | Value |
+|---|---|
+| Public Act files in the 104th GA repository | **854** (was 852 on 8/24) |
+| Newest act, 104-0853, file timestamp | **8/25/2026 2:37 PM** |
+| 104-0853's own text | "Public Act 104-0853 SB3086 Enrolled" |
+| Occurrences of "3484" in 104-0853 | **0** |
+| SB 3484 status XML, `Last-Modified` | **still Wed, 01 Jul 2026 04:20:42 GMT** |
+| SB 3484, last action | still "Sent to the Governor", 6/30/2026 (78 action rows) |
+| SB 3484, occurrences of "public act" / "veto" | **0 / 0** |
+
+The publishing pipeline moved as recently as yesterday and SB 3484 is still not in it. The 60-day
+clock under Illinois Constitution Art. IV, Sec. 9 runs to **August 29, 2026**.
+
+⛔ **The schedule problem flagged on 8/24 is now imminent and still needs Paul's call.** The cron is
+`0 13 * * 1-5`, August 29 is a **Saturday**, and the last weekday run before it is **Friday August
+28**. The next run after the deadline is **Monday August 31**, which must move the IL card off
+"awaiting governor". Nothing in the schedule was changed unilaterally.
+
+The IL card's `details` was updated to cite the August 25 control and to date itself August 26.
+`details` is dead data (rendered nowhere), so this is data accuracy only, not user-visible.
+
+### ⭐ California AB 2346 was presented to the Governor yesterday
+
+Not a site change — AB 2346 is deliberately untracked (the 8/21 pass read its operative text and
+found "insurance" 0, "registration" 0, "driver's license" 0, "license plate" 0) — but the watch item
+moved. leginfo's status table now shows **"08/25/26 Enrolled and presented to the Governor at 4
+p.m."**, one step past the 8/19 concurrence vote the last run recorded. Status is still
+`Active Bill - Enrolled`: **0** "Chaptered", **0** "Vetoed", **0** "Approved by the Governor". Under
+Cal. Const. Art. IV, Sec. 10(b) the Governor has 12 days from presentment, so a signature, a veto, or
+a becomes-law-unsigned outcome lands around **September 6, 2026**. The ruling-out holds either way;
+re-apply the informational-card test only if it is signed and coverage starts framing it as a
+license/registration crackdown.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov`. Conjunctive, verbatim: "an electric motor capable of greater than 750 watts **that is** capable of reaching a speed greater than 28 miles per hour". **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**, the premise the N.J.A.C. 11:3-11.1 chain rests on. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to 8/18, 8/21 and 8/24); **18** e-bike/scooter/moped-adjacent; **none** with a `GovernorAction`; **0** synopses mentioning 4834 or c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still the two rows ending "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| IL SB 3484 | Unchanged. **See the control evidence above** |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." Unchanged |
+| CA AB 2346 | **Presented to the Governor 8/25/2026.** Untracked; see above |
+| FL CS/SB 382 | "Vetoed by Governor" stands; **0** chapter-law citations, **0** "Override". Unchanged |
+| MA S 3077 | Still exactly **5** action rows, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action dates, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT's page: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s** WebFetch, as documented |
+| HI county guidance | Honolulu CSD's bicycle registration page still lists only the generic **$30** e-bike / **$15** pedal fee, with **0** mentions of Act 259 or HB 2021 and no register-before-you-ride rule. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None.** The national scan surfaced only NJ/HI/UT/WA coverage already tracked, plus **San Diego Ordinance O-22123** (under-12 ban on Class 1 and 2, effective 8/13/2026) — a **municipal** ordinance and an age rule, not license, registration, or insurance. No card |
+| Carriers | **Not re-checked.** Wednesday, outside the Monday cadence and the July 19 window. All 3 stay `2026-08-24` |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ "DEADLINE PASSED" ×1, "January 19, 2027" fee-waiver copy ×1, **0** calendar buttons, **0** "days to comply" countdowns; "IN EFFECT" ×4 with **0** "Not in effect yet" banners. Live still serves main from 8/7 (footer "last reviewed August 7, 2026", 7 chips at "Aug 7, 2026"), because everything since sits in the unmerged PR #15 |
+
+### Changes in this commit
+
+IL card `details` rewritten around the August 25 control; the **5** cards actually re-checked
+(CA/FL/IL/MA/NY) bumped to `2026-08-26`; **UT and WA left at `2026-08-24`**; carrier dates untouched;
+footer and sitemap to August 26, 2026. **299 tests green**, build + prerender green. **The sitemap
+date guard was falsified before being trusted:** reverting `public/sitemap.xml` alone goes red with
+`expected '2026-08-24' to be '2026-08-26'`; restored, 299 green. Built artifact verified: **5**
+"Aug 26, 2026" chips + **2** "Aug 24, 2026" (UT/WA), footer "last reviewed August 26, 2026", sitemap
+stamped `2026-08-26`, FAQPage JSON-LD 16 entries, `104-0853` present once in the bundle, and **0**
+occurrences of `104-0837` or "As of August 24, 2026".
+
+## August 24, 2026 (same day, second pass): "make everything 1:1 with the law"
+
+Paul asked for a full fidelity pass. Every tracked statute was re-read against its own enacted text
+and every claim the site makes was checked against it. **No rule, verdict, threshold, dollar figure,
+age, or date was wrong.** The engine is sound. What was wrong was the **citations**, and they are
+user-visible on every verdict.
+
+### ⛔ The site was showing riders paraphrases inside quotation marks
+
+`Verdict.tsx` renders `citation.quote` wrapped in literal `"` characters. So whatever sits in that
+field is a claim that the statute says exactly that. Most of New Jersey's did not:
+
+> `"No person under 15 may operate. 15-16 requires a motorized bicycle license/permit. 17+ requires a basic driver's license or motorized bicycle license/permit."`
+
+That is a summary someone wrote, shown to the rider as the text of the law. Worse, several appended
+**our own commentary inside the quote marks**, so the statute appeared to say:
+
+> `"... shall by regulation fix the amounts and limits of coverage of, and requirements for, such insurance. (The statute names no dollar figures. The regulation below does.)"`
+
+On a site whose entire product is neutral legal accuracy, that is the defect that matters most.
+
+**Fix:** `Citation` gains a `note` field for our own words, rendered **outside** the quotation marks.
+Every `quote` is now verbatim statutory text, with `...` marking real elisions.
+
+### ⛔ Five citations pointed at the wrong section of the act
+
+Read against the enacted R1a text, section by section:
+
+| Claim | Was cited as | Actually |
+|---|---|---|
+| Operator age and licence tiers | S4834 **§3** | **§5**, C.39:4-14.3(c)(1)-(3) |
+| Minimum operating age | S4834 **§3** | **§5**, C.39:4-14.3(c)(1) |
+| Rental licence exemption | S4834 **§3** | **§5**, C.39:4-14.3(c)(4) |
+| Low-speed electric **scooters** exempt | S4834 **§10** (the fee waiver) | **§3**, C.39:4-14.16(f)(1) |
+| Insurance not required for low-speed | S4834 **§5** | **§3**, C.39:4-14.16(f)(2) |
+| Six-month grace to get insurance | S4834 **§5** | **§11** |
+
+§3 is C.39:4-14.16, which is about where a low-speed e-bike may be ridden. The age and licence tiers
+were never in it. The registration citation also bundled three different sections under one label
+(§6 registration, §10 fee waiver, §7(b) quarterly reporting); it is now three separate citations.
+
+⭐ **One claim I expected to be wrong turned out to be right.** The old §6 quote asserted
+"Shared-rental companies may bulk-register quarterly in lieu of per-bike registration." The phrase
+"bulk" appears nowhere in the act and I went looking to delete it. **§7(b) says exactly that**, in
+different words: a shared-fleet company "may provide the serial number or other identifying numbers
+of each low-speed electric bicycle ... on a quarterly basis in lieu of registering each shared
+low-speed electric bicycle." The substance was right and the citation was wrong, which is the same
+shape as the Velosurance near-miss. Check the claim before deleting it.
+
+### Every rule re-verified against the enacted text, all correct
+
+| Rule | Source read | Result |
+|---|---|---|
+| Min age 15; 15-16 moped licence; 17+ basic **or** moped licence | §5, C.39:4-14.3(c)(1)-(3) | 1:1 |
+| Rental exemption, low-speed only, age 16+ | §5, C.39:4-14.3(c)(4) | 1:1 |
+| Registration binds low-speed **and** motorized | §6, C.39:4-14.3i | 1:1 |
+| Insurance binds motorized only | §11(a) + C.39:4-14.3e | 1:1 |
+| $15,000 / $30,000 / $5,000, and (b) pedestrian PIP | N.J.A.C. 11:3-11.1, read verbatim | 1:1 |
+| Fee waiver one year → 2027-01-19 | §10 | 1:1 |
+| Six-month grace → 2026-07-19 | §11 | 1:1 |
+| Conjunctive ">750 W **that is** capable of ... >28 mph" | R.S.39:1-1 as amended | 1:1 |
+| §4 pedestrian PIP reaches bicycle + low-speed only, eff. 1/1/2027 | §4 + §13 | 1:1 |
+
+**Hawaii was already almost exact.** Two quote-fidelity nits fixed: §249-14(b) silently dropped its
+final clause ("by a law enforcement officer or designated official pursuant to section 249-15") with
+no ellipsis, and the high-speed-device definition used `'single quotes'` where the statute uses
+`"double quotes"`. All five HI quotes were then confirmed character-for-character against the live
+CD1 text in a browser. **The conjunctive definition is confirmed again from the statute itself:**
+"any device with a motor exceeding seven hundred fifty watts **and** capable of speeds over
+twenty-eight miles per hour."
+
+**Utah and Washington were re-read in full this time** (this morning's pass had deliberately skipped
+them). Every card claim checked out 1:1, including UT 53-3-202(5)(c) ("may operate ... without: (i) a
+class D driver license; (ii) a motorcycle endorsement; or (iii) a personal electric vehicle safety
+certificate"), 41-6a-1512's $10 fee cap / $150 infraction cap / under-8 and under-16 rules, and
+41-6a-1505(3)'s rented-class-1 carve-out. ⭐ **WA ESSB 6110 contains the word "insurance" zero times**,
+and its only mentions of registration and licensing sit inside the *work group's* list of things to
+*study* for a future electric-motorcycle framework. Both cards' informational classification is
+correct, so **UT and WA `lastVerified` legitimately move to 2026-08-24** along with the other five.
+
+### The guard: `citation-fidelity.test.tsx`
+
+Data-only assertions would not have caught this, because the data looked fine until it was wrapped in
+quotation marks. So the guard works on both levels:
+
+- **Fetchable sources (NJ):** the enacted text is stored in `__fixtures__/nj-s4834-enacted.txt` with
+  struck-through material removed so it reads as enacted law. Every quote must appear in it verbatim.
+  Ellipses and bracketed substitutions are treated as gaps; the fragments around them still must match.
+- **Unfetchable sources (HI):** capitol.hawaii.gov 403s curl **and** WebFetch, so those quotes live in
+  `__fixtures__/verified-quotes.json` alongside the **SHA-256 of the enacted text they were checked
+  against** (`9ab9c0de…`). Editing a quote turns the suite red until someone re-reads the statute.
+- A **rendered** check: renders the real `<Verdict>` and asserts the note text is NOT inside quote marks.
+- A commentary sniff test: statutes do not say "your", "we", or "this site".
+
+⚠️ **Two normalization traps found while building it.** The reprint leaves stray spaces before
+punctuation once struck text is removed ("motorized bicycle . (2)", "R.S. 39:1-1 ,"), which is markup
+noise, not different wording. And the source is **cp1252**, not UTF-8; decoding it as UTF-8 turns
+every apostrophe into a replacement character and "driver's license" silently becomes "driver s
+license". Both are handled in `normalize()` and in the fixture build.
+
+**Falsified five ways, every one caught:** restoring the old paraphrase quote → red; putting our
+commentary back inside the quote marks → red; altering a Hawaii quote away from the manifest → red;
+re-wrapping `note` in quotation marks in the component → red; reverting one section label to §3 → red.
+Restored, **299 green**. 16 real per-quote checks run, and a test asserts the set is non-empty so a
+silent empty pass cannot look like success.
+
+### Also, at Paul's request: "The law (NJ MVC)" removed from the nav
+
+The header carried a hardcoded link to New Jersey's MVC page on every page, including Hawaii's. The
+site tracks seven states now. Removed. **The statute-specific authority link is untouched** in the
+verdict disclaimer and the registration remedy, where it correctly resolves per jurisdiction (NJ MVC
+for NJ, the county director of finance for HI).
+
+### Changes in this commit
+
+`Citation` gains `note`; `Verdict.tsx` renders it outside the quotation marks; all NJ citation
+sections corrected and all NJ quotes replaced with verbatim text; registration split into §6 / §10 /
+§7(b); two HI quotes made exact; UT and WA `lastVerified` → `2026-08-24` after a full re-read; the
+NJ-only nav link removed; new fixtures and `citation-fidelity.test.tsx`. **299 tests green**, tsc
+clean, build + prerender green. Built artifact: **7** "Aug 24, 2026" chips, footer "last reviewed
+August 24, 2026", sitemap `2026-08-24`, FAQPage JSON-LD 16 entries, and **zero** occurrences anywhere
+in `dist/` of the old wrong section labels, the paraphrase quotes, the in-quote commentary, the
+"bulk-register" wording, or the removed nav link.
+
+## August 24, 2026 law sync (Monday): no law changed; Illinois is 5 days from becoming law by default
+
+Folded into the same branch/PR as the 8/10, 8/17, 8/18 and 8/21 passes (PR #15 is still unmerged, so a
+second draft off an unmerged base would stack reviews). **No statute, bill, or effective date changed
+in any tracked state, and no carrier claim moved.** Two things are worth carrying forward: a much
+stronger piece of evidence for the Illinois conclusion, and a calendar problem in this routine's own
+schedule.
+
+### ⭐ Illinois: the "no action" finding now has a control, and it is a much better argument
+
+Prior runs rested the IL conclusion on an absence: SB 3484's bill-status XML is stamped
+`Last-Modified: Wed, 01 Jul 2026` and says "Sent to the Governor" (6/30/2026) with no Public Act. The
+weakness in that was always the same: **an unchanged file cannot distinguish "nothing happened" from
+"the sync is broken."**
+
+This run closed that hole with a control. The Governor approved a batch of Senate bills on
+**August 21, 2026**, and ILGA's nightly sync rewrote each of their status files the next morning:
+
+| Evidence | Value |
+|---|---|
+| Control bill SB 3465, `Last-Modified` | **Sat, 22 Aug 2026 04:20:39 GMT** |
+| Control bill SB 3465, last two actions | "Governor Approved" 8/21/2026, "Public Act . . . 104-0850" |
+| SB 3484, `Last-Modified` | **still Wed, 01 Jul 2026 04:20:42 GMT** |
+| SB 3484, last action | still "Sent to the Governor" 6/30/2026 |
+| SB 3484, occurrences of "public act" | **0** |
+| SB 3484, occurrences of "veto" | **0** |
+
+**The sync is demonstrably live and SB 3484 is demonstrably untouched by it.** That is a positive
+finding, not an absence.
+
+⭐ **A second, independent signal points the same way.** The 8/21 batch was published in ascending
+bill-number order, and **SB 3484 sits exactly in the skipped gap**: 104-0850 is SB 3465 and 104-0851
+is SB 3707. The 15 new acts (104-0838 through 104-0852) were downloaded and grepped; **none is
+SB 3484**.
+
+The 60-day clock under Illinois Constitution Art. IV, Sec. 9 still runs to **August 29, 2026**.
+
+### ⛔ The routine's own schedule cannot see the Illinois deadline
+
+`0 13 * * 1-5` is weekdays only. **August 29, 2026 is a Saturday.** The last run before the deadline
+is Friday **August 28**; the next is Monday **August 31**, which is after it. So no run lands on the
+day the status actually changes, and the card's `statusLabel` ("Passed both chambers; awaiting
+governor") goes stale over that weekend.
+
+Nothing was changed in the schedule this run, because changing it is Paul's call. **Flagged for him:**
+either accept that the 8/31 run catches it two days late, or run the sync manually over that weekend.
+Whichever way, the 8/31 run must move the IL card off "awaiting governor".
+
+### The stale Public Acts ceiling, again
+
+The IL card's `details` said the published Public Acts ran "through 104-0837". They now run through
+**104-0852** (852 act files in the repository listing, newest stamped 8/21/2026 3:27 PM). This is the
+**third** run in a row where a hardcoded bottom-edge number went stale between passes, so the sentence
+was rewritten to stop carrying a number that ages badly and to cite the control evidence above
+instead. `details` is dead data (rendered nowhere), so this is data accuracy only, not user-visible.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full. Conjunctive: "greater than 750 watts **that is** capable of reaching a speed greater than 28 miles per hour". **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**, the premise the N.J.A.C. 11:3-11.1 chain rests on. s.5(f)(1) strikes "furnish proof of insurance" for low-speed; s.5(f)(2) requires it registered **and** licensed; s.10 fee waiver; s.11 six-month grace; s.13 immediate effect except s.4 at the 12th month |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to 8/18 and 8/21); **18** e-bike-adjacent; **none** with a `GovernorAction`; **0** synopses mentioning 4834 / c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026 ("Introduced, Referred to ..."). S4524 still one row, 6/26/2026. Zero movement |
+| IL SB 3484 | Unchanged. **See the control-bill evidence above** |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." Unchanged |
+| CA AB 2346 | **Enrolled 8/21/2026**, last action 8/19/2026 "Senate amendments concurred in. To Engrossing and Enrolling." **Not signed, not vetoed, not yet chaptered.** Watch item stays open |
+| FL CS/SB 382 | "Vetoed by Governor" stands, **0** chapter-law citations. Unchanged |
+| MA S 3077 | Still **5** action dates, last 7/22/2026. Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action dates, 11/07/2025 and 01/07/2026. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT's page: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026 ... which took effect upon the Governor's signature". `enactedOn: '2026-07-15'` correct. ⚠️ The HDOT URL moved (the 8/21 `/blog/2026/07/15/` path now 404s; it is `/blog/2026/07/16/new-law-enacted-to-improve-electric-bicycle-safety/`). ⚠️ HDOT still writes the high-speed threshold as "750 watts **or** ... 28 miles per hour"; the CD1 statutory text is conjunctive and the site follows the text, not the agency summary |
+| HI county guidance | Honolulu CSD still lists only the generic **$30** e-bike / **$15** pedal fee, **0** mentions of Act 259, no register-before-you-ride rule. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-21 (UT) and 2026-08-07 (WA)** (enrolled texts not re-read this run) |
+| New states | **None.** National scan surfaced only bills already ruled out (CA SB 956, AZ SB 1008) plus **TN**, whose July 1 2026 change is an under-16 restriction on Class 3, i.e. an age rule, not license/registration/insurance, and not widely misreported. No card |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ eyebrow "IN EFFECT · DEADLINE PASSED", "fees stay waived through January 19, 2027", **0** calendar buttons, **0** "days to comply" countdowns; HI card "IN EFFECT" with no "Not in effect yet" banner |
+
+### Carriers re-verified (Monday cadence), all three unchanged
+
+| Carrier | Checked against the live page | Result |
+|---|---|---|
+| Velosurance | `$15,000` / `$30,000` / `$5,000` all present; "Insurance is required for every e-bike class in New Jersey under New Jersey S4834" present verbatim; "A helmet is mandatory for every e-bike rider, regardless of age, under New Jersey S4834" present verbatim; the self-contradicting correct line ("do not qualify as Class 1 or Class 2") also still present | Card accurate, including both cautions. No change |
+| Sundays | "We do not offer cyclist liability insurance." present verbatim | No change |
+| VOOM | "Register to our waiting list", "we will be launching soon", `$35,000` present, `15,000` **0 times** | Still waitlist. No change |
+
+⚠️ **The recurring near-miss, avoided again.** `liability-only` and `500,000` still appear **zero
+times** on Velosurance's NJ page. Those two claims are **not** sourced to that page; they come from
+Bicycle Retailer (2026-07-08) and Velosurance's own launch announcement. This is the same trap the
+8/17 run wrote down: **a carrier page not carrying a claim is not the same as the claim being wrong.**
+Check whether the claim still has a source before rewriting around the page.
+
+**Markel and Progressive stay deliberately unlisted.** Markel's bicycle page has **0** occurrences of
+"New Jersey"; Progressive's e-bike answers page now **404s** entirely. Neither has on-page NJ e-bike
+liability evidence. A search for new NJ entrants found none: Velosurance remains the only carrier with
+an NJ-specific S4834 liability product.
+
+### Changes in this commit
+
+IL card `details` rewritten (stale Public Acts ceiling out, control-bill evidence in); the **5** cards
+actually re-checked (CA/FL/IL/MA/NY) bumped to `2026-08-24`; **UT left at `2026-08-21`, WA left at
+`2026-08-07`**; all **3** carriers bumped to `2026-08-24` and VOOM's self-dating prose moved to
+"as of August 24, 2026" to match; footer and sitemap to August 24, 2026.
+
+**279 tests green**, build + prerender green. **Both date guards falsified before trusting them:**
+reverting the sitemap `lastmod` alone goes red with `expected '2026-08-21' to be '2026-08-24'`;
+reverting VOOM's prose date alone goes red with `expected 'August 17, 2026' to be 'August 24, 2026'`;
+restored, 279 green. Built artifact verified: **5** "Aug 24, 2026" chips + **1** "Aug 21, 2026" (UT)
++ **1** "Aug 7, 2026" (WA), footer "last reviewed August 24, 2026", sitemap stamped `2026-08-24`,
+FAQPage JSON-LD 16 entries, **0** occurrences of `104-0837` / `August 17, 2026` / `2026-08-17`
+anywhere in `dist/`, and the single surviving `2026-08-21` string in the bundle is UT's `lastVerified`,
+which is correct.
+
+## August 21, 2026 law sync: no law changed anywhere; the Utah card was telling riders a half-truth
+
+Folded into the same branch/PR as the 8/10, 8/17 and 8/18 passes (PR #15 is still unmerged, so a
+second draft off an unmerged base would stack reviews). **No statute, bill, or effective date changed
+in any tracked state.** What changed is one of our own claims, and it was user-visible on the live
+site.
+
+### ⛔ The UT card said a partial list of HB 381's new rules was the whole list
+
+Live copy, on the card and in the FAQ:
+
+> New for ordinary e-bikes: a helmet for riders under 21 on highways and a ban on riding while drinking.
+
+The FAQ's version was stronger and worse: *"New for ordinary e-bike riders: **only** a helmet …"*.
+
+Reading the enrolled PDF again, that list is incomplete, and the word "only" makes it false. HB 381
+also enacts **Sec. 41-6a-1512**, a "personal electric vehicle safety certificate" program whose
+definition of *personal electric vehicle* **expressly includes an electric assisted bicycle**. From
+**May 5, 2027**:
+
+- A rider **8 or older and under 16** may not operate an e-bike with the motor engaged **on a
+  highway** unless they either obtain the certificate **or** ride under the direct supervision of a
+  parent or another responsible adult (Sec. 41-6a-1115.5(4), repeated verbatim at Sec. 53-3-202(5)(b)).
+- A rider **under 8** may not operate one on a highway at all (Sec. 41-6a-1115.5(6)).
+- A rider **under 16** may not use a freeway (Sec. 41-6a-1512(5)).
+- The certificate is online-completable, the fee is capped at **$10**, and a violation is an
+  infraction capped at **$150**.
+
+⭐ **This REPLACED a narrower prior rule that required supervision only under age 14**, so it is a
+genuine tightening, not a restatement. A Utah parent reading our card would have concluded there was
+nothing coming for their 15-year-old. There is.
+
+**The card's verdict never moved.** Scope discipline still puts Utah in the informational/gray bucket
+with `requirementHints: []`: a youth safety certificate that an adult riding along satisfies is an
+age/supervision rule, not license, registration, title, or insurance. The conclusion was right; the
+list backing it was not. Same shape as the 8/18 Illinois fix.
+
+⭐ **The re-read also produced better evidence FOR the conclusion than we had before.** Utah's
+driver-licensing statute now says it outright, so we no longer have to infer it from the "motor
+vehicle" exclusion alone:
+
+- Sec. 53-3-202(5)(b)(i), an under-16 rider "is not required to hold a class D driver license or a
+  motorcycle endorsement" to ride an e-bike on a highway.
+- Sec. 53-3-202(5)(c), a rider **16 or older** may ride "without" a class D driver license, a
+  motorcycle endorsement, **or** a safety certificate.
+
+Both are now quoted in the card and the FAQ.
+
+⚠️ **A secondary source had this backwards and would have taken us with it.** Search summaries
+claimed "riders 16–17 without a driver's license also need the certificate; riders 18+ … similarly
+required." Sec. 53-3-202(5)(c) says the exact opposite. The statute contradicted the summary, and the
+statute won. Two other card claims were checked the same way and held: the under-21 helmet rule is
+real (Sec. 41-6a-1505(1)(b), broadened from class-3-only, **and it does not apply to a rented class 1
+e-bike**, Sec. 41-6a-1505(3), a carve-out the card had also omitted), and the Jan 1 2027 point-of-sale
+disclosure is real. One citation in `details` was wrong and is fixed: that disclosure is
+**Sec. 41-6a-1511(6)(a)**, not 41-6a-1115.6. `details` also claimed a single "driver-licensing
+disclosure section" carried the May 5 2027 date; **four** sections do (41-6a-1115, 41-6a-1115.5,
+41-6a-1512, 53-3-202), and 53-3-202 is not a disclosure section.
+
+### New guard, and it was wrong on the first try
+
+`site-consistency.test.ts` now asserts the UT card's `oneLiner` and the FAQ's Utah bullet **both**
+carry the May 5 2027 certificate rule, and that neither frames its safety-rule list as exhaustive.
+This is the repo's recurring defect shape: one fact in two files with nothing keeping the copies equal.
+
+⚠️ **The first version scanned all of `Faq.tsx` and went red on correct copy**, Massachusetts'
+bullet legitimately says S 3077 "required only a helmet and a minimum age of 16", which is true of
+that bill. Rescoped to slice out the Utah `<li>` alone. Exactly the caveat already written down for
+the rendered-copy guard: check the sentence that makes the claim, not the whole page.
+
+**Falsified both ways before trusting it:** reverting the card `oneLiner` alone → 1 test red;
+reverting the FAQ bullet alone → 2 tests red; restored → **279 green**. The MA sentence stays green
+throughout.
+
+### ⭐ Three new states found, all three deliberately ruled out
+
+| Bill | What the operative text actually says | Card? |
+|---|---|---|
+| **CA AB 2346** (Wilson), **passed both chambers 8/19/2026**, 77-0 / 38-0, now enrolling for Newsom | **"insurance" 0, "registration" 0, "driver's license" 0, "license plate" 0, "certificate of title" 0.** Sidewalk/path speed limits, an under-16 15 mph cap (warnings only until 12/31/2027), 2029 lamp + speedometer mandates **on sellers**, point-of-sale disclosures. New Sec. 12810.1 **REMOVES** a driver's-license violation point rather than adding one. The only mention of registering/insuring sits inside a point-of-sale warning about what happens if a buyer **modifies** the bike past legal limits, i.e. existing motorcycle law | **No.** Speed/equipment/age bill. Coverage frames it accurately, so the FL/IL "widely misreported" carve-out does not apply |
+| **NC HB 1094 §19 / SL 2026-46**, signed 7/7/2026, effective **12/1/2026** | **Zero** occurrences of insurance, registration, drivers license, financial responsibility, certificate of title, or license plate in the entire e-bike section. Adopts the 3-class definition, grants statewide roadway/bike-lane/multiuse-path access, requires a helmet under 18 on Class 3, lets cities and counties regulate paths and sidewalks | **No.** Classification + access + helmet |
+| **CA SB 956** (Choi), the Orange County e-bike plate pilot | Never got a hearing (**first hearing canceled at the author's request, 4/20/2026**) and never left its first policy committee. Text only **authorizes** local ordinances, it mandates nothing, which is the MA S 3077 pattern. "insurance" 0, "driver's license" 0 | **No.** Deader than the AB 1942 already tracked for California, and authorizing rather than mandating |
+
+CA's other e-bike bills were checked and are all dead or out of scope: **AB 1557** held under
+submission 5/14/26, **AB 2284** failed passage 4/20/26, **SB 455** returned under Joint Rule 56 on
+2/2/26. NJ and HI remain the only two states with a live compliance requirement.
+
+⚠️ **Watch item for the next runs: if Newsom signs AB 2346**, California gets a real e-bike law. It
+still adds no license, registration, or insurance, so the ruling-out holds, but if coverage starts
+framing it as a crackdown the informational-card test should be re-applied.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full. Conjunctive: "greater than 750 watts **that is** capable of reaching a speed greater than 28 miles per hour". **"helmet" 0 times.** Exactly **4** dollar figures in the act ($5, $5, $50, $50), so still **no insurance minimums**, the premise the N.J.A.C. 11:3-11.1 chain rests on. s.5(f)(1) strikes "furnish proof of insurance" for low-speed; s.5(f)(2) requires it registered **and** licensed; s.10 one-year fee waiver; s.11 six-month grace; s.13 immediate effect except s.4 at the 12th month |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to 8/18); **18** e-bike-adjacent; **none** with a `GovernorAction`. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. Zero movement |
+| IL SB 3484 | Still "Sent to the Governor" 6/30/2026, **zero** "public act" strings in its status record, and its XML's `Last-Modified` is **still 2026-07-01** while the nightly sync keeps running. Falsified a second way: the Public Acts list has grown to **104-0837** since the last run, and the three new acts are **SB3044, SB3048, SB3506**, none is SB 3484. 60-day clock still runs to **August 29, 2026** (8 days out) |
+| CA AB 1942 | Last action still 5/14/26 "In committee: Held under submission." Unchanged |
+| FL CS/SB 382 | Enrolled 3/17, presented to the Governor **6/15/2026**, **"Vetoed by Governor" 6/25/2026**, no override. Card's dates confirmed correct |
+| MA S 3077 | 5 actions total, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194" |
+| NY S08573 | nyassembly.gov mirror: 11/07/2025 REFERRED TO RULES, 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Confirmed via HDOT's own page: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026 … took effect upon the Governor's signature". `enactedOn: '2026-07-15'` correct; watch item stays **resolved**. ⚠️ Note HDOT's own summary writes the high-speed threshold as "750 watts **or** … 28 miles per hour"; the CD1 statutory text is conjunctive and the site follows the text, not the agency summary |
+| HI county guidance | Honolulu CSD still lists only the generic **$30** e-bike / **$15** pedal fee, **no** Act 259 mention and no register-before-you-ride rule, so the FAQ caveat stays accurate |
+| UT HB 381 | **Re-read in full against the enrolled PDF. See the correction above.** |
+| WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-07** (enrolled text not re-read this run) |
+| Carriers | **Not re-checked.** Friday, and outside the July 19 window. All 3 stay `2026-08-17` |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ eyebrow "IN EFFECT · DEADLINE PASSED", "fees stay waived through January 19, 2027", **0** calendar buttons, no countdown; HI card "IN EFFECT", no "Not in effect yet" banner |
+
+### Changes in this commit
+
+UT card `oneLiner` and `details` rewritten; FAQ Utah bullet rewritten (auto-propagates to the FAQPage
+JSON-LD); IL `details` date reference moved to August 21 and its Public Acts ceiling updated to
+104-0837; new cross-file guard in `site-consistency.test.ts`; the **6** cards actually re-checked
+(CA/FL/IL/MA/NY/UT) bumped to `2026-08-21`; **WA left at `2026-08-07`**; carrier dates untouched;
+footer and sitemap to August 21, 2026. **279 tests green**, build + prerender green. Built artifact
+verified: **zero** occurrences of the old false sentence anywhere in `dist/`, the new copy present
+twice in the prerendered HTML, **6** "Aug 21, 2026" chips + **1** "Aug 7, 2026" (WA), footer "last
+reviewed August 21, 2026", sitemap stamped `2026-08-21`, FAQPage JSON-LD 16 entries, and the
+Massachusetts "required only a helmet and a minimum age of 16" sentence still intact.
+
+## August 18, 2026 law sync: no law changed; ILGA's scraper block found, and a stale citation corrected
+
+Folded into the same branch/PR as the 8/10 and 8/17 passes (PR #15 is still unmerged, so a second
+draft off an unmerged base would stack reviews). **No statute, bill, or effective date changed
+anywhere.** Two things did change: the way Illinois has to be verified, and one now-false sentence
+this repo was carrying.
+
+### ⭐ ilga.gov now blocks automated requests. Use the file repository instead.
+
+`https://www.ilga.gov/Legislation/BillStatus?...` returns a 3,988-byte **"Access Denied /
+Automated Request Blocked"** page to `curl` and to WebFetch. It is not a transient failure and it is
+not our IP; the page itself says so and points at the fix.
+
+**The replacement is better than what it replaced, and it is a genuine primary source:**
+
+| What | Where |
+|---|---|
+| Repository root | `https://ftp.ilga.gov/` (IIS directory listing, synced nightly from ILGA production) |
+| One bill's full status as XML | `https://ftp.ilga.gov/Legislation/104/BillStatus/XML/10400SB3484.xml` |
+| Every bill's status (12,800 files) | `https://ftp.ilga.gov/Legislation/104/BillStatus/XML/` |
+| Public Acts, one HTML file each | `https://ftp.ilga.gov/Public%20Acts/104/104-0834.htm` |
+
+The XML carries `<lastaction>` with chamber and date, the full action list, sponsors and synopsis.
+⭐ **The `Last-Modified` header is itself evidence**: `10400SB3484.xml` is stamped
+**Wed, 01 Jul 2026 04:20:42 GMT**, so ILGA's nightly sync has not rewritten that bill's record since
+the day after it went to the Governor. No action has happened, rather than no action being reported.
+
+### The stale sentence, and how it got there
+
+The IL card's `details` said the 104th GA's Public Acts list ran **104-0001 through 104-0741**. The
+repository's own directory listing shows it runs to **104-0834** (plus one out-of-sequence
+104-5446), with files dated 8/7, 8/10, 8/11 and 8/17. The 8/17 run read a source that was either
+paginated or stale and recorded its bottom edge as the end of the list. The **conclusion** was right
+and is still right; the **number backing it** was wrong the moment it was written.
+
+Rewritten to cite what was actually checked, which is also the harder-to-be-wrong-about source: the
+bill-status record itself. `details` is dead data (rendered nowhere), so this is data accuracy only,
+not a user-visible change.
+
+**Falsified the conclusion two independent ways before rewriting:**
+1. ILGA's own bill-status XML for SB 3484: last action **"Sent to the Governor" 6/30/2026**, zero
+   occurrences of "Public Act" anywhere in the record.
+2. Downloaded **236 Public Acts** (104-0600 through 104-0834, plus 104-5446) and grepped them.
+   114 of the 236 are Senate bills. **Zero** mention SB 3484.
+
+The 60-day clock under Illinois Constitution Art. IV, Sec. 9 still runs to **August 29, 2026**.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full. Conjunctive ">750 watts **and** ... greater than 28 miles per hour"; s.10 one-year fee waiver; s.11 six-month grace; s.13 immediate effect except s.4 at the 12th month. **"helmet" appears 0 times.** Only **4** dollar figures in the whole act, and they are the `$5` permit fee and the `$50` dismissible carry offense, so **no insurance minimums**, which is the premise the N.J.A.C. 11:3-11.1 chain rests on. s.5(f)(1) strikes "furnish proof of insurance" for low-speed; s.5(f)(2) requires it to be registered **and** licensed |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API; **18** e-bike-adjacent; **none** with a `GovernorAction`. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still at a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026 ("Introduced in the Senate, Referred to Senate Transportation Committee"). Zero movement |
+| IL SB 3484 | Still "Sent to the Governor" 6/30/2026, no Public Act. See above |
+| CA AB 1942 | Held under submission 5/14/2026. Full history read; **no action after 5/14** |
+| FL CS/SB 382 | "6/25/2026 Vetoed by Governor" on flsenate.gov, no override |
+| MA S 3077 | 5 actions total, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194" |
+| NY S08573 | nysenate.gov is behind a Cloudflare challenge; **nyassembly.gov mirrors the same bill** and shows 11/07/2025 REFERRED TO RULES, 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. `enactedOn: '2026-07-15'` correct. Watch item stays **resolved** |
+| HI county guidance | Honolulu CSD still lists only the generic `$30` e-bike / `$15` pedal fee with **no** Act 259 mention, so the FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-07** (enrolled texts not re-read this run) |
+| Carriers | **Not re-checked.** Tuesday, and outside the July 19 window. All 3 stay `2026-08-17`, and VOOM's "as of August 17, 2026" prose stays matched to its own date |
+| NJ + HI live UI | **Verified in a real browser** on the live URL: NJ eyebrow "IN EFFECT · DEADLINE PASSED", "fees stay waived through January 19, 2027", **0** calendar buttons, no countdown; HI "IN EFFECT" with no "Not in effect yet" banner |
+
+### ⭐ Oregon HB 4007 found and deliberately ruled out
+
+A national scan surfaced **Oregon HB 4007 (2026 Oregon Laws ch. 101)**, which this repo does not
+track. Read the **enrolled PDF** (18 pages) rather than the coverage. It gets **no card**, not even
+an informational one:
+
+- The word **"insurance" appears 0 times in the entire act.**
+- It creates "powered micromobility device" (max 28 mph, under 100 lb) and **expressly excludes
+  electric assisted bicycles** from that definition (Sec. 2(2)(b)(A)), so ordinary e-bikes are
+  outside the new category entirely.
+- Where it touches title (ORS 803.030), registration (ORS 803.305) and financial responsibility
+  (ORS 806.020), it **adds devices to the exemption lists**. It removes obligations; it does not
+  create them.
+- ORS 807.020(15) as amended lets a person ride "without any grant of driving privileges" and
+  **lowers** the Class 1 floor from 16 to 14. That is a licensing **exemption** getting wider.
+- The new offenses ("selling an impostor vehicle", improper sale of a battery or conversion kit)
+  bind **sellers**, not riders.
+- Substance is protective headgear, minimum ages, and sales labeling, and the amendments are
+  **operative January 1, 2027** (Sec. 33) even though the act took effect 91 days after sine die.
+
+The informational-card carve-out exists for bills that are **widely misreported** as license or
+registration mandates (the FL and IL pattern). Oregon is not: BikePortland states plainly that "no
+license, no registration, no plates are required in Oregon" and contrasts it with New Jersey.
+Nothing to correct, so nothing to publish.
+
+No other state surfaced. NJ and HI remain the only two states with a live compliance requirement.
+
+### Changes in this commit
+
+`details` sentence on the IL card rewritten; the **5** cards actually re-checked (CA/FL/IL/MA/NY)
+bumped to `2026-08-18`; UT/WA left at `2026-08-07`; footer and sitemap to August 18, 2026. Carrier
+dates untouched. **The sitemap guard earned its keep**: bumping `LAST_REVIEWED` alone turned
+`site-consistency.test.ts` red with `expected '2026-08-17' to be '2026-08-18'` until
+`public/sitemap.xml` was updated too. **275 tests green**, build + prerender green. Built artifact
+verified: **5** "Aug 18, 2026" chips + **2** "Aug 7, 2026" (UT/WA), footer "last reviewed August 18,
+2026", sitemap stamped `2026-08-18`, FAQPage JSON-LD 16 entries, and the only three surviving
+`2026-08-17` strings in the bundle are the three carrier `lastVerified` values, which is correct.
+
+## August 17, 2026 — law sync (Monday): no law changed; one carrier page moved under us again
+
+Folded into the same branch/PR as the 8/10 pass (PR #15 is still unmerged, so branching a second
+draft off an unmerged base would have stacked two reviews; this repeats what PR #14 did with the
+8/3 → 8/6 → 8/7 commits). **No statute, bill, or effective date changed anywhere.**
+
+**Every tracked item re-verified against a primary source:**
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged. Conjunctive ">750 W **and** >28 mph", s.11 six-month grace, s.13 immediate effect, s.10 one-year fee waiver, **no dollar figures**, low-speed needs registration **and** a license (s.5(f)(2)) |
+| NJ new-bill scan | All **10,712** 2026 bills pulled; **20** e-bike-adjacent, **none** with a `GovernorAction`. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 **and** A1538 all still at a single action, "Introduced" 1/13/2026; S4524 still 6/26/2026. Zero movement |
+| HI Act 259 | In effect. `enactedOn: '2026-07-15'` already correct; the watch item is **resolved** |
+| HI county guidance | Honolulu CSD still shows only the generic $30 e-bike / $15 pedal fee and **no Act 259 mention**, so the FAQ caveat stays accurate |
+| IL SB 3484 | Still "Sent to the Governor" 6/30/2026. Confirmed against the **ILGA's own Public Acts list for the 104th GA (104-0001 → 104-0741): no entry for SB 3484.** 60-day clock still runs to **Aug 29** |
+| CA AB 1942 | Held under submission 5/14/2026, unchanged |
+| FL CS/SB 382 | Vetoed 6/25/2026, no override, unchanged |
+| MA S 3077 | "Accompanied a study order (under JR10), see S3194" 7/22/2026, unchanged |
+| NY S08573 | Senate Transportation, last action 1/7/2026, unchanged |
+| UT HB 381 / WA ESSB 6110 | No amending legislation. `lastVerified` deliberately **left at 2026-08-07** (enrolled texts not re-read this run) |
+| New states | None. Nothing new in OH / PA / VA / MD / CT or the national scan |
+| NJ post-deadline UI | **Verified on the live URL in a real browser** (curl cannot see it, it is client-computed): eyebrow "IN EFFECT · DEADLINE PASSED", "deadline has passed, but you can still come into compliance … fees stay waived through January 19, 2027", **0 calendar buttons**, no countdown. HI card "IN EFFECT" |
+
+### ⚠️ Velosurance's NJ page was rewritten again, and this time it states two things the law does not
+
+Same shape as the 8/7 finding, opposite conclusion. Our card's **product** claims survived; their
+**legal summary** did not.
+
+- `liability-only` and `500,000` now appear **zero times** on their NJ page (checked against the raw
+  HTML, not a summarizer's negative claim). My first read was that our card had gone stale. It had
+  not: the liability-only option and the "limits up to $500,000" figure are both still carried by
+  **Bicycle Retailer, 2026-07-08**, which quotes the NJ minimums as $15k/$30k/$5k. **The card was
+  right and I nearly "fixed" correct copy.** The page's own $15k/$30k/$5k statement is still there,
+  verbatim, so the one claim we source to the page is intact.
+- What is new: the page now tells riders **"Insurance is required for every e-bike class in New
+  Jersey under New Jersey S4834"** and **"A helmet is mandatory for every e-bike rider, regardless
+  of age, under New Jersey S4834."** Both are false, and the page **contradicts itself** on the
+  first one (elsewhere it correctly limits insurance to bikes that "do not qualify as Class 1 or
+  Class 2").
+  - Insurance: **grepped the enacted R1a text** — the insurance evidence provisions attach to a
+    *motorized bicycle*, and s.5(f) strikes "furnish proof of insurance" for low-speed. NJ MVC's own
+    page says it verbatim: *"Only motorized bicycles are required to have insurance coverage.
+    Low-Speed Electric Bicycles do not require insurance but must be registered with MVC."*
+  - Helmets: the word **"helmet" appears 0 times in the entire enacted act**. A universal helmet
+    rule is S4524, still parked in committee since 6/26. They are quoting a pending bill as law.
+  - The Velosurance card now carries a short caution, mirroring the one already on the VOOM card.
+- **VOOM unchanged**: still waitlist ("we will be launching soon", "Register to Our Waitlist"), still
+  states the minimum as **$35,000 bodily injury** (the automobile figure), zero `15,000` on the page.
+- **Sundays unchanged**, re-confirmed verbatim: *"We do not offer cyclist liability insurance."*
+- **Markel + Progressive**: still no on-page NJ e-bike liability evidence, still deliberately unlisted.
+
+⭐ **The lesson worth keeping: a carrier page changing is not the same as our card being wrong.**
+Check whether the *claim* still has a source before rewriting around the *page*. On 8/7 the page had
+outrun our card; on 8/17 our card had outlived the page but kept its evidence.
+
+### New guard
+
+`site-consistency.test.ts` now asserts that any carrier whose `oneLiner` dates itself
+("still pre-launch in NJ **as of August 17, 2026**") uses the same date as its own
+`source.lastVerified`. VOOM's prose said August 10 after the carrier had actually been re-checked, so
+the card was advertising a staleness it no longer had. **Falsified**: confirmed the test runs (not
+silently skipped by the regex), goes red with `expected 'August 10, 2026' to be 'August 17, 2026'`
+when the stale date is reintroduced, and green when restored. **275 tests**, build + prerender green.
+
+Dates bumped: the **5** cards actually re-checked (CA/FL/IL/MA/NY) and all **3** carriers → `2026-08-17`;
+footer + sitemap → August 17, 2026. Built-artifact verified: 5 "Aug 17, 2026" chips + 2 "Aug 7, 2026"
+(UT/WA), footer "last reviewed August 17, 2026", **zero** stale August 10 strings.
+
+## August 10, 2026 — full QA pass: 14 defects fixed, and a guard layer that is proven to work
+
+Branch `law-sync/2026-08-10`, PR #15 (draft). Started as a routine law sync (**no law changed**) and
+became the biggest correctness pass since the insurance-minimums fix. **Read this before writing any
+user-facing copy or touching the form.**
+
+### The two lessons
+
+**1. The engine suite cannot see what a rider reads.** Three copy defects shipped to production
+behind a 100% green suite, because every test asserted on `Compliance` objects and nothing ever
+rendered a component. A verdict being *correct* and a verdict being *readable* are tested by
+different things, and only one of those tests existed.
+
+**2. A guard you have not tried to break is not a guard.** The first version of the bounds guard
+looked thorough and was hollow: reverting BOTH bounds fixes left the suite green at 240 passing,
+because the test exercised `encodeAnswers`/`decodeAnswers` directly and never went through the form's
+own submit path. That was only discovered by deliberately reintroducing each bug and checking the
+suite went red. **Do that every time you add a regression test.**
+
+Every one of the 14 defects is one of two shapes: a value reaching a rider untranslated, or one fact
+living in two places with nothing keeping the copies equal.
+
+### What was wrong (all verified against the real files, all fixed)
+
+Copy composition:
+- `labelOf()` held only New Jersey's four categories and fell through `?? slug`, so **every Hawaii
+  rider in the ambiguity band read "we classified it conservatively as class-3 ... the alternate
+  reading would be class-2"**.
+- The license gap and its remedy joined raw enum ids: **"Accepted: basic-drivers or
+  motorized-bicycle."**
+- The registration line hardcoded "the" before an interpolated authority name → **"the your county's
+  director of finance"** (HI) and a missing article (NJ).
+
+Bounds (the app emitting a link it cannot read back):
+- Speed/wattage were only checked while the throttle question was answered "has a throttle".
+  **Answer it, type 100 mph, switch to "no motor"** → inputs unmount, native validation stops
+  applying, state keeps 100, `s=100` goes in the URL, decoder's max is 50 → the rider gets a working
+  verdict and a **dead "Copy share link"**.
+- Age accepted `0` while the decoder required `>= 1`; `validate()` never checked age at all.
+- The three coverage inputs had no max, so anything over `MAX_SAFE_INTEGER` produced a dead link.
+
+Duplicated facts:
+- **The FAQ stated ">750 W or 28 mph is legally a motorcycle" as settled law**, contradicting the
+  correct conjunctive statement four answers above it. The statute is **conjunctive** (re-verified
+  against the R1a enacted text). README carried the same "or".
+- `sitemap.xml` lastmod was 2026-07-09 while the footer said August 2026.
+- `index.html` meta + og descriptions named **5** tracked states; the app renders **7**.
+- The README's **CI badge 404s** (pointed at `somekidpaul/ebikelaw`; the repo is `myebikelaw`), still
+  called Hawaii an unbuilt "pending" bill, and quoted a test count of 28 in three places.
+
+Other:
+- The Illinois card read **"Effective: Jan 2027" for a bill still with the governor**, because the
+  label keyed off `isInformational` ("nothing for a rider to do") instead of enactment.
+- The splash heading "Bills in motion elsewhere" labelled seven cards, five stalled/vetoed/enacted.
+- The FAQ's structured data **quoted a UI control to Google**: an `acceptedAnswer.text` ended
+  "Add deadline to calendar".
+
+### The guard layer
+
+| Guard | File | Catches |
+|---|---|---|
+| Type-level totality | `types/bike.ts`, `types/operator.ts` | `bikeCategoryProse` / `licenseKindProse` are `Record<Union, string>`. A new category or license with no prose is a **compile error**, not a slug shipped to a rider. |
+| Rendered copy | `components/verdict-copy.test.tsx` | Renders the real `<Verdict>` for **both statutes across 12 verdict paths**; asserts no leaked enum id in any composed sentence, no doubled article, no unarticled authority name. |
+| Form → URL property | `components/form-logic.test.ts` | **The one that matters:** anything `validateFormState` accepts must produce a URL `decodeAnswers` accepts. Covers both bounds bugs and the ones not thought of yet. |
+| Form input attrs | `components/form-inputs.test.tsx` | Renders the real `<Form>` and reads `min`/`max` off the HTML, so browser-enforced bounds match `FORM_BOUNDS`. |
+| Share round-trip | `lib/share-roundtrip.test.ts` | Boundary matrix survives encode → decode; decoder stays **looser** than the form so legacy links keep opening. |
+| Site consistency | `data/site-consistency.test.ts` | Reads the real files: sitemap↔footer date, meta descriptions vs actual tracked states, CI badge slug, and that no file says "750 W **or** 28 mph". |
+
+Structure that makes the above possible:
+- `components/form-logic.ts` — the form's pure logic, lifted out of the component where it was
+  unreachable closures. **Form.tsx must keep importing this.** It briefly did not, and the tests went
+  green against code the app was not running. That is the failure mode to watch.
+- `lib/field-bounds.ts` — `FORM_BOUNDS`, the single source for input attrs and validation.
+- `data/site-meta.ts` — `LAST_REVIEWED`, the single source for the footer; **`prerender.mjs` stamps
+  `dist/sitemap.xml` from it**, so that drift is now structurally impossible.
+- `vite.config.ts` test include is `{ts,tsx}`. Without it a rendered-output test cannot exist.
+- `site-consistency.test.ts` loads files via Vite `?raw`, not `node:fs`, so no node types leak into
+  the app tsconfig.
+
+### Falsification results (every guard was deliberately broken and confirmed to fail)
+
+All 14 reintroduced bugs were caught. `nj-article` 6 tests, `hi-double-article` 8,
+`category-slug-leak` tsc **and** 4 HI render tests, `license-slug-leak` 1, `age-zero` 5,
+`age-input-min` 2, `hidden-field-bounds` 3, `coverage-no-max` 4, `sitemap-drift` 1,
+`footer-hardcoded-date` 1, `meta-undercount` 2, `readme-badge` 1, `readme-hawaii-pending` 1,
+`faq-or-and` 1. Two were initially caught only by an "unused variable" tsc error; both were re-tested
+with a realistic full revert (dropping the now-unused import too) and are caught by vitest on merit.
+
+### Scope discipline for future guards
+
+- Date guards compare against `LAST_REVIEWED`, **never the wall clock**. A test that reads the clock
+  starts failing on its own with no code change, and that trains everyone to ignore it.
+- The rendered-copy guard checks **only sentences the app composes**, not the whole page. Verbatim
+  statutory quotes legitimately contain hyphenated compounds ("your motorized-bicycle policy must
+  carry pedestrian PIP") that collide with the enum ids.
+
+### RESOLVED 2026-08-11: Cloudflare Web Analytics was blocked by our own CSP
+
+**myebikelaw.com had Web Analytics enabled since launch and collected zero.** The Cloudflare side was
+right the whole time (the injected tag carries a real site token); this repo's CSP blocked the beacon,
+and every visitor got a console CSP violation. Fixed in `public/_headers`.
+
+⭐ **The trap to remember: Cloudflare injects the beacon for BROWSER requests only.** `curl` will never
+show the tag; a real browser will. That is why it went unnoticed from launch.
+
+What the beacon needs, read out of `beacon.min.js` itself:
+- `script-src https://static.cloudflareinsights.com` (serves beacon.min.js)
+- `connect-src https://cloudflareinsights.com` (the `/cdn-cgi/rum` fallback POST)
+- On a **proxied** zone it prefers **same-origin** `/cdn-cgi/rum`, already covered by `'self'`.
+
+Verified before shipping by serving the built `dist/` from a local server applying the exact new CSP
+with the beacon injected the way the edge injects it: script loads, `__cfBeacon` defined, POST fires,
+console clean.
+
+⚠️ **Enabling analytics made two site claims false**, so they were rewritten: the form said "we never
+store, share, or sell *anything*" (now "…sell *them*") and the README said "No data is collected".
+A public FAQ answer now states both halves, sourced to Cloudflare's own wording. **The rider's answers
+still never leave the browser; that promise is unchanged and is the one that matters.**
+
+### Analytics across every Cloudflare property (audited 2026-08-11)
+
+| Site | Served by | Proxied | Analytics | Collecting? |
+|---|---|---|---|---|
+| myebikelaw.com | CF Pages | yes | Cloudflare WA | **Fixed here.** Takes effect when PR #15 merges |
+| isoride.app | CF Pages | yes | Cloudflare WA | ✅ working (POSTs to `/cdn-cgi/rum`) |
+| somekidpaul.com | **Vercel** | **no** | **Vercel Analytics** | ✅ working (fires `/8aff503df5214e64/view`) |
+| gamerstats.gg | **Vercel** | **no** | **Vercel Analytics** | ✅ working (`/_vercel/insights/view`) |
+| astro-portfolio-eay.pages.dev | CF Pages | n/a | none | ❌ never enabled (retired preview, no custom domain) |
+
+⛔ **somekidpaul.com and gamerstats.gg are DNS-only on Cloudflare (grey cloud) and served by Vercel.**
+Cloudflare never sees their traffic, so CF Web Analytics *cannot* auto-inject there. They already run
+Vercel Analytics instead. To pull them into the Cloudflare dashboard you would add CF's manual Web
+Analytics snippet per site, which needs a site token created in the dashboard.
+
+⚠️ The repo `.env` `CLOUDFLARE_API_TOKEN` can read Pages, zones and DNS but **not** Web Analytics
+(`/rum/site_info/list` returns "Authentication error"), so tokens have to come from the dashboard.
+
+### Also confirmed working (no action)
+
+All 9 NJ and 9 HI verdict paths through the real UI; insurance boundaries exact ($15k/$30k/$5k
+compliant, one dollar under → gaps); zero horizontal overflow at 320/375/768/1280; print stylesheet
+and letterhead; FAQ JSON-LD 15 entries; legacy NJ share links and old `pi=` links still decode;
+malformed params fall back to the splash rather than crashing; the throttle dropdown is a correctly
+implemented ARIA combobox (Enter opens, arrows move, `aria-activedescendant` tracks, Enter commits);
+apex and www both 200 with all six security headers.
 
 ## August 6-7, 2026 — PR #14 SHIPPED: the NJ insurance minimums were wrong
 

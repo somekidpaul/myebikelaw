@@ -7,7 +7,18 @@ export type Jurisdiction = 'NJ' | 'CA' | 'FL' | 'HI' | 'IL' | 'MA' | 'NY' | 'NH'
 export type Citation = {
   readonly statute: string
   readonly url: string
+  /**
+   * VERBATIM statutory text only. This renders to the rider wrapped in
+   * quotation marks, so anything in here is a claim that the law says exactly
+   * this. Use "..." to mark an omission; never compress, paraphrase, or append
+   * commentary. Editorial explanation goes in `note` instead.
+   *
+   * `citation-fidelity.test.ts` checks every quote sourced to a bill text
+   * against the enacted text in `src/data/statutes/__fixtures__/`.
+   */
   readonly quote?: string
+  /** Our own explanation. Rendered outside the quotation marks. */
+  readonly note?: string
 }
 
 export type LicensingRule = {

@@ -3,6 +3,11 @@ import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import App from './App'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { ALL_FAQ } from './components/Faq'
+import { LAST_REVIEWED } from './data/site-meta'
+
+/** Re-exported so scripts/prerender.mjs can stamp sitemap.xml from the same
+ *  constant the footer renders, instead of a hand-maintained second copy. */
+export { LAST_REVIEWED }
 
 /**
  * Build-time entry point. Renders the app's initial (splash) state to a
@@ -23,7 +28,14 @@ export function render(): string {
 /** Flatten a rendered FAQ answer to the plain text Google expects in JSON-LD. */
 function answerToText(answer: React.ReactNode): string {
   return renderToStaticMarkup(<>{answer}</>)
-    .replace(/<[^>]+>/g, ' ') // strip tags (links, lists, <br>, the calendar button)
+    // Drop interactive controls CONTENT AND ALL, before the generic tag strip.
+    // Stripping only the tags kept the label as a text node, so the FAQPage
+    // schema for the deadline question ended "...Add deadline to calendar ↗" —
+    // a UI affordance quoted to Google as part of the legal answer. (It also
+    // never disappears server-side: the button's "past" flag flips in an
+    // effect, which does not run during renderToStaticMarkup.)
+    .replace(/<button\b[^>]*>[\s\S]*?<\/button>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ') // strip remaining tags (links, lists, <br>)
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
