@@ -107,7 +107,22 @@ const GENERAL: ReadonlyArray<QA> = [
             <strong>California</strong> — AB 1942 would have required DMV
             registration and license plates for Class 2 and Class 3 e-bikes,
             but it stalled: held in committee on the Appropriations suspense
-            file (May 14, 2026).
+            file (May 14, 2026), and it is now{' '}
+            <strong>dead for the 2025-26 session</strong>. August 31, 2026 was
+            the Legislature's last day to pass bills, and the state
+            constitution bars either house from passing an ordinary bill on or
+            after September 1 of an even-numbered year, so AB 1942 would have
+            to be reintroduced in 2027 to come back. Two other California
+            e-bike bills did move before that deadline, and neither adds a
+            license, registration, or insurance requirement for e-bikes: AB
+            1569 (signed August 27, 2026) creates a school e-bike safety and
+            training program, and SB 1167, which passed both chambers on August
+            28, 2026, is a labeling and seller-disclosure bill separating
+            e-bikes from e-motos. Its registration, plate, and insurance
+            provisions reach only mopeds and motor-driven cycles, and it
+            expressly excepts electric bicycles from the M2 licence category.
+            California still requires no license, registration, or insurance to
+            ride an e-bike.
           </li>
           <li>
             <strong>Illinois</strong> — the e-bike framework first rode on SB

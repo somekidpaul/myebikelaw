@@ -313,3 +313,57 @@ describe('an enacted bill is never still described as awaiting a governor', () =
     expect(il?.requirementHints).toEqual([])
   })
 })
+
+describe('a bill the session has killed is never still described as merely stalled', () => {
+  // California AB 1942 was held on the Appropriations suspense file on May 14,
+  // 2026 and never moved again. August 31, 2026 was the Legislature's last day
+  // to pass bills (Cal. Const. art. IV, sec. 10(c); Assembly 2026 legislative
+  // calendar, J.R. 61(b)(17)), so on September 1 it stopped being a bill that
+  // could still be revived and became a dead one. Same failure shape as the
+  // Illinois guard below it: the status lives in two files with nothing
+  // keeping the copies equal, and the old copy ("Unless it is revived, it is
+  // done for this session") reads as a live maybe once the window has closed.
+  const ca = PENDING_STATE_BILLS.find((b) => b.state === 'CA')
+  // Scope to the California bullet alone, per the Utah lesson: check the
+  // sentence that makes the claim, not the whole page. Illinois legitimately
+  // says "dead for the session" about SB 3336 in its own bullet.
+  const faqFlat = faqSource.replace(/\s+/g, ' ')
+  const caStart = faqFlat.indexOf('<strong>California</strong>')
+  const faqText = faqFlat.slice(caStart, faqFlat.indexOf('<li>', caStart + 1))
+
+  it('the CA card and the FAQ California bullet both exist to check', () => {
+    expect(ca).toBeDefined()
+    expect(caStart).toBeGreaterThan(-1)
+    expect(faqText).toContain('AB 1942')
+    expect(faqText).not.toContain('Illinois')
+  })
+
+  it('the CA card stays informational so the grid renders it gray', () => {
+    expect(ca?.status).toBe('held-in-committee')
+    expect(ca?.statusLabel).toMatch(/dead/i)
+  })
+
+  for (const [label, text] of [
+    ['the CA card', `${ca?.oneLiner ?? ''} ${ca?.details ?? ''}`],
+    ['the FAQ California bullet', faqText],
+  ] as const) {
+    it(`${label} says the session closed the bill out`, () => {
+      expect(text).toMatch(/dead for the 2025-26 session/i)
+      expect(text).toMatch(/August 31, 2026/)
+      // The old copy left revival on the table. It is off the table now.
+      expect(text).not.toMatch(/unless it is revived/i)
+    })
+
+    it(`${label} still tells a California rider nothing is required`, () => {
+      // Scope discipline re-applied this run against the two bills that did
+      // pass before the deadline: AB 1569 (Chapter 128, Statutes of 2026) has
+      // zero occurrences of insurance/registration/licence/plate/title, and
+      // SB 1167's plate, registration and insurance provisions reach only
+      // mopeds, motor-driven cycles and off-highway electric motorcycles while
+      // its licensing amendment expressly excepts electric bicycles.
+      expect(text).toMatch(/no license, registration, or insurance/i)
+      expect(text).toMatch(/AB 1569/)
+      expect(text).toMatch(/SB 1167/)
+    })
+  }
+})

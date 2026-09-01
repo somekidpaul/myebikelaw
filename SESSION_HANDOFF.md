@@ -76,6 +76,142 @@ Newest first. Use these as bookmarks if you need to trace why something is the w
 | 8 | pedal-assist 25mph 600W (Class 3) | GAPS + classification ambiguity note |
 | 9 | pedal-assist + ☑ rental + age 20 | COMPLIANT (rental exemption) |
 
+## September 1, 2026 law sync (Tuesday): ⭐ CALIFORNIA'S SESSION CLOSED AND AB 1942 IS NOW DEAD, NOT MERELY STALLED
+
+Folded into the same branch/PR as the 8/10 through 8/31 passes (PR #15 is still unmerged, so a second
+draft off an unmerged base would stack reviews). No statute changed in any tracked state, but a
+**calendar deadline passed overnight that made one of our own claims stale**, and it is a claim the
+site makes in two places.
+
+### ⭐ The change: August 31, 2026 was the California Legislature's last day to pass bills
+
+The 8/31 run finished at 09:00 ET; California's deadline fell at the end of that same day, so this is
+the first run that can see past it. Two primary sources, read this run:
+
+| Source | What it says |
+|---|---|
+| Cal. Const. art. IV, sec. 10(c), read verbatim off leginfo's printable section view | "No bill may be passed by either house on or after September 1 of an even-numbered year except statutes calling elections, statutes providing for tax levies or appropriations for the usual current expenses of the State, and urgency statutes, and bills passed after being vetoed by the Governor." |
+| The Assembly Clerk's own **2026 Legislative Calendar** PDF | "**Aug. 31** Last day for each house to pass bills (Art. IV, Sec 10(c), J.R. 61(b)(17))." and "Final Recess begins upon adjournment (J.R. 51(b)(3))." |
+
+AB 1942 was held under submission on the Appropriations suspense file on **May 14, 2026** (re-read
+this run: leginfo history unchanged, **0** "Chaptered", **0** "Vetoed", last action still 5/14/26) and
+never left its house of origin. It is not an elections, tax-levy, appropriation, urgency, or post-veto
+bill, so it is none of the exceptions. **It can no longer be passed and is dead for the 2025-26
+session.** Coming back means reintroduction in 2027-28.
+
+### ⛔ What was wrong on the site, and why it mattered
+
+Both the card and the FAQ described AB 1942 as stalled, and the card's `details` said in as many
+words: **"Unless it is revived, it is done for this session."** That sentence left revival on the
+table. As of today revival is off the table, and this is the same shape as the "never date a
+self-correction" lesson from 8/7: a conditional that was true when written goes quietly false when
+the condition resolves, and nothing in the build notices.
+
+### ⭐ Scope discipline re-applied to the two California bills that DID beat the deadline
+
+The California session closing means the set of 2026 California e-bike bills is now final, so both
+were read against their operative text, not coverage:
+
+| Bill | Status read this run | Scope finding |
+|---|---|---|
+| **AB 1569** (Davies) | **Approved by the Governor 8/27/2026, Chaptered by the Secretary of State the same day as Chapter 128, Statutes of 2026** (leginfo history: "Chaptered" ×2, "Approved by the Governor" ×1) | **insurance 0, registration 0, register 0, driver's license 0, license plate 0, certificate of title 0, financial responsibility 0.** It adds Education Code art. 9 (Sec. 49397 et seq.) directing the State Department of Education and the CHP to build a grades 7-12 e-bike safety and training program by March 1, 2028. No rider duty of any kind. **No card** |
+| **SB 1167** (Blakespear) | Assembly amendments concurred in **8/28/2026**, ordered to engrossing and enrolling. **0** "Chaptered", **0** "Vetoed", **0** "Enrolled and presented" | A definitional / labeling / seller-disclosure bill separating e-bikes from e-motos. Its 17 "insurance", 7 "registration" and 21 "license plate" hits **all** attach to **mopeds** (Veh. Code 5030-5038, existing law being renamed from "motorized bicycle"), **motor-driven cycles**, **off-highway electric motorcycles**, or **motorized scooters**. The one operator-facing prohibition reaches a 2- or 3-wheeled electric device capable of over 20 mph on motor alone that is **not** a Vehicle Code-defined authorized device. **No card** |
+
+⭐ **SB 1167's licensing amendment runs the opposite way from the headline shape**, exactly like Oregon
+HB 4007 and Illinois PA 104-0854: the class M2 category is amended to read "a bicycle with an attached
+motor, **except an electric bicycle as described in subdivision (a) of Section 312.5**." That is an
+exemption being written into the Vehicle Code, not a mandate.
+
+⚠️ **The informational-card carve-out was checked and does NOT apply to either.** That carve-out is
+for bills **widely misreported** as e-bike mandates (the Florida and Illinois pattern). Coverage of
+SB 1167 (CalBike, Bicycle Retailer, Streetsblog, bikelegalfirm) frames it accurately and says outright
+that legal Class 1/2/3 e-bikes need no plate, registration, or insurance. Nothing to correct, so no
+card.
+
+### ⛔ CORRECTION to the last four runs: California AB 2346's deadline is September 30, not September 6
+
+The 8/24 through 8/31 handoff entries all recorded that AB 2346's clock "runs to about September 6,
+2026" on a 12-day theory. **That is the wrong subdivision.** Read verbatim this run:
+
+- Art. IV, sec. 10(b)(3): "Any **other** bill presented to the Governor that is not returned within 12
+  days becomes a statute." It is the residual rule.
+- Art. IV, sec. 10(b)(2): "Any bill passed by the Legislature **before September 1** of the second
+  calendar year of the biennium of the legislative session and **in the possession of the Governor on
+  or after September 1** that is not returned **on or before September 30** of that year becomes a
+  statute."
+
+AB 2346 passed on **August 19, 2026** and was presented **August 25**. It is still unacted-on today,
+September 1, so it is in the Governor's possession on or after September 1 and (b)(2) governs.
+**The real deadline is September 30, 2026.** The watch item stays open about four more weeks, not
+five more days. Verified unchanged this run: **0** "Chaptered", **0** "Vetoed", **0** "Approved by the
+Governor", last action still "08/25/26 Enrolled and presented to the Governor at 4 p.m."
+
+This changed no site copy (AB 2346 is deliberately untracked, no card, and the 8/21 pass already read
+its operative text and found insurance / registration / driver's license / license plate all **0**).
+It is a correction to this document.
+
+### Every other tracked item re-verified against a primary source, all unchanged
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov` (`Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`). **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**. Conjunctive phrase "greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour" present. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to every run since 8/18); **22** e-bike/scooter/moped-adjacent by synopsis; **none** with a `GovernorAction`; **0** synopses mentioning 4834 or c.285. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA AB 1942 | **The change this run. See above.** History itself unchanged: last action 5/14/26 "In committee: Held under submission", **0** Chaptered, **0** Vetoed |
+| CA AB 2346 | Untracked watch item, still open. **Deadline corrected to September 30.** See above |
+| IL PA 104-0854 | Unchanged since the 8/28 run. SB 3484 status XML `Last-Modified` **still Thu, 27 Aug 2026 04:20:39 GMT**, **81** action rows, "public act" ×2, "veto" ×0, `104-0854` ×2, last actions "Governor Approved" / "Effective Date January 1, 2027" / "Public Act . . . 104-0854" |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** "Override", **0** chapter-law citations. Unchanged |
+| MA S 3077 | Still exactly **5** action dates, last 7/22/2026, study order S 3194 still referenced. Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action rows, 11/07/2025 and 01/07/2026. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s**, as documented |
+| HI county guidance | Honolulu CSD's page still has **0** mentions of Act 259 or HB 2021 and still lists only the generic $30 / $15 fees. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None outside California.** The national scan surfaced only the NJ and IL coverage already tracked |
+| Carriers | **Not re-checked.** Tuesday, outside the Monday cadence and the July 19 window. All 3 stay `2026-08-31` |
+| NJ + HI live UI | **Verified in a real browser** on the live URL (client-computed, curl cannot see it): NJ "DEADLINE PASSED" ×1, "January 19, 2027" ×1, **0** calendar buttons, **0** "days to comply" countdowns; HI "IN EFFECT" ×4 with **0** "Not in effect yet" banners |
+
+### New guard: a bill the session has killed is never still described as merely stalled
+
+Same failure shape the suite exists for: the California status lives in the card and the FAQ with
+nothing keeping the copies equal. Ten assertions pin both to "dead for the 2025-26 session" and to
+August 31, 2026, **forbid the phrase "unless it is revived" in either**, require both to keep the
+no-license / no-registration / no-insurance claim, and require both to name AB 1569 and SB 1167 so the
+scope finding cannot be quietly dropped. The card `status` stays `held-in-committee` so the grid keeps
+rendering it gray, and that is asserted too. Scoped to the California `<li>` alone, per the Utah
+lesson: Illinois' own bullet legitimately says "dead for the session" about SB 3336.
+
+**Falsified five ways, every one caught:** reverting the card `statusLabel` to "Held in committee" →
+red; putting "Unless it is revived, it is done for this session" back into `details` → red; reverting
+the FAQ bullet to "still stalled" → red; changing AB 1569 to a wrong bill number → red; reverting the
+sitemap `lastmod` alone → red with `expected '2026-08-31' to be '2026-09-01'`. Restored, **312 green**
+(was 306).
+
+### Changes in this commit
+
+CA card `statusLabel` "Held in committee" → **"Dead for the session"**, `oneLiner` rewritten to lead
+with the finality and to end on what a California rider actually owes (nothing), `details` rewritten
+around Art. IV sec. 10(c) plus the AB 1569 and SB 1167 scope findings. The FAQ California bullet
+rewritten to match. `index.html` needed **no** change (it carries no hard-coded California status,
+only a state list), and the FAQPage JSON-LD is generated from `Faq.tsx` at prerender time so it
+follows automatically. The **5** cards actually re-checked (CA/FL/IL/MA/NY) → `2026-09-01`; **UT and
+WA left at `2026-08-24`**; carrier dates untouched; footer and sitemap to September 1, 2026.
+
+**312 tests green**, build + prerender green. Built artifact verified: **5** "Sep 1, 2026" chips +
+**2** "Aug 24, 2026" (UT/WA), **0** "Aug 31, 2026"; footer "last reviewed September 1, 2026"; sitemap
+stamped `2026-09-01`; FAQPage JSON-LD 16 entries; "Dead for the session" ×1 and "dead for the 2025-26
+session" ×2 in the prerendered HTML with **0** occurrences of "Unless it is revived" or "Held in
+committee"; "AB 1569" ×2 and "SB 1167" ×2; Illinois untouched at "Public Act 104-0854" ×3 with **0**
+"awaiting governor". The only three surviving `2026-08-31` strings in the bundle are the **three
+carrier `lastVerified` values**, which is correct because carriers were not re-checked this run.
+
+### ⛔ Production is still carrying the false Illinois status, 22 days into an unmerged PR
+
+Read off the live site in a real browser this run: the Illinois card still says **"awaiting
+governor"** with **0** occurrences of `104-0854`, the California card still says **"Held in
+committee"**, and the footer still reads "last reviewed August 7, 2026". The Illinois status became
+false on **August 26**. Everything since August 10 sits in **PR #15**, and it reaches riders only when
+Paul merges.
+
 ## August 31, 2026 law sync (Monday): all laws in sync; the Illinois deadline the schedule could not see is now closed
 
 Folded into the same branch/PR as the 8/10 through 8/28 passes (PR #15 is still unmerged, so a second
