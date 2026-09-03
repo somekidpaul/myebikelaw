@@ -221,6 +221,23 @@ the test result.** A no-op edit and a working guard produce the identical green,
 one that quietly teaches you to trust a guard you never tested. The sitemap guard was falsified the
 same way and did go red on the first try (`expected '2026-09-01' to be '2026-09-03'`).
 
+### The njleg API endpoints, finally written down
+
+Every run since 8/18 has reported "pulled from the njleg API" without recording the URL, so this run
+had to rediscover it by loading a bill page in a real browser and reading the network log. Both
+endpoints return JSON to plain `curl` with no key and no headers:
+
+| What | Endpoint |
+|---|---|
+| Every bill in a session (the 10,712-row scan) | `https://www.njleg.state.nj.us/api/billSearch/allBills/2026` |
+| One bill's full action history | `https://www.njleg.state.nj.us/api/billDetail/billHistory/{BILL}/{YEAR}` |
+
+⚠️ **Guessing the route shape wastes a round of 404s.** `billSearch/billHistory/...`,
+`billDetail/2026/A2093`, `bills/A2093/2026` and six other plausible spellings all 404; the working
+history route is `billDetail/billHistory/A2093/2026`, bill first and year second. The bill-page
+network log is the reliable way to find these, and `njleg` bill pages still do not render for
+fetchers, so the API is the only path.
+
 ### Changes in this commit
 
 Date bumps only; **no legal copy changed anywhere**. The **5** cards actually re-checked (CA/FL/IL/MA/NY)
