@@ -134,6 +134,70 @@ already been checked and were correct, and there is no `<meta>` CSP anywhere to 
 A fresh tab was clean. **Console panels accumulate across navigations; open a new tab before
 concluding a CSP fix did not land.**
 
+## ✅ September 4, 2026: PR #16 SHIPPED. The September 3 sync is live
+
+Paul authorized the merge ("merge if you need to... do what you need to do"). **PR #16 merged as
+`ccb7e4c`** (2 commits, 4 files, +141 / -8). CI on main: **test success, deploy success**
+(run 33875120032). `main` HEAD = **ccb7e4c**. Merged branch deleted local and origin; **only `main`
+remains, zero open PRs.**
+
+Nothing on the live site was wrong before this merge, so unlike the PR #15 ship this one corrected no
+false status. It carries date bumps only: the 5 re-checked cards (CA/FL/IL/MA/NY) to `2026-09-03`,
+`LAST_REVIEWED` and the sitemap to September 3, and the 9/3 handoff entry. **UT/WA stayed at
+`2026-08-24` and the 3 carriers stayed at `2026-08-31`**, which is correct because neither was
+re-read on the 3rd.
+
+### Pre-flight, run before merging because Actions is the only path to production
+
+The 8/6 scar again. githubstatus reported **All Systems Operational**, **0 active incidents**, with
+Actions, Pages, Git Operations, API Requests and Webhooks all `operational`. CI was already green on
+the exact head (`a882ac9`), the PR was `MERGEABLE` / `CLEAN`, and local was in sync with origin. The
+shipping diff was read before merging and touched only the 5 `lastVerified` values, `LAST_REVIEWED`,
+and `public/sitemap.xml`. **No legal copy moved.**
+
+### The 1:1 proof that what shipped is what was tested
+
+Clean-rebuilt `dist/` locally, then downloaded the assets the live page actually references:
+
+| Asset | Local sha256 | Live sha256 | `cmp` |
+|---|---|---|---|
+| `index-D-ADG_aR.js` | `dec0aa06...1d8a` | `dec0aa06...1d8a` | **IDENTICAL** |
+| `index-BYCnPguh.css` | `7ce02042...9dd8` | `7ce02042...9dd8` | **IDENTICAL** |
+
+Byte-for-byte, not just a matching filename hash. ⚠️ The CSS hash is unchanged from the PR #15 ship
+because no style changed; the JS hash moved (`index-DyDt4ZOr` to `index-D-ADG_aR`) because the date
+constants live in the bundle. **A live HTML byte size identical to the pre-merge fetch (76,866 both
+times) is not evidence the deploy failed here**: every changed string is the same length
+("September 1" to "September 3", `2026-09-01` to `2026-09-03`).
+
+### Live verification
+
+| Check | Result |
+|---|---|
+| Footer | "last reviewed **September 3, 2026**" |
+| Verified chips | **5** "SEP 3, 2026" (CA/FL/IL/MA/NY) + **2** "AUG 24, 2026" (UT/WA), **0** "SEP 1, 2026" |
+| Sitemap | `<lastmod>2026-09-03</lastmod>` |
+| NJ card | "IN EFFECT · DEADLINE PASSED", "January 19, 2027" ×1, **0** calendar buttons, **0** countdowns |
+| HI card | "IN EFFECT", **0** "Not in effect yet" |
+| IL / CA / FL / MA / NY / UT / WA cards | "Enacted; effective January 1, 2027" / "Dead for the session" / "Vetoed by governor" / "Sent to study" / "In Senate Transportation" / "Enacted; in effect" ×2 |
+| Stale status labels | **0** each of "Passed both chambers", "Held in committee", "Awaiting governor", "awaiting governor", "If signed", "Not in effect yet", "Unless it is revived" |
+| Law copy | "Public Act 104-0854" ×3, `104-0854` ×4, "Dead for the session" ×1, "dead for the 2025-26 session" ×2, "AB 1569" ×2, "SB 1167" ×2 |
+| FAQPage JSON-LD | **16** Question entries |
+| Console (fresh tab) | **clean, 0 errors**; analytics beacon `POST /cdn-cgi/rum` → **204** |
+
+### ⚠️ A case-insensitive grep manufactured a scare that did not exist
+
+A live-site sweep counted `Passed both chambers` **6** and `Held in committee` **3**, against the 0
+and 2 the earlier runs had recorded. Read the contexts instead of assuming either way: all nine hits
+are **lowercase narrative prose** and every one is accurate (SB 1167 passed both chambers 8/28,
+SB 3484 on 6/1, CS/SB 382 vetoed; AB 1942 "held in committee on May 14, 2026", each time paired with
+"dead for the 2025-26 session"). Case-**sensitively**, the status-label forms are **0**.
+
+⭐ **The rule this adds: match the case of the thing you are actually testing for.** A status label is
+Capitalized and rendered in an eyebrow; the same words in a sentence are prose and legitimate. A
+case-insensitive count conflates a stale label with correct history, and it fails in the direction
+that wastes a run chasing a phantom. Every prior run's 0 was right.
+
 ## September 3, 2026 law sync (Thursday): all laws in sync; no legal change; Ohio found and ruled out
 
 **No statute, bill, effective date, or carrier claim changed in any tracked state.** Changes are date
