@@ -267,6 +267,51 @@ no card and no requirementHints.** The rewritten sentence says so in as many wor
 | New states | **None.** The national scan surfaced only already-tracked states. The one September item, a **Palmetto Bay, FL** e-bike ordinance vote set for September 14, is a **municipal** ordinance, and this site tracks state law. No card |
 | Coverage watch | The "Illinois joins New Jersey as the only states to require insurance for high-speed e-bikes" framing is still circulating. Same blur the card and FAQ already answer in as many words (**NJ binds ordinary low-speed e-bikes, Illinois does not**), so **no copy change** |
 
+### Second pass the same day: North Carolina found and ruled out on its enacted text
+
+A later Monday sweep re-read every source above and found **no further movement** (CA SB 1167 still sitting
+with the Governor unacted-on, IL status XML still `Last-Modified: Thu, 27 Aug 2026 04:20:39 GMT` with 81
+action rows, NJ R1a still 126,970 bytes). It did surface one state no prior run had recorded.
+
+**North Carolina Session Law 2026-46 (HB 1094)**, read against the enacted text from ncleg.gov, not coverage:
+
+| Check | Result |
+|---|---|
+| `electric bicycle` | **0** — North Carolina's term of art is **"electric assisted bicycle"**, and searching the wrong phrase returns a clean, entirely false zero |
+| `electric assisted bicycle` | **16**, and **all 16 sit inside Section 19** |
+| insurance / registration / register / license / certificate of title / financial responsibility **within 400 characters of any e-bike mention** | **0** |
+| Act-wide `registration` / `financial responsibility` | 37 / 14, **none** of them near an e-bike provision |
+
+⭐ **The act-wide counts are the trap.** SL 2026-46 is a broad DOT omnibus (ferry performance audit, commercial
+drivers licence disqualifications, notices), so it is dense with registration and financial-responsibility
+language that has nothing to do with bicycles. **A whole-act keyword count would have manufactured a compliance
+card out of ferry and CDL provisions.** The proximity test is what settles it.
+
+What Section 19 actually does, effective **December 1, 2026**: rewrites G.S. 20-4.01(7a) into Class 1 / 2 / 3
+(motor <=750W), adds G.S. 20-171.3 permitting operation on roadways, bike lanes and multiuse paths plus a
+**helmet requirement for under-18 riders on a Class 3**, and adds G.S. 160A-300.2 / 153A-245.1 letting a city or
+county regulate use **on multiuse paths and sidewalks**. That local authority is enumerated and closed:
+"(1) Restricting the use of a class or classes" and "(2) Establishing speed limits", plus an under-18 helmet
+option for Class 1 and 2. **No registration power, no licensing power, no insurance power, and no minimum
+riding age.** Classes, helmets, and where you may ride are not compliance. Coverage describes it accurately,
+so the "widely misreported" carve-out does not apply either. **No card.**
+
+### An almost-alarm: a wrong URL nearly reported a carrier correcting itself
+
+The carrier re-check first hit `velosurance.com/blog/nj-ebike-law-guide/` and came back with **3** of each
+dollar figure and **0** occurrences of both false legal summaries our card cautions about, which reads exactly
+like a carrier quietly correcting its page and leaving our caution copy describing text that no longer exists.
+**It was the wrong page.** The tracked source in `nj-carriers.ts` is `velosurance.com/usa/new-jersey/`, and on
+that page every figure and sentence is intact: `$15,000` / `$30,000` / `$5,000` **x4 each**, the insurance
+summary present, the helmet summary **x1**, the self-contradicting correct line **x1**.
+
+⭐ **Read the `source.url` in the data file before concluding a source changed.** A neighbouring page on the
+same domain answers a different question, and its answer looks like news.
+
+⚠️ The insurance sentence counts **2** on the tracked page against the **1** recorded earlier the same day. Both
+were located rather than averaged: one is inside the page's **FAQ JSON-LD**, one is the rendered
+`<div class="faq-card">`. Same answer, so the visible claim is unchanged and the card needed no edit.
+
 ### Carriers re-verified (Monday cadence), all three unchanged
 
 | Carrier | Checked against the live page | Result |
