@@ -198,6 +198,75 @@ Capitalized and rendered in an eyebrow; the same words in a sentence are prose a
 case-insensitive count conflates a stale label with correct history, and it fails in the direction
 that wastes a run chasing a phantom. Every prior run's 0 was right.
 
+## ✅ September 8, 2026: PR #17 SHIPPED. The 9/7 + 9/8 syncs are live
+
+Paul authorized the deploy ("do what you need to do to update it"). **PR #17 merged as `d845428`**
+(3 commits, 5 files, +285 / -13). CI on main: **test success, deploy success**. `main` HEAD =
+**d845428**. Merged branch deleted local and origin; **only `main` remains, zero open PRs.**
+
+Like PR #16 and unlike PR #15, this corrected **no false status**. Nothing on the live site was wrong
+before the merge; it was carrying the September 3 review date while three days of verification sat in a
+draft. What shipped is date bumps plus one rewritten `details` sentence.
+
+### Pre-flight, run before merging because Actions is the only path to production
+
+The 8/6 scar. githubstatus reported **All Systems Operational**, **0 active incidents**, with Actions,
+Pages, Git Operations, API Requests and Webhooks all `operational`. CI was already green on the exact
+head (`ec8e813`), the PR was `MERGEABLE` / `CLEAN`, and local matched origin exactly.
+
+### The shipping diff was read before merging, and the one copy change was proven unrenderable
+
+Only **4** non-doc files moved: `public/sitemap.xml`, `src/data/site-meta.ts` (`LAST_REVIEWED` and its
+doc-comment example), `src/data/pending-bills.ts` (5 `lastVerified` values plus the CA `details`
+sentence), and `src/data/insurance/nj-carriers.ts` (3 `lastVerified` values plus VOOM's self-dating
+prose, August 31 → September 7).
+
+The CA `details` rewrite is the only legal copy in the diff. **The "dead data" claim was re-verified
+rather than inherited from the prior entry**: `grep -rn "\.details" src/components/ src/*.tsx` returns
+**nothing**, and "September 30, 2026" appears **0 times in the prerendered HTML** and **1 time in the JS
+bundle**. It ships and never renders, so the only user-visible change in this deploy is dates.
+
+### The 1:1 proof that what shipped is what was tested
+
+Clean-rebuilt `dist/` locally, then downloaded the assets the live page actually references:
+
+| Asset | Local sha256 | Live sha256 | `cmp` |
+|---|---|---|---|
+| `index-DTmu03Z0.js` | `9a157639…` | `9a157639…` | **IDENTICAL** |
+| `index-BYCnPguh.css` | `7ce02042…` | `7ce02042…` | **IDENTICAL** |
+
+Byte-for-byte. ⚠️ **The live HTML is 76,866 bytes, the identical size recorded at the PR #16 ship** —
+again not evidence of a failed deploy, because every changed string in the HTML is the same length
+("September 3" → "September 8", `2026-09-03` → `2026-09-08`). The CSS hash is unchanged for the third
+ship running (no style has moved since PR #15); the JS hash moved `index-D-ADG_aR` → `index-DTmu03Z0`.
+
+### Live verification in a real browser
+
+| Check | Result |
+|---|---|
+| Footer | "last reviewed **September 8, 2026**" |
+| Verified chips | **5** "SEP 8, 2026" (CA/FL/IL/MA/NY) + **2** "AUG 24, 2026" (UT/WA), **0** "SEP 3" and **0** "SEP 7" |
+| NJ card | "IN EFFECT · DEADLINE PASSED", "January 19, 2027" ×1, **0** calendar buttons, **0** countdowns |
+| HI card | "IN EFFECT", **0** "Not in effect yet" |
+| IL / CA / FL / MA / NY / UT / WA | "Enacted; effective January 1, 2027" / "Dead for the session" / "Vetoed by governor" / "Sent to study" / "In Senate Transportation" / "Enacted; in effect" ×2 |
+| Stale status labels | **0** each of "Passed both chambers", "Held in committee", "Awaiting governor", "If signed", "Not in effect yet", "Unless it is revived", "is heading to the Governor" |
+| Served-HTML law copy | "Public Act 104-0854" ×3, `104-0854` ×4, "Dead for the session" ×1, "dead for the 2025-26 session" ×2, "AB 1569" ×2, "SB 1167" ×2 |
+| FAQPage JSON-LD | **16** Question entries |
+| Live sitemap | `<lastmod>2026-09-08</lastmod>` |
+| Console (fresh tab) | **clean, 0 errors**; analytics beacon `POST /cdn-cgi/rum` → **204** |
+
+### ⭐ A third layer of the case-matching lesson: `innerText` applies `text-transform`
+
+The first browser pass counted `Sep 8, 2026` **0**, `Deadline passed` **0**, and `In effect` **0** on a
+page whose served HTML plainly contains five of the first. Nothing was wrong: the chips and eyebrows are
+uppercased in CSS, and **`element.innerText` returns the CSS-transformed text**, so the rendered strings
+are `SEP 8, 2026`, `DEADLINE PASSED`, `IN EFFECT`. Re-counted in the rendered case: **5 / 1 / 4**.
+
+⭐ **The rule this adds to the 9/3 and 9/8 case lessons: the case to match depends on where you are
+reading.** In `dist/index.html` or a `curl`ed page the source case is authoritative; through
+`innerText` in a browser the **CSS-transformed** case is. A zero from the wrong one of those two looks
+exactly like missing copy.
+
 ## September 8, 2026 law sync (Tuesday): all laws in sync; nothing moved anywhere. Date bumps only
 
 **No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
