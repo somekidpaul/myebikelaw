@@ -198,6 +198,97 @@ Capitalized and rendered in an eyebrow; the same words in a sentence are prose a
 case-insensitive count conflates a stale label with correct history, and it fails in the direction
 that wastes a run chasing a phantom. Every prior run's 0 was right.
 
+## September 8, 2026 law sync (Tuesday): all laws in sync; nothing moved anywhere. Date bumps only
+
+**No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
+advanced a single procedural step since yesterday's run. Carriers were not re-checked (Tuesday, outside
+the Monday cadence and outside the July 19 window), so all three stay `2026-09-07`.
+
+### The one thing worth watching is still sitting still
+
+California SB 1167 has been on the Governor's desk since September 4 and he has not acted. Read off
+leginfo this run: House Location **Governor**, last history row still **09/04/26 "Enrolled and presented
+to the Governor at 2 p.m."**, and **0** each of Chaptered / Vetoed / "Approved by the Governor". The
+sec. 10(b)(2) deadline recorded on the 7th still stands: **on or before September 30, 2026**, signed,
+vetoed, or by inaction. The card's `details` sentence already says exactly this, so it needed no edit.
+
+⚠️ **The "Chaptered" and "Vetoed" counts on a leginfo status page are 1 each, and both are page chrome.**
+Printing the raw bytes around them shows a single HTML comment on every bill page:
+`<!-- Last Amended/Introduced/Enrolled/Proposed/Chaptered/Vetoed  Date -->`. It is the same shape as the
+9/7 case-matching lesson, one layer down: matching the case was not enough here, because the literal
+string really is present. **Print the surrounding bytes before reading a count as a status.**
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov` (`Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`, **126,970 bytes**, decoded as **cp1252**). **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still no insurance minimums in the act. Conjunctive phrase **2** times on whitespace-normalized text. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills from `api/billSearch/allBills/2026` (identical count to every run since 8/18; the payload's own `BillCount` field agrees). **20** e-bike/scooter/moped-adjacent by synopsis; **0** of those 20 carry a real `GovernorAction`; **0** synopses mention 4834, c.285, or P.L.2025. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026, each still "Introduced ... Referred to ..." Committee. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA SB 1167 | **Unchanged since 9/7. See above.** House Location Governor, Enrolled Date 08/31/26, last row 09/04/26 |
+| CA AB 1942 | Still dead for the session. House Location **Assembly**, last history row still **05/14/26 "In committee: Held under submission."**, 0 real Chaptered / Vetoed / Approved / Enrolled |
+| CA AB 2346 | Untracked watch item, unchanged: House Location Governor, Enrolled Date 08/21/26, last row "08/25/26 Enrolled and presented to the Governor at 4 p.m.", 0 real Chaptered / Vetoed / Approved. Its sec. 10(b)(2) deadline is also September 30, 2026 |
+| IL PA 104-0854 | Unchanged. SB 3484 status XML `Last-Modified` **still Thu, 27 Aug 2026 04:20:39 GMT**, Content-Length **20,505**, **81** parsed `<action>` elements, "public act" ×2, "veto" ×0, `104-0854` ×2, last four rows "Sent to the Governor" / "Governor Approved" / "Effective Date January 1, 2027" / "Public Act . . . 104-0854". (⚠️ `grep -c '<action'` still says **82** — it also matches the `<actions>` wrapper. Parse, don't grep-count) |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** each of "Override", "Chapter No", "Approved by Governor". Unchanged |
+| MA S 3077 | Still exactly **5** dated action rows, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action rows, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed verbatim on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s** (bill text and measure-status pages both), as documented |
+| HI county guidance | Honolulu CSD's bicycle-registration page still has **0** mentions of Act 259, HB 2021, or HB2021, and still lists only the generic **$30** e-bike / **$15** pedal-bike fees off the HRS §291C-1 ≤750W definition. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found; both legislatures are out of regular session and no special session touching either was found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| Carriers | **Not re-checked.** Tuesday, outside the Monday cadence and the July 19 window. All 3 stay `2026-09-07`, and VOOM's self-dating prose correctly stays "as of September 7, 2026" |
+| New states | **None.** The national scan surfaced only already-tracked states plus the same **Palmetto Bay, FL** municipal ordinance vote (September 14) already ruled out on 9/7 as municipal, not state |
+
+### Ohio HB 948 re-checked, and a detail in the 9/3 entry corrected
+
+HB 948 is untracked and earns no card (its e-bike substance binds **motorists**, not riders), but it was
+re-read off the Ohio Legislature's own API this run. Still **"As Introduced"** and the only version on
+file; `governor_signed_date`, `concurrence_date` and `effective_date` are all **null**. It has not
+advanced.
+
+⚠️ **Correction to the September 3 entry**, which recorded "No hearing, no vote": the bill's `meetings`
+endpoint returns a **House Transportation committee meeting notice dated 2026-06-09** (09:30, Room 122,
+chair Bernard Willis, not canceled). A noticed hearing is not passage and changes nothing about the
+scope finding or the absence of a card, but the earlier "no hearing" was wrong. **The action history and
+the meetings list are two different endpoints, and reading only the first understates a bill's activity.**
+
+### Both date guards falsified before being trusted, with the file change confirmed first
+
+The 9/3 no-op lesson held. The sitemap guard went red on **real** drift the moment `LAST_REVIEWED` moved
+ahead of the committed sitemap (`expected '2026-09-07' to be '2026-09-08'`). The card-date guard was
+falsified by pushing the CA card's `lastVerified` to `2026-12-31`; `diff` against a backup **confirmed
+the file actually changed** before the result was read, and it went red (`CA card lastVerified`,
+`expected false to be true`). Restored, **312 green**, tsc clean, build + prerender green.
+
+⚠️ **`npm run build` stamps `dist/sitemap.xml` only.** `scripts/prerender.mjs` has
+`const SITEMAP = 'dist/sitemap.xml'`, while the guard reads the committed `public/sitemap.xml`, so the
+public copy has to be edited by hand every run. Building and expecting the guard to go green does not work.
+
+⚠️ **The doc comment above `formatLastReviewed` carries an example date that must move with
+`LAST_REVIEWED`.** It was missed on the first pass this run and caught by reading
+`git log -p -- src/data/site-meta.ts`, which shows it bumped in every prior sync commit. No test covers
+it, since it is a comment.
+
+### Changes in this commit
+
+**Date bumps only; no legal copy changed anywhere.** The **5** cards actually re-checked (CA/FL/IL/MA/NY)
+→ `2026-09-08`; **UT and WA left at `2026-08-24`**; all **3** carriers left at `2026-09-07`;
+`LAST_REVIEWED`, its doc-comment example, and `public/sitemap.xml` → September 8, 2026.
+
+Built artifact verified: **5** "Sep 8, 2026" chips + **2** "Aug 24, 2026", **0** "Sep 7, 2026" and **0**
+"Sep 3, 2026"; footer "last reviewed **September 8, 2026**"; sitemap stamped `2026-09-08` in both
+`dist/` and `public/`; FAQPage JSON-LD **16** entries; law copy intact ("Public Act 104-0854" ×3,
+`104-0854` ×4, "Dead for the session" ×1, "dead for the 2025-26 session" ×2, "AB 1569" ×2, "SB 1167" ×2);
+and **0** each of "Passed both chambers", "Held in committee", "awaiting governor", "Awaiting governor",
+"If signed", "Not in effect yet", "Unless it is revived", "is heading to the Governor". The only **3**
+surviving `2026-09-07` strings in `dist/` are the **3 carrier `lastVerified` values**, correct because
+carriers were not re-checked.
+
+### Production is correct and current
+
+Nothing on the live site is wrong. It still serves the September 3 review date, because **PR #17 has
+been a draft since September 7 and this run adds a third commit to the same branch** rather than stacking
+a second draft on an unmerged base. No urgency behind it.
+
 ## September 7, 2026 law sync (Monday): all laws in sync; one tracked bill reached the Governor's desk
 
 **No statute, effective date, or carrier claim changed in any tracked state.** One tracked bill moved a
