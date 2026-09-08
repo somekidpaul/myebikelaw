@@ -198,6 +198,278 @@ Capitalized and rendered in an eyebrow; the same words in a sentence are prose a
 case-insensitive count conflates a stale label with correct history, and it fails in the direction
 that wastes a run chasing a phantom. Every prior run's 0 was right.
 
+## September 8, 2026 law sync (Tuesday): all laws in sync; nothing moved anywhere. Date bumps only
+
+**No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
+advanced a single procedural step since yesterday's run. Carriers were not re-checked (Tuesday, outside
+the Monday cadence and outside the July 19 window), so all three stay `2026-09-07`.
+
+### The one thing worth watching is still sitting still
+
+California SB 1167 has been on the Governor's desk since September 4 and he has not acted. Read off
+leginfo this run: House Location **Governor**, last history row still **09/04/26 "Enrolled and presented
+to the Governor at 2 p.m."**, and **0** each of Chaptered / Vetoed / "Approved by the Governor". The
+sec. 10(b)(2) deadline recorded on the 7th still stands: **on or before September 30, 2026**, signed,
+vetoed, or by inaction. The card's `details` sentence already says exactly this, so it needed no edit.
+
+⚠️ **The "Chaptered" and "Vetoed" counts on a leginfo status page are 1 each, and both are page chrome.**
+Printing the raw bytes around them shows a single HTML comment on every bill page:
+`<!-- Last Amended/Introduced/Enrolled/Proposed/Chaptered/Vetoed  Date -->`. It is the same shape as the
+9/7 case-matching lesson, one layer down: matching the case was not enough here, because the literal
+string really is present. **Print the surrounding bytes before reading a count as a status.**
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov` (`Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`, **126,970 bytes**, decoded as **cp1252**). **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still no insurance minimums in the act. Conjunctive phrase **2** times on whitespace-normalized text. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills from `api/billSearch/allBills/2026` (identical count to every run since 8/18; the payload's own `BillCount` field agrees). **20** e-bike/scooter/moped-adjacent by synopsis; **0** of those 20 carry a real `GovernorAction`; **0** synopses mention 4834, c.285, or P.L.2025. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026, each still "Introduced ... Referred to ..." Committee. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA SB 1167 | **Unchanged since 9/7. See above.** House Location Governor, Enrolled Date 08/31/26, last row 09/04/26 |
+| CA AB 1942 | Still dead for the session. House Location **Assembly**, last history row still **05/14/26 "In committee: Held under submission."**, 0 real Chaptered / Vetoed / Approved / Enrolled |
+| CA AB 2346 | Untracked watch item, unchanged: House Location Governor, Enrolled Date 08/21/26, last row "08/25/26 Enrolled and presented to the Governor at 4 p.m.", 0 real Chaptered / Vetoed / Approved. Its sec. 10(b)(2) deadline is also September 30, 2026 |
+| IL PA 104-0854 | Unchanged. SB 3484 status XML `Last-Modified` **still Thu, 27 Aug 2026 04:20:39 GMT**, Content-Length **20,505**, **81** parsed `<action>` elements, "public act" ×2, "veto" ×0, `104-0854` ×2, last four rows "Sent to the Governor" / "Governor Approved" / "Effective Date January 1, 2027" / "Public Act . . . 104-0854". (⚠️ `grep -c '<action'` still says **82** — it also matches the `<actions>` wrapper. Parse, don't grep-count) |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** each of "Override", "Chapter No", "Approved by Governor". Unchanged |
+| MA S 3077 | Still exactly **5** dated action rows, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action rows, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed verbatim on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s** (bill text and measure-status pages both), as documented |
+| HI county guidance | Honolulu CSD's bicycle-registration page still has **0** mentions of Act 259, HB 2021, or HB2021, and still lists only the generic **$30** e-bike / **$15** pedal-bike fees off the HRS §291C-1 ≤750W definition. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found; both legislatures are out of regular session and no special session touching either was found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| Carriers | **Not re-checked.** Tuesday, outside the Monday cadence and the July 19 window. All 3 stay `2026-09-07`, and VOOM's self-dating prose correctly stays "as of September 7, 2026" |
+| New states | **None.** The national scan surfaced only already-tracked states plus the same **Palmetto Bay, FL** municipal ordinance vote (September 14) already ruled out on 9/7 as municipal, not state |
+
+### Ohio HB 948 re-checked, and a detail in the 9/3 entry corrected
+
+HB 948 is untracked and earns no card (its e-bike substance binds **motorists**, not riders), but it was
+re-read off the Ohio Legislature's own API this run. Still **"As Introduced"** and the only version on
+file; `governor_signed_date`, `concurrence_date` and `effective_date` are all **null**. It has not
+advanced.
+
+⚠️ **Correction to the September 3 entry**, which recorded "No hearing, no vote": the bill's `meetings`
+endpoint returns a **House Transportation committee meeting notice dated 2026-06-09** (09:30, Room 122,
+chair Bernard Willis, not canceled). A noticed hearing is not passage and changes nothing about the
+scope finding or the absence of a card, but the earlier "no hearing" was wrong. **The action history and
+the meetings list are two different endpoints, and reading only the first understates a bill's activity.**
+
+### Both date guards falsified before being trusted, with the file change confirmed first
+
+The 9/3 no-op lesson held. The sitemap guard went red on **real** drift the moment `LAST_REVIEWED` moved
+ahead of the committed sitemap (`expected '2026-09-07' to be '2026-09-08'`). The card-date guard was
+falsified by pushing the CA card's `lastVerified` to `2026-12-31`; `diff` against a backup **confirmed
+the file actually changed** before the result was read, and it went red (`CA card lastVerified`,
+`expected false to be true`). Restored, **312 green**, tsc clean, build + prerender green.
+
+⚠️ **`npm run build` stamps `dist/sitemap.xml` only.** `scripts/prerender.mjs` has
+`const SITEMAP = 'dist/sitemap.xml'`, while the guard reads the committed `public/sitemap.xml`, so the
+public copy has to be edited by hand every run. Building and expecting the guard to go green does not work.
+
+⚠️ **The doc comment above `formatLastReviewed` carries an example date that must move with
+`LAST_REVIEWED`.** It was missed on the first pass this run and caught by reading
+`git log -p -- src/data/site-meta.ts`, which shows it bumped in every prior sync commit. No test covers
+it, since it is a comment.
+
+### Changes in this commit
+
+**Date bumps only; no legal copy changed anywhere.** The **5** cards actually re-checked (CA/FL/IL/MA/NY)
+→ `2026-09-08`; **UT and WA left at `2026-08-24`**; all **3** carriers left at `2026-09-07`;
+`LAST_REVIEWED`, its doc-comment example, and `public/sitemap.xml` → September 8, 2026.
+
+Built artifact verified: **5** "Sep 8, 2026" chips + **2** "Aug 24, 2026", **0** "Sep 7, 2026" and **0**
+"Sep 3, 2026"; footer "last reviewed **September 8, 2026**"; sitemap stamped `2026-09-08` in both
+`dist/` and `public/`; FAQPage JSON-LD **16** entries; law copy intact ("Public Act 104-0854" ×3,
+`104-0854` ×4, "Dead for the session" ×1, "dead for the 2025-26 session" ×2, "AB 1569" ×2, "SB 1167" ×2);
+and **0** each of "Passed both chambers", "Held in committee", "awaiting governor", "Awaiting governor",
+"If signed", "Not in effect yet", "Unless it is revived", "is heading to the Governor". The only **3**
+surviving `2026-09-07` strings in `dist/` are the **3 carrier `lastVerified` values**, correct because
+carriers were not re-checked.
+
+### Production is correct and current
+
+Nothing on the live site is wrong. It still serves the September 3 review date, because **PR #17 has
+been a draft since September 7 and this run adds a third commit to the same branch** rather than stacking
+a second draft on an unmerged base. No urgency behind it.
+
+## September 7, 2026 law sync (Monday): all laws in sync; one tracked bill reached the Governor's desk
+
+**No statute, effective date, or carrier claim changed in any tracked state.** One tracked bill moved a
+procedural step, and it moved a sentence of ours that was written as a bill in transit.
+
+### The routine fired late, so the dates are the day the sources were actually read
+
+The task was scheduled for Friday September 4 and ran on **Monday September 7**. Every primary source
+below was read on the 7th, and the dates only move for what was actually re-read. Landing on a Monday
+also puts the **carriers back in scope**, so all three were re-verified against their live pages.
+
+### ⭐ The change: California SB 1167 was presented to the Governor on September 4, 2026
+
+The 9/3 run caught SB 1167 one step short of the Governor: enrolled August 31, but House Location still
+"Senate" and **0** "Enrolled and presented", so the card's sentence that it "passed both chambers on
+August 28, 2026 and is heading to the Governor" was still exactly right, and that run correctly changed
+nothing. It has now arrived.
+
+| Read off leginfo this run | Value |
+|---|---|
+| Last history row | **09/04/26 "Enrolled and presented to the Governor at 2 p.m."** |
+| House Location | **Governor** (was "Senate" on 9/3) |
+| "Enrolled and presented" | **1** (was 0 on 9/3) |
+| Chaptered / Vetoed / Approved by the Governor | **0 / 0 / 0** — he has not acted |
+
+⭐ **This is the 9/1 "conditional that resolves" lesson caught on the way in rather than after it went
+false.** "Is heading to the Governor" describes a bill in transit; the bill is now on the desk. Nothing
+we told a rider was wrong, but the sentence was already behind the record, and the same shape (a
+conditional nobody re-reads once its condition moves) is what put "Unless it is revived" on the site for
+a week in August.
+
+### The deadline was verified against the constitution, not inferred
+
+Because SB 1167 passed **before** September 1 and is in the Governor's possession **on or after**
+September 1, the residual 12-day rule does not govern it. Read verbatim off leginfo's printable section
+view this run, Cal. Const. art. IV, sec. 10(b)(2): "Any bill passed by the Legislature before September 1
+of the second calendar year of the biennium of the legislative session and in the possession of the
+Governor on or after September 1 that is not returned on or before September 30 of that year becomes a
+statute." **So SB 1167 resolves on or before September 30, 2026, signed, vetoed, or by inaction.** This is
+the same subdivision, and the same trap, as the AB 2346 correction on 9/1: sec. 10(b)(3) is the residual
+rule and reaching for it first is the error.
+
+⚠️ **The scope finding is unaffected and was not re-litigated.** The 9/1 pass read SB 1167's operative
+text and found its 17 "insurance", 7 "registration" and 21 "license plate" hits all attach to mopeds,
+motor-driven cycles, off-highway electric motorcycles, and motorized scooters, while its licensing
+amendment expressly excepts "an electric bicycle as described in subdivision (a) of Section 312.5" from
+the class M2 category. **Signed or not, it adds nothing for an ordinary e-bike rider, so there is still
+no card and no requirementHints.** The rewritten sentence says so in as many words.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Unchanged, re-read in full from `pub.njleg.gov` (`Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`, 126,970 bytes, decoded as **cp1252**). **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still **no insurance minimums in the act**. Conjunctive phrase present **2** times. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills pulled from the njleg API (identical count to every run since 8/18); **18** e-bike/scooter/moped-adjacent by synopsis; **0** with a `GovernorAction`; **0** synopses mentioning 4834, c.285, or P.L.2025. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA AB 1942 | Still dead for the session. House Location **Assembly**, "Active Bill - In Committee Process", "Held under submission" ×1, and **case-sensitively 0** each of Chaptered / Vetoed / Approved by the Governor / Enrolled |
+| CA SB 1167 | **The change this run. See above.** |
+| CA AB 2346 | Untracked watch item, unchanged: House Location Governor, Enrolled 08/21/26, last row "08/25/26 Enrolled and presented to the Governor at 4 p.m.", **0** Chaptered / Vetoed / Approved. Its sec. 10(b)(2) deadline is also **September 30, 2026** |
+| IL PA 104-0854 | Unchanged. SB 3484 status XML `Last-Modified` **still Thu, 27 Aug 2026 04:20:39 GMT**, **81** action rows, "public act" ×2, "veto" ×0, `104-0854` ×2, last four rows "Sent to the Governor" / "Governor Approved" / "Effective Date January 1, 2027" / "Public Act . . . 104-0854" |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** "Override", **0** "Chapter No", **0** "Approved by Governor". Unchanged |
+| MA S 3077 | Still exactly **5** dated action rows, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action rows, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s**, as documented |
+| HI county guidance | Honolulu CSD's page still has **0** mentions of Act 259, HB 2021, or HB2021, and still lists only the generic $30 / $15 fees. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found; both legislatures are out of session. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| New states | **None.** The national scan surfaced only already-tracked states. The one September item, a **Palmetto Bay, FL** e-bike ordinance vote set for September 14, is a **municipal** ordinance, and this site tracks state law. No card |
+| Coverage watch | The "Illinois joins New Jersey as the only states to require insurance for high-speed e-bikes" framing is still circulating. Same blur the card and FAQ already answer in as many words (**NJ binds ordinary low-speed e-bikes, Illinois does not**), so **no copy change** |
+
+### Second pass the same day: North Carolina found and ruled out on its enacted text
+
+A later Monday sweep re-read every source above and found **no further movement** (CA SB 1167 still sitting
+with the Governor unacted-on, IL status XML still `Last-Modified: Thu, 27 Aug 2026 04:20:39 GMT` with 81
+action rows, NJ R1a still 126,970 bytes). It did surface one state no prior run had recorded.
+
+**North Carolina Session Law 2026-46 (HB 1094)**, read against the enacted text from ncleg.gov, not coverage:
+
+| Check | Result |
+|---|---|
+| `electric bicycle` | **0** — North Carolina's term of art is **"electric assisted bicycle"**, and searching the wrong phrase returns a clean, entirely false zero |
+| `electric assisted bicycle` | **16**, and **all 16 sit inside Section 19** |
+| insurance / registration / register / license / certificate of title / financial responsibility **within 400 characters of any e-bike mention** | **0** |
+| Act-wide `registration` / `financial responsibility` | 37 / 14, **none** of them near an e-bike provision |
+
+⭐ **The act-wide counts are the trap.** SL 2026-46 is a broad DOT omnibus (ferry performance audit, commercial
+drivers licence disqualifications, notices), so it is dense with registration and financial-responsibility
+language that has nothing to do with bicycles. **A whole-act keyword count would have manufactured a compliance
+card out of ferry and CDL provisions.** The proximity test is what settles it.
+
+What Section 19 actually does, effective **December 1, 2026**: rewrites G.S. 20-4.01(7a) into Class 1 / 2 / 3
+(motor <=750W), adds G.S. 20-171.3 permitting operation on roadways, bike lanes and multiuse paths plus a
+**helmet requirement for under-18 riders on a Class 3**, and adds G.S. 160A-300.2 / 153A-245.1 letting a city or
+county regulate use **on multiuse paths and sidewalks**. That local authority is enumerated and closed:
+"(1) Restricting the use of a class or classes" and "(2) Establishing speed limits", plus an under-18 helmet
+option for Class 1 and 2. **No registration power, no licensing power, no insurance power, and no minimum
+riding age.** Classes, helmets, and where you may ride are not compliance. Coverage describes it accurately,
+so the "widely misreported" carve-out does not apply either. **No card.**
+
+### An almost-alarm: a wrong URL nearly reported a carrier correcting itself
+
+The carrier re-check first hit `velosurance.com/blog/nj-ebike-law-guide/` and came back with **3** of each
+dollar figure and **0** occurrences of both false legal summaries our card cautions about, which reads exactly
+like a carrier quietly correcting its page and leaving our caution copy describing text that no longer exists.
+**It was the wrong page.** The tracked source in `nj-carriers.ts` is `velosurance.com/usa/new-jersey/`, and on
+that page every figure and sentence is intact: `$15,000` / `$30,000` / `$5,000` **x4 each**, the insurance
+summary present, the helmet summary **x1**, the self-contradicting correct line **x1**.
+
+⭐ **Read the `source.url` in the data file before concluding a source changed.** A neighbouring page on the
+same domain answers a different question, and its answer looks like news.
+
+⚠️ The insurance sentence counts **2** on the tracked page against the **1** recorded earlier the same day. Both
+were located rather than averaged: one is inside the page's **FAQ JSON-LD**, one is the rendered
+`<div class="faq-card">`. Same answer, so the visible claim is unchanged and the card needed no edit.
+
+### Carriers re-verified (Monday cadence), all three unchanged
+
+| Carrier | Checked against the live page | Result |
+|---|---|---|
+| Velosurance | `$15,000` ×4 / `$30,000` ×4 / `$5,000` ×4; "Insurance is required for every e-bike class in New Jersey under New Jersey S4834" ×1 verbatim; "A helmet is mandatory for every e-bike rider, regardless of age, under New Jersey S4834" ×1 verbatim; the self-contradicting correct line ("do not qualify as Class 1 or Class 2") ×1 | Card accurate, including both cautions. No change |
+| Sundays | "We do not offer cyclist liability insurance." ×1 verbatim | No change |
+| VOOM | "Register to our waiting list" ×1, "launching soon" ×1, `$35,000` ×2, `15,000` **0 times** | Still waitlist. No change |
+
+⚠️ **The recurring near-miss, avoided again.** `liability-only` and `500,000` still appear **zero** times
+on Velosurance's NJ page. Those two claims are **not** sourced to that page; they come from Bicycle
+Retailer (2026-07-08) and Velosurance's own launch announcement. **A carrier page not carrying a claim is
+not the same as the claim being wrong.**
+
+**Markel and Progressive stay deliberately unlisted.** `markel.com/insurance/bicycle` still **301s** to
+`markel.com/bicycle`, which has **0** occurrences of "New Jersey"; Progressive's e-bike answers page still
+**404s**. A search for new NJ entrants found none: Velosurance remains the only carrier with an
+NJ-specific S4834 liability product.
+
+### ⚠️ Two of my own counting methods produced false alarms, and both were checked instead of believed
+
+1. **The NJ conjunctive phrase came back 0** on the first pass, against the 2 every prior run recorded.
+   The statute had not changed: my flattener collapsed spaces and tabs but **not newlines**, and the
+   phrase spans a line break in the source. Counted on whitespace-normalized text it is **2**, and the
+   surrounding sentence was printed verbatim to confirm it. **Normalize whitespace before counting a
+   multi-word phrase in HTML.**
+2. **CA AB 1942 appeared to show "chaptered" 6 and "vetoed" 6** on a case-insensitive grep of the status
+   page. Both are page chrome (dropdown labels and legends). **Case-sensitively both are 0**, and the
+   parsed status block reads "Active Bill - In Committee Process" with House Location Assembly. This is
+   exactly the 9/3 lesson holding: **match the case of the thing you are actually testing for.**
+
+Neither was a legal change, and in both directions the wrong move would have been to trust the first
+number.
+
+### Changes in this commit
+
+One sentence of legal copy plus date bumps. The CA card's `details` sentence on SB 1167 now records the
+September 4 presentation, the sec. 10(b)(2) September 30 deadline, and that the bill adds nothing for an
+ordinary rider either way. **`details` is dead data (no component reads it), so nothing user-visible
+changed**; the FAQ's California bullet says only that SB 1167 "passed both chambers on August 28, 2026",
+which is still true, so **it needed no edit**. The **5** cards actually re-checked (CA/FL/IL/MA/NY) →
+`2026-09-07`; **UT and WA left at `2026-08-24`**; all **3** carriers → `2026-09-07` with VOOM's
+self-dating prose moved to "as of September 7, 2026" to match; footer and sitemap to September 7, 2026.
+
+**312 tests green**, tsc clean, build + prerender green. **Three date guards falsified before being
+trusted, each with the file change confirmed first** (the 9/3 no-op lesson): the sitemap guard went red
+on real drift (`expected '2026-09-03' to be '2026-09-07'`) before the build stamped it; the VOOM prose
+guard went red (`expected 'September 5, 2026' to be 'September 7, 2026'`); the card-date guard went red
+(`CA card lastVerified`, `expected false to be true`). Restored, 312 green.
+
+Built artifact verified: **5** "Sep 7, 2026" chips + **2** "Aug 24, 2026", **0** "Sep 3, 2026"; footer
+"last reviewed September 7, 2026"; sitemap stamped `2026-09-07`; FAQPage JSON-LD **16** entries; law copy
+intact ("Public Act 104-0854" ×3, "Dead for the session" ×1, "dead for the 2025-26 session" ×2, "AB 1569"
+×2, "SB 1167" ×2); and **0** each of "Passed both chambers", "Held in committee", "awaiting governor",
+"If signed", "Not in effect yet", "Unless it is revived", and the now-retired "is heading to the
+Governor". **0** occurrences of `2026-09-03`, `2026-08-31`, or `2026-09-01` anywhere in `dist/`.
+
+⚠️ "September 4, 2026" and "September 30, 2026" are **0 in the prerendered HTML and 1 each in the JS
+bundle**, which is correct: they live in `details`, which ships in the bundle but is never rendered.
+
+### Production is correct and current
+
+Read off the live URL this run: footer "last reviewed **September 3, 2026**"; **5** "Sep 3, 2026" chips +
+**2** "Aug 24, 2026"; "Public Act 104-0854" ×3, `104-0854` ×4, "Dead for the session" ×1; **0**
+case-sensitive occurrences of "Passed both chambers", "awaiting governor", "If signed", or "Unless it is
+revived"; live sitemap `<lastmod>2026-09-03</lastmod>`. **Nothing on the live site is wrong**, so this PR
+is a draft with no urgency behind it.
+
 ## September 3, 2026 law sync (Thursday): all laws in sync; no legal change; Ohio found and ruled out
 
 **No statute, bill, effective date, or carrier claim changed in any tracked state.** Changes are date
