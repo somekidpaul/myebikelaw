@@ -267,6 +267,95 @@ reading.** In `dist/index.html` or a `curl`ed page the source case is authoritat
 `innerText` in a browser the **CSS-transformed** case is. A zero from the wrong one of those two looks
 exactly like missing copy.
 
+## September 9, 2026 law sync (Wednesday): all laws in sync; nothing moved anywhere. Date bumps only
+
+**No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
+advanced a single procedural step since yesterday's run. Carriers were not re-checked (Wednesday, outside
+the Monday cadence and outside the July 19 window), so all three stay `2026-09-07`.
+
+### The one live watch item is still sitting still, for a sixth day
+
+California SB 1167 has been on the Governor's desk since September 4 and he still has not acted. Read off
+leginfo this run: House Location **Governor**, Enrolled Date 08/31/26, last history row still
+**09/04/26 "Enrolled and presented to the Governor at 2 p.m."**, and **0** each of real Chaptered /
+Vetoed / "Approved by the Governor". The sec. 10(b)(2) deadline recorded on the 7th still stands:
+**on or before September 30, 2026**, signed, vetoed, or by inaction. The card's `details` sentence
+already says exactly this, so it needed no edit.
+
+⚠️ **Coverage found this run repeats the "12 days to sign or veto" framing**, which is the residual rule
+in art. IV sec. 10(b)(3) and does not govern this bill. That is the exact trap the 9/1 AB 2346 correction
+hit and the 9/7 run settled verbatim. Our copy uses **10(b)(2)** and is right; the news is wrong.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Byte-identical, re-read in full from `pub.njleg.gov` (`Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`, **126,970 bytes**, decoded as **cp1252**). **"helmet" 0 times.** Exactly **4** dollar figures ($5, $5, $50, $50), so still no insurance minimums in the act. The conjunctive definition ×2 on whitespace-normalized text. "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | All **10,712** 2026 bills from `api/billSearch/allBills/2026` (identical count to every run since 8/18; the payload's own `BillCount` field agrees). **22** e-bike/scooter/moped-adjacent by synopsis; **0** of those carry a real `GovernorAction`. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** history row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA SB 1167 | **Unchanged since 9/4. See above.** |
+| CA AB 1942 | Still dead for the session. House Location **Assembly**, last history row still **05/14/26 "In committee: Held under submission."**, 0 real Chaptered / Vetoed / Approved / Enrolled |
+| CA AB 2346 | Untracked watch item, unchanged: House Location Governor, Enrolled Date 08/21/26, last row "08/25/26 Enrolled and presented to the Governor at 4 p.m.". Its sec. 10(b)(2) deadline is also September 30, 2026 |
+| IL PA 104-0854 | Unchanged. SB 3484 status XML `Last-Modified` **still Thu, 27 Aug 2026 04:20:39 GMT**, Content-Length **20,505**, **81** parsed `<action>` elements, "public act" ×2, "veto" ×0, `104-0854` ×2. (⚠️ `grep -c '<action'` still says **82** — it also matches the `<actions>` wrapper. Parse, don't grep-count) |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** each of "Override", "Chapter No", "Approved by Governor". Unchanged |
+| MA S 3077 | Still exactly **5** dated action rows, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194". Unchanged |
+| NY S08573 | nyassembly.gov mirror: still exactly **2** action rows, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION. Unchanged |
+| HI Act 259 | In effect since 7/15/2026, unamended. Re-confirmed verbatim on HDOT: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026". `enactedOn: '2026-07-15'` correct. capitol.hawaii.gov still **403s**, as documented |
+| HI county guidance | Honolulu CSD's bicycle-registration page still has **0** mentions of Act 259, HB 2021, or HB2021, and still lists only the generic **$30** / **$15** fees. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation found; no special session found for either legislature. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read this run) |
+| Carriers | **Not re-checked.** Wednesday, outside the Monday cadence and the July 19 window. All 3 stay `2026-09-07` |
+| New states | **None.** The national scan surfaced only already-tracked states, **NC SL 2026-46** (already ruled out on 9/7 against its enacted text), and **NYC's** 15 mph cap, which is **municipal** where this site tracks state law |
+
+### ⭐ The no-op falsification trap fired for real, and the guard caught it
+
+The card-date guard was falsified with `sed -i '' "0,/pat/s|pat|repl|"` and came back **312 passed**, which
+reads exactly like a hollow guard. It was not: **BSD `sed` on macOS does not support the GNU `0,/re/`
+address form**, so the command never modified the file, and `diff` against the backup said so before the
+test result was read. Redone in Python with an `assert` that the replacement applied, the guard went
+**red** (`CA card lastVerified`, `expected false to be true`). The sitemap guard went red on real drift
+first try (`expected '2026-09-08' to be '2026-09-09'`).
+
+⭐ **This is the 9/3 lesson landing on a concrete cause.** That entry recorded the empty-regex reuse form
+as the culprit; the deeper rule is that **`0,/re/` is a GNU extension and silently does nothing on BSD
+sed**, which is what ships on this Mac. **Falsify with a tool that can assert its own edit applied**, and
+confirm the file changed before reading any test result.
+
+### ⭐ 1:1 build proof: the diff is six characters
+
+Rather than infer that only dates moved, this run **built `main` and diffed the two prerendered
+`dist/index.html` files**. Result: **7 changed regions total** — the asset hash (`index-DTmu03Z0` →
+`index-DHtsRv2F`) and **six single-character `8` → `9`** changes (the 5 card chips and the footer).
+**No legal copy moved a byte.**
+
+⚠️ **That baseline also settles a size figure the prior entries could have made confusing.** The
+prerendered artifact is **76,588 bytes** on both builds, while the live page is **76,866**. Those are not
+in conflict and the earlier ships were not mis-measured: **the 76,866 figure measures the live served
+page**, which carries bytes the artifact does not. Compare artifact to artifact, or live to live, never
+one against the other.
+
+### Changes in this commit
+
+**Date bumps only; no legal copy changed anywhere.** The **5** cards actually re-checked (CA/FL/IL/MA/NY)
+→ `2026-09-09`; **UT and WA left at `2026-08-24`**; all **3** carriers left at `2026-09-07`;
+`LAST_REVIEWED`, its doc-comment example, and `public/sitemap.xml` → September 9, 2026.
+
+Built artifact verified: **5** "Sep 9, 2026" chips + **2** "Aug 24, 2026", **0** "Sep 8, 2026" and **0**
+"Sep 7, 2026"; footer "last reviewed **September 9, 2026**"; sitemap stamped `2026-09-09` in both `dist/`
+and `public/`; FAQPage JSON-LD **16** entries; law copy intact ("Public Act 104-0854" ×3, `104-0854` ×4,
+"Dead for the session" ×1, "dead for the 2025-26 session" ×2, "AB 1569" ×2, "SB 1167" ×2); and **0** each
+of "Passed both chambers", "Held in committee", "Awaiting governor", "If signed", "Not in effect yet",
+"Unless it is revived", "is heading to the Governor". The only surviving older dates in `dist/` are the
+**3** carrier values (`2026-09-07`) and the **2** UT/WA values (`2026-08-24`), both correct.
+
+**312 tests green**, tsc clean, build + prerender green.
+
+### Production is correct and current
+
+Read off the live URL this run: **5** "Sep 8, 2026" chips + **2** "Aug 24, 2026", "Public Act 104-0854"
+×3, "Dead for the session" ×1, live sitemap `<lastmod>2026-09-08</lastmod>`, and **0** each of "Passed
+both chambers", "Unless it is revived", "Not in effect yet". **Nothing on the live site is wrong**, so
+**draft PR #18 has no urgency behind it.**
+
 ## September 8, 2026 law sync (Tuesday): all laws in sync; nothing moved anywhere. Date bumps only
 
 **No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
