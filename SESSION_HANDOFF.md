@@ -10,7 +10,7 @@ Reference doc for picking up in a new Claude Code session without losing context
   artifact on a portfolio piece. Keep it true.
 - **Auto-deploy:** every push to `main` → CI runs tests → if green, `cloudflare/wrangler-action@v3` ships `dist/`
 - **Status:** shipped, polished, every path empirically verified through the form on the live URL
-- **Tests:** 299 / 299 passing (Vitest) — engine, share round-trip, form logic, form inputs,
+- **Tests:** 312 / 312 passing (Vitest) — engine, share round-trip, form logic, form inputs,
   rendered verdict copy, and site consistency
 - **LinkedIn:** launch post PUBLISHED 2026-05-21 (meniscus origin + all 6 state statuses incl. CA "stalled in committee" + "91 test scenarios" — the post's count is a point-in-time number, the suite is now 117)
 
@@ -266,6 +266,127 @@ are `SEP 8, 2026`, `DEADLINE PASSED`, `IN EFFECT`. Re-counted in the rendered ca
 reading.** In `dist/index.html` or a `curl`ed page the source case is authoritative; through
 `innerText` in a browser the **CSS-transformed** case is. A zero from the wrong one of those two looks
 exactly like missing copy.
+
+## September 10, 2026 law sync (Thursday): all laws in sync; nothing moved anywhere. Date bumps only
+
+**No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
+advanced a single procedural step since the 9/9 run. Carriers were not re-checked (Thursday, outside the
+Monday cadence and outside the July 19 window), so all three stay `2026-09-07`. This commit **stacks on
+draft PR #18's branch** (`law-sync/2026-09-09`) rather than opening a second draft on an unmerged base,
+the same call the 9/8 run made on PR #17.
+
+### California SB 1167: a seventh day on the Governor's desk
+
+Read off leginfo this run, with HTML comments stripped before counting (the 9/8 chrome lesson): House
+Location **Governor**, Enrolled Date 08/31/26, newest history row still **09/04/26 "Enrolled and
+presented to the Governor at 2 p.m."**, and **0** each of Chaptered / Vetoed / "Approved by the
+Governor". The sec. 10(b)(2) deadline of **September 30, 2026** still runs, and the card's `details`
+sentence already says so. ⚠️ A `Chapter ` probe hit 2 on SB 1167's status page (1 each on AB 2346 and
+AB 1942). All were printed: every one is the bill's own title text ("of Chapter 1 of Division 3 of ...
+the Vehicle Code"), not a chaptering.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Byte-identical: `Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`, **126,970 bytes**, cp1252. "helmet" **0**; exactly **4** dollar figures ($5, $5, $50, $50); the conjunctive definition **×2** on whitespace-normalized text; "furnish proof of insurance" ×1, "six months" ×1, "12th month" ×1 |
+| NJ new-bill scan | ⭐ **The session count moved for the first time since 8/18: 10,765 bills (was 10,712), and the payload's own `BillCount` field agrees.** 53 new introductions; the newest are A5463 to A5492 and S4580 to S4609, and reading the newest 30 per house, **none touches e-bikes** (cannabis notices, license-plate-reader limits, a State Muffin, a $5 billion water bond). **22** e-bike-adjacent by synopsis (the same count as 9/9), **0** with a real `GovernorAction`, **0** synopses citing 4834, c.285, or P.L.2025. A wider bicycle / cycle / helmet / micromobility sweep (54 hits) surfaced only known bills plus recycling and motorcycle items. **No bill amending, delaying, or repealing S4834** |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA AB 1942 | Still dead for the session. House Location **Assembly**, **8** history rows, newest still **05/14/26 "In committee: Held under submission."** |
+| CA AB 2346 | Untracked watch item, unchanged: House Location Governor, Enrolled Date 08/21/26, newest row "08/25/26 Enrolled and presented to the Governor at 4 p.m.", 0 real Chaptered / Vetoed / Approved. Also resolves by September 30, 2026 |
+| IL PA 104-0854 | Unchanged. SB 3484 status XML `Last-Modified: Thu, 27 Aug 2026 04:20:39 GMT`, Content-Length **20,505**, **81** parsed `<action>` elements, the last two "Effective Date January 1, 2027" and "Public Act . . . . . . . . . 104-0854"; "public act" ×2, "veto" ×0, `104-0854` ×2 |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** each of "Override", "Chapter No", "Approved by Governor" |
+| MA S 3077 | Exactly **5** dated rows (5/4 Senate, 5/4 House, 5/7 Joint, 5/28 Joint, 7/22 Senate), the last "Accompanied a study order (under JR10), see S3194" |
+| NY S08573 | nyassembly.gov mirror: exactly **2** rows, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION |
+| HI Act 259 | In effect since 7/15/2026, unamended. HDOT verbatim ×1: "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026", and the same release says the law "took effect upon the Governor's signature". `enactedOn: '2026-07-15'` correct. See the "July 14" note below |
+| HI county guidance | Honolulu CSD's bicycle-registration page (now `www.honolulu.gov/csd/bicycle-registration/`; the old `www8.` host **301s** there) still has **0** mentions of Act 259, HB 2021, or HB2021, and still lists only "$30 for an electric bicycle (E-Bike)" and "$15 for a pedal bicycle" off the HRS §291C-1 ≤750W definition. FAQ caveat stays accurate |
+| UT HB 381 / WA ESSB 6110 | No amending legislation. Utah's extraordinary sessions checked on the primary source (below); no Washington special session found. `lastVerified` deliberately **left at 2026-08-24** (enrolled texts not re-read) |
+| Carriers | **Not re-checked.** All 3 stay `2026-09-07` |
+| New states | **None that earns a card.** Pennsylvania HB 2703 found and ruled out (below) |
+
+### ⚠️ A search summary put Act 259's effective date at "July 14". The primary source says July 15
+
+A WebSearch answer stated that Act 259 "took effect July 14, 2026", which would have meant our
+`enactedOn` was a day late. **HDOT's own release has "July 14" 0 times**, carries the July 15 signing
+sentence verbatim, and says the law "took effect upon the Governor's signature". No change. A search
+engine's summary is a secondary source that happens to be formatted like an answer.
+
+### ⚠️ A "Utah special session" claim was checked, not believed
+
+A search summary claimed a "13th Extraordinary Session on September 16, 2026" dealing with elections.
+It conflated two things. The elections special session is a Utah House page dated **December 8, 2025**.
+Separately, le.utah.gov's 2026 list really does show a **13th Extraordinary Session on 09-16-2026**
+(plus a 14th on 10-21 and a 15th on 11-18), but these are **Senate-only**: the 12th (08-19-2026)
+journal reproduces Gov. Cox's proclamation calling "the Senate only of the 66th Legislature" for one
+purpose, "For the Senate to consent to appointments made by the Governor". With the House not convened,
+no bill can pass. ⚠️ **The 13th's proclamation is not posted yet, so its purpose is unverified.** A run
+after 9/16 should read its journal.
+
+### Pennsylvania HB 2703 found and ruled out on its printed text
+
+It surfaced through House co-sponsorship memo 47661 (Rep. Jill Cooper, circulated November 7, 2025,
+"Introduced as HB 2703"). On palegis.us the bill is **PN 3779** with one action, **"Referred to
+TRANSPORTATION, July 15, 2026"**, and it has not been reported from committee.
+
+| Check against PN 3779 | Result |
+|---|---|
+| `insurance` / `financial responsibility` | **0** / **0** |
+| `electric bicycle` | **0**. Pennsylvania's term of art is **"pedalcycle with electric assist"** (the NC lesson again: search the wrong phrase and get a clean, false zero) |
+| `registration` | **3**, all in the local-authority power over pedalcycles in paragraph (8) |
+| The operative sentence | New (8)(ii): "Nothing in this paragraph shall be construed to authorize the department or a local authority to require the registration or insuring of a pedalcycle with electric assist or require a license to operate a pedalcycle with electric assist." |
+
+The text after the bracketed-out period in (8)(i) ("fee[.], and establishing fines for the operation of
+pedalcycles that are both not registered with the department and equipped with an electric motor system
+that does not satisfy the specifications in the definition of 'pedalcycle with electric assist'") reaches
+only **over-spec devices**. ⚠️ palegis's "HTM" text is a PDF render with **no underline markup** (0 `<u>`
+tags, 0 underline styles), so the existing-versus-new split here is read from Pennsylvania's bracket
+convention, not from underlines.
+
+**The bill runs the opposite way from a mandate** (the same direction as Illinois striking local
+registration power from Sec. 11-208(8)), coverage describes it accurately, and it has not moved. **No card.**
+
+### Guards falsified before being trusted, with the file change confirmed first
+
+The sitemap guard went red on **real** drift the moment `LAST_REVIEWED` moved ahead of the committed
+sitemap (`expected '2026-09-09' to be '2026-09-10'`). The card-date guard was falsified in **Python with
+an `assert` that the edit applied** (the 9/9 BSD-sed lesson), `diff` against a backup confirmed line 17
+changed, and it went red (`CA card lastVerified`, `expected false to be true`). Restored, **312 green**,
+tsc clean, build + prerender green.
+
+### ⭐ 1:1 build proof: the diff is six dates
+
+Built the branch head **before** editing and diffed the two prerendered `dist/index.html` files: **7
+changed regions** = the asset hash (`index-DHtsRv2F` → `index-Cxin6d-w`) plus **six** `9` → `10` date
+changes (5 card chips + footer). The artifact grew **76,588 → 76,594 bytes**, exactly +1 per date string.
+**No legal copy moved.**
+
+### ⚠️ Reusable trap: the njleg `BillType` field is padded
+
+`BillType` comes back as `'A  '` and `'S  '` (space-padded to three characters, like `'AJR'`), so
+`b['BillType'] == 'A'` silently matches **nothing** and a "newest bills" listing prints empty, which
+reads like "no new bills". **Strip before comparing.**
+
+### Changes in this commit
+
+**Date bumps only; no legal copy changed anywhere.** The **5** cards actually re-checked (CA/FL/IL/MA/NY)
+→ `2026-09-10`; **UT and WA left at `2026-08-24`**; all **3** carriers left at `2026-09-07`;
+`LAST_REVIEWED`, its doc-comment example, and `public/sitemap.xml` → September 10, 2026. Also corrected
+this file's header, which still said "299 / 299" tests (the suite is 312).
+
+Built artifact verified: **5** "Sep 10, 2026" chips + **2** "Aug 24, 2026", **0** "Sep 9, 2026" and **0**
+"Sep 8, 2026"; footer "September 10, 2026"; sitemap `2026-09-10` in both `dist/` and `public/`; FAQPage
+JSON-LD **16** entries; law copy intact ("Public Act 104-0854" ×3, `104-0854` ×4, "Dead for the session"
+×1, "dead for the 2025-26 session" ×2, "AB 1569" ×2, "SB 1167" ×2); **0** each of "Passed both chambers",
+"Held in committee", "Awaiting governor", "awaiting governor", "If signed", "Not in effect yet", "Unless
+it is revived", "is heading to the Governor". Across `dist/` HTML/JS/XML: `2026-09-09` **0**, the only
+older dates are the **3** carrier values (`2026-09-07`) and the **2** UT/WA values (`2026-08-24`).
+
+### Production is correct and current
+
+Read off the live URL this run (76,866 bytes served): **5** "Sep 8, 2026" chips + **2** "Aug 24, 2026",
+"Public Act 104-0854" ×3, "Dead for the session" ×1, live sitemap `<lastmod>2026-09-08</lastmod>`, and
+**0** each of "Passed both chambers", "Unless it is revived", "Not in effect yet", "is heading to the
+Governor". **Nothing on the live site is wrong**, so **draft PR #18 has no urgency behind it.**
 
 ## September 9, 2026 law sync (Wednesday): all laws in sync; nothing moved anywhere. Date bumps only
 
