@@ -267,6 +267,83 @@ reading.** In `dist/index.html` or a `curl`ed page the source case is authoritat
 `innerText` in a browser the **CSS-transformed** case is. A zero from the wrong one of those two looks
 exactly like missing copy.
 
+## September 15, 2026 law sync (Tuesday): all laws in sync; nothing moved anywhere. Date bumps only
+
+**No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
+advanced a single procedural step since the 9/10 run. This run fired late (last committed sync was 9/10),
+so every source was read fresh this run. Carriers were not re-checked (Tuesday, outside the Monday cadence
+and outside the July 19 window), so all three stay `2026-09-07`. UT/WA enrolled texts were not re-read, so
+they stay `2026-08-24`. This commit **stacks on draft PR #18's branch** (`law-sync/2026-09-09`), the same
+call the 9/8 and 9/10 runs made: date-bump-only runs keep rolling onto the open draft until Paul ships it.
+
+### ⚠️ The clock moved two days mid-run, so the sources were re-verified before the date was stamped
+
+The first pass read every primary source when the system clock returned **Sunday 2026-09-13** and stamped
+`2026-09-13`. The wall clock then advanced to **Tuesday 2026-09-15** while the run was still open. Rather
+than ship a `lastVerified` a reader could not defend (a date I did not actually verify on), the two items
+that can move day-to-day were **re-fetched on the 15th**: CA SB 1167 (still House Location **Governor**,
+newest row still 09/04/26 "Enrolled and presented to the Governor at 2 p.m.", **0** each Chaptered / Vetoed
+/ Approved, its 9/30 sec. 10(b)(2) deadline still running) and the NJ bill feed (now **10,811** rows, up
+from 10,779; **0** synopses citing c.285 or P.L.2025; **0** e-bike-adjacent bills with a real
+`GovernorAction`; the **29** newest Assembly introductions, A5505–A5533, touch **no** bicycle / scooter /
+e-bike). AB 2346 also re-checked: still with the Governor, 0 acted. Only then was everything re-stamped to
+`2026-09-15`. **Rule: if the clock advances while a run is open, re-verify the fast-moving sources before
+stamping, or the verification date is a claim you can't back.**
+
+### ⚠️ Reusable trap: the macOS `git` shim broke mid-session behind the Xcode license, and CLT git bypassed it
+
+`git` worked at session start, then every invocation began returning "You have not agreed to the Xcode
+license agreements. Please run 'sudo xcodebuild -license'" — an Xcode/CLT update apparently landed during
+the multi-day time jump and reset license acceptance. Accepting it needs `sudo` (Paul's password), which is
+not runnable here. **The fix that needs no password: call the Command Line Tools git directly at
+`/Library/Developer/CommandLineTools/usr/bin/git`** — it is not the Xcode.app shim (`xcode-select -p`
+pointed at `/Applications/Xcode.app/...`) and is not gated by the Xcode.app license, so `status` / `diff` /
+`commit` / `push` all work through it. Do not burn a run trying to get the shimmed `/usr/bin/git` to talk.
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Byte-identical: `Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`, **126,970 bytes**, cp1252. "helmet" **0**; exactly **4** dollar figures ($5, $5, $50, $50); the conjunctive "greater than 750 watts that is capable of reaching a speed greater than 28 miles" definition **×2** on whitespace-normalized text; "furnish proof of insurance" ×1 |
+| NJ new-bill scan | **No bill amending, delaying, or repealing S4834.** Session count grew normally (10,779 on the 13th → 10,811 on the 15th); **0** synopses citing 4834 / c.285 / P.L.2025 (the only "4834" hit is **A4834**, an unrelated EDA gender-pay bill); **0** e-bike-adjacent bills with a real `GovernorAction`; the newest introductions on both dates touch no e-bike topic |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." Zero movement |
+| CA SB 1167 | House Location **Governor**, Enrolled 08/31/26, newest row **09/04/26 "Enrolled and presented to the Governor at 2 p.m."**, **0** each Chaptered / Vetoed / Approved. Card `details` already says the 9/30 deadline runs; no edit |
+| CA AB 1942 | Still dead. House Location **Assembly**, newest row **05/14/26 "In committee: Held under submission."** |
+| CA AB 2346 | Untracked watch item, unchanged: House Location Governor, 0 acted. Also resolves by September 30, 2026 |
+| IL PA 104-0854 | Unchanged. SB 3484 status XML `Last-Modified: Thu, 27 Aug 2026 04:20:39 GMT`, Content-Length **20,505**, **81** parsed `<action>` elements, last two "Effective Date January 1, 2027" and "Public Act . . . 104-0854"; "public act" ×2, "veto" ×0 |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** Override / Chapter No / Approved |
+| MA S 3077 | "Accompanied a study order (under JR10), see S3194" ×1; unchanged |
+| NY S08573 | Exactly **2** rows: REFERRED TO RULES and REFERRED TO TRANSPORTATION |
+| HI Act 259 | In effect since 7/15/2026, unamended. Honolulu CSD bicycle-registration page still **0** mentions of Act 259 / HB 2021 and only the generic $30 / $15 fees, so the FAQ caveat stays accurate. capitol.hawaii.gov still **403s** |
+| UT HB 381 / WA ESSB 6110 | No amending legislation, no relevant special session. `lastVerified` left at `2026-08-24`. ⚠️ Utah's **13th Extraordinary Session is 09-16-2026** (tomorrow) — its proclamation is still not posted, so a run after 9/16 should read its journal to confirm it is Senate-only like the 12th |
+| Carriers | **Not re-checked** (Tuesday). All 3 stay `2026-09-07` |
+| New states | **None that earns a card.** A September WebSearch surfaced only the tracked states; the one summary claiming Florida "awaits the governor's signature" is the same misreport our FL card already corrects (it was vetoed) |
+
+### 1:1 build proof and guard falsification
+
+Built the branch head **before** editing and diffed the two prerendered `dist/index.html` files: the only
+changes were the asset hash and the date strings (5 card chips + footer), artifact **byte-identical at
+76,594** because "September 13"→"September 15" and "Sep 13"→"Sep 15" are the same length. **No legal copy
+moved.** Both date guards were falsified first: the sitemap guard went red on real drift
+(`expected '2026-09-15' to be '2026-09-13'`), and the card-date guard went red only when a card was set
+**after** `LAST_REVIEWED` (`bill.lastVerified <= LAST_REVIEWED` is the actual assertion — a card dated
+*earlier* than the review date is legal and stays green, which is why UT/WA at 08-24 and carriers at 09-07
+pass). Restored, **312 green**, tsc clean, build + prerender green.
+
+### Changes in this commit
+
+**Date bumps only; no legal copy changed anywhere.** The **5** cards actually re-checked (CA/FL/IL/MA/NY)
+→ `2026-09-15`; **UT and WA left at `2026-08-24`**; all **3** carriers left at `2026-09-07`; `LAST_REVIEWED`,
+its doc-comment example, and `public/sitemap.xml` → September 15, 2026. Built artifact verified: **5**
+"Sep 15, 2026" chips + **2** "Aug 24, 2026", **0** "Sep 13"/"Sep 10"; footer "September 15, 2026"; FAQPage
+JSON-LD **16** entries; law copy intact ("Public Act 104-0854" ×3, "Dead for the session" ×1, "Vetoed by
+governor" ×1); **0** each of "Not in effect yet", "is heading to the Governor", "Unless it is revived".
+
+### Production is correct and current
+
+The live site is still carrying the September 10 review date and is not wrong anywhere (nothing has changed
+since), so **draft PR #18 has no urgency behind it.**
+
 ## September 10, 2026 law sync (Thursday): all laws in sync; nothing moved anywhere. Date bumps only
 
 **No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
