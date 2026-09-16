@@ -267,6 +267,71 @@ reading.** In `dist/index.html` or a `curl`ed page the source case is authoritat
 `innerText` in a browser the **CSS-transformed** case is. A zero from the wrong one of those two looks
 exactly like missing copy.
 
+## September 16, 2026 law sync (Wednesday): all laws in sync; nothing moved anywhere. Date bumps only
+
+**No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
+advanced a procedural step since the 9/15 run. Every source below was read on **Wednesday 2026-09-16**
+(the run was queued on the 15th and executed on the 16th, so nothing from the 15th was reused). Carriers
+were not re-checked (Wednesday, outside the Monday cadence and the July 19 window), so all three stay
+`2026-09-07`. UT/WA enrolled texts were not re-read, so they stay `2026-08-24`. Stacks on draft PR #18's
+branch (`law-sync/2026-09-09`), same as the 9/10 and 9/15 runs.
+
+### ✅ The Utah watch item is closed: the 13th Extraordinary Session is Senate-only
+
+le.utah.gov's `/sessions/es.jsp` now links `13thEXSESS26proclamation.pdf`. It is an **image-only PDF**
+(`pdftotext` returns nothing, so it was read visually). Gov. Cox, dated **September 15, 2026**, calls "the
+Senate only of the 66th Legislature" into the 13th Extraordinary Session on **September 16, 2026 at 4:00
+p.m.**, for one purpose: "For the Senate to consent to appointments made by the Governor to positions
+within state government". With the House not convened no bill can pass, so HB 381 cannot be amended in it.
+The 14th (10-21-2026) and 15th (11-18-2026) are listed with no proclamation yet; **read those when posted.**
+
+### Every tracked item re-verified against a primary source
+
+| Item | Result |
+|---|---|
+| NJ S4834 (R1a enacted text) | Byte-identical: `Last-Modified: Tue, 13 Jan 2026 18:48:34 GMT`, **126,970 bytes**, cp1252. "helmet" **0**; exactly **4** dollar figures ($5, $5, $50, $50); conjunctive "greater than 750 watts that is capable of reaching a speed greater than 28 miles per hour" **×2** (whitespace-normalized); "furnish proof of insurance" ×1 |
+| NJ new-bill scan | `api/billSearch/allBills/2026` returns **10,810** bills (its `BillCount` element agrees). Diffed **field by field** against the 9/15 13:23 snapshot left in that session's scratchpad: **0 added, 0 removed, 0 changed**. ⚠️ The 9/15 entry and project memory record **10,811**; that snapshot itself holds **10,810**, so the 10,811 looks like an off-by-one in the 9/15 note. I have not verified where the extra 1 came from. No bill amends, delays, or repeals S4834 |
+| NJ watchlist | A2093 / S3156 / A3697 / S2070 / A1538 each still a **single** row, 1/13/2026. S4524 still one row, 6/26/2026. S3178 still two rows, the second verbatim "Withdrawn Because Approved P.L.2025, c.285." |
+| CA SB 1167 | House Location **Governor**, Enrolled 08/31/26; history page's newest row still **09/04/26 "Enrolled and presented to the Governor at 2 p.m."**; **0** each "Chaptered by Secretary" / "Vetoed by" / "Approved by the Governor" (HTML comments stripped first). 9/30 sec. 10(b)(2) deadline still runs; card `details` needs no edit |
+| CA AB 1942 | Still dead. House Location **Assembly**, "05/14/26 In committee: Held under submission." |
+| CA AB 2346 | Untracked watch item, unchanged: House Location Governor, newest row "08/25/26 Enrolled and presented to the Governor at 4 p.m.", 0 acted. Also resolves by 9/30 |
+| IL PA 104-0854 | SB 3484 XML `Last-Modified: Thu, 27 Aug 2026 04:20:39 GMT`, Content-Length **20,505**, **81** parsed `<action>` elements; "public act" ×2, "veto" ×0, `104-0854` ×2 |
+| FL CS/SB 382 | "Vetoed by Governor" ×2, **0** Override / Chapter No / Approved by Governor |
+| MA S 3077 | Exactly **5** dated rows, last "7/22/2026 Senate Accompanied a study order (under JR10), see S3194" |
+| NY S08573 | nyassembly.gov: exactly **2** rows, 11/07/2025 REFERRED TO RULES and 01/07/2026 REFERRED TO TRANSPORTATION |
+| HI Act 259 | HDOT `/blog/2026/07/16/new-law-enacted-to-improve-electric-bicycle-safety/` (200): "HB2021 HD2 SD2 CD1 (Act 259), signed by Governor Josh Green on July 15, 2026" ×1, "July 14" ×0. `enactedOn: '2026-07-15'` correct |
+| HI county guidance | Honolulu CSD `www.honolulu.gov/csd/bicycle-registration/`: **0** Act 259 / HB 2021 / HB2021, fees still "$30 for an electric bicycle (E-Bike)" and "$15 for a pedal bicycle". FAQ caveat accurate |
+| UT HB 381 / WA ESSB 6110 | Utah: see above, Senate-only. No Washington special session found. `lastVerified` left `2026-08-24` |
+| Carriers | **Not re-checked** (Wednesday). All 3 stay `2026-09-07` |
+| New states | **None.** Two September searches surfaced only tracked states plus a Velosurance blog line telling Arizona riders to "watch"; Arizona was already ruled out on its bill text (SB 1008 is a path speed-limit bill and leaves A.R.S. 28-819(B)'s e-bike exemption intact), so no card. I did not re-read SB 1008 this run |
+
+### ⚠️ I repeated the 9/15 falsification mistake, and a second one on the restore
+
+1. **Wrong direction again.** I set a card to `2026-09-14` and expected red. It stayed green, because the
+   guard is `bill.lastVerified <= LAST_REVIEWED`: an *older* card date is legal by design. The 9/15 entry
+   already said this. Re-falsified correctly with a card set **after** the review date (`2026-09-17`) →
+   **red** (`CA card lastVerified`, `expected false to be true`). The sitemap guard went red on real drift
+   (`expected '2026-09-15' to be '2026-09-16'`).
+2. **`git checkout --` as the restore step wiped the real bumps too.** It returns a file to the last
+   commit, which here was the 9/15 dates, so the legit 9/16 edits in `pending-bills.ts` and
+   `public/sitemap.xml` went with the falsification. Caught on the next `git diff --stat` (only
+   `site-meta.ts` still differed), re-applied with asserted counts. **Rule: when falsifying on top of
+   uncommitted edits, restore from a `cp` backup, never `git checkout`.** The second falsification did that.
+
+### 1:1 build proof
+
+Kept the 9/15 `dist/index.html` before building and diffed it against the new one: **8 regions**, the
+asset hash (`index-DLfkS0rl` → `index-CFOswQSo`, counted twice) plus **six** `15`→`16` date strings (5
+card chips + footer). Artifact **76,594 bytes on both**. **No legal copy moved.** Rebuilt again from the
+final files after the restore: 5 "Sep 16, 2026" chips, footer "September 16, 2026" ×1, JSON-LD **16**,
+sitemap `2026-09-16` in both `dist/` and `public/`. **312 green**, tsc clean, build + prerender green.
+
+### Changes in this commit
+
+**Date bumps only.** CA/FL/IL/MA/NY `lastVerified` → `2026-09-16`; UT/WA left `2026-08-24`; carriers left
+`2026-09-07`; `LAST_REVIEWED` and its doc-comment example → September 16; `public/sitemap.xml` → `2026-09-16`
+(by hand, the build only stamps `dist/`). Nothing live is wrong, so PR #18 stays a draft with no urgency.
+
 ## September 15, 2026 law sync (Tuesday): all laws in sync; nothing moved anywhere. Date bumps only
 
 **No statute, bill, effective date, or carrier claim changed in any tracked state**, and no tracked bill
