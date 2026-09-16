@@ -12,13 +12,21 @@
     "",
     "citation-fidelity.test.ts requires every quote in these statutes to appear here EXACTLY.",
     "Editing a quote turns the suite red until someone re-reads the statute and updates this file.",
-    "That is the point: it makes re-verification the only way forward."
+    "That is the point: it makes re-verification the only way forward.",
+    "",
+    "Exact procedure (fixed 2026-09-16, because the 2026-08-24 hash could not be reproduced from",
+    "its notes; the page's Last-Modified is Tue, 28 Apr 2026 18:37:11 GMT, so the text itself did",
+    "not change). In a real browser on the source page: clone document.body; remove every s,",
+    "strike, del, and inline-styled strikethrough element; take the clone's textContent; delete empty",
+    "bracket pairs with /\\[\\s*\\]/g; then apply normalize() from citation-fidelity.test.tsx. SHA-256",
+    "of the UTF-8 result. On 2026-09-16 that text was 24,454 characters and all four quotes below",
+    "appeared in it verbatim."
   ],
   "sources": {
     "https://www.capitol.hawaii.gov/sessions/session2026/bills/HB2021_CD1_.HTM": {
       "label": "HI HB 2021 CD1 (Act 259)",
-      "enactedTextSha256": "9ab9c0de41c9336c93d2c16b059fcd5e915e0286a834c58df052aefc9378c5a8",
-      "lastVerified": "2026-08-24",
+      "enactedTextSha256": "70b01f83293931bf8881c2068a1513a79fe55cdb7de489b5319987a817990bf6",
+      "lastVerified": "2026-09-16",
       "quotes": [
         "\"High-speed electric device\" means any device with a motor exceeding seven hundred fifty watts and capable of speeds over twenty-eight miles per hour.",
         "An electric bicycle shall be required to be registered, and shall be subject to a permanent registration fee of $30, to be paid by the owners thereof to the director of finance. No person shall operate an electric bicycle on a public roadway, sidewalk, or bicycle facility unless it has been properly registered pursuant to this subsection. Failure to register may result in citation or temporary impoundment by a law enforcement officer or designated official pursuant to section 249-15.",

@@ -198,6 +198,99 @@ Capitalized and rendered in an eyebrow; the same words in a sentence are prose a
 case-insensitive count conflates a stale label with correct history, and it fails in the direction
 that wastes a run chasing a phantom. Every prior run's 0 was right.
 
+## September 16, 2026 (afternoon): full 1:1 audit. Two false legal claims corrected (UT, WA), two fixtures fixed
+
+Paul: "check everything make everything 1:1". Every claim the site shows was re-read against its primary
+source, including the ones the daily sync skips (carrier cards claim by claim, UT/WA enrolled texts, the
+Justia/Cornell quotes the test does not cover, the NJ fixture itself, the HI manifest). Branch
+`accuracy/2026-09-16`. **Not merged without Paul's go** because it changes legal copy.
+
+### ⚠️ Washington card + FAQ said the motorcycle/moped rules "already require all three". False for mopeds
+
+- RCW 46.30.020(3)(b): the mandatory liability insurance chapter "shall not govern ... The operation of a
+  motor-driven cycle as defined in RCW 46.04.332, a moped as defined in RCW 46.04.304". A motor-driven cycle
+  is a motorcycle of 5 brake horsepower or less (RCW 46.04.332).
+- Registration: RCW 46.16A.030 (vehicles must be registered); RCW 46.16A.405(2) mopeds "are considered
+  vehicles for the purposes of vehicle registration and license plate display". License: RCW 46.20.500(1)
+  endorsement for motorcycles and motor-driven cycles; (2) a moped rider 16+ needs any valid driver's license.
+- Also the card said Section 1 applies the motorcycle/moped definitions to "the vehicles excluded". The
+  session law says "**many of** the vehicles excluded".
+- Everything else on the card matched the session law verbatim (votes 91-3 / 44-4, dates, Ferguson,
+  June 11 + section 3 on approval, both exclusions, work group Dec 15, 2026 / Oct 31, 2027). "Sharon"
+  Shewmake is not in the session law; confirmed on senatedemocrats.wa.gov (18 hits).
+
+### ⚠️ Utah card: wrong statutory basis, a quote with a load-bearing omission, 2027 text read as current
+
+1. **"excluded from the 'motor vehicle' definition (Sec. 13-20-2(4)(b)(vi))"**: 13-20-2 opens "As used in
+   this chapter" and is Title 13 (Commerce), the new motor vehicle warranty chapter. It governs nothing about
+   registration, licensing, or insurance. Title 41's own Motor Vehicle Act definition, 41-1a-102(41), does
+   NOT exclude e-bikes. The real bases, read on le.utah.gov in the version in force (Effective 5/6/2026):
+   registration exemption **41-1a-202(2)(a)(xiv)**; insurance exemption **41-12a-301(5)(c)**; license
+   **53-3-202** ("An individual operating an electric assisted bicycle ... is not required to have a valid
+   class D driver license or a motorcycle endorsement"); traffic-code exclusion **41-6a-102(51)(b)(iv)**.
+   "Title" was dropped from the sentence because no title exemption was verified.
+2. **41-6a-1511(1)(a) was quoted as "subject to all provisions … applicable to an operator of a
+   motorcycle"**. The ellipsis removed "**of this chapter**" (the traffic code), and the card then added
+   "i.e. the license/registration/insurance", which that subsection does not say. Now quoted in full.
+3. **"a rider 16 or older needs no driver license, no motorcycle endorsement, and no safety certificate"**
+   is the 53-3-202(5)(c) text **effective 5/5/2027**. Today's version says no class D license or endorsement
+   at any age. Copy now says both, with the date.
+4. The Jan 1, 2027 seller disclosure was paraphrased as "may be subject to motor-vehicle
+   registration/insurance"; the statutory text says the vehicle "IS INSTEAD A TYPE OF MOTOR VEHICLE AND
+   SUBJECT TO APPLICABLE MOTOR VEHICLE LAWS". Paraphrase tightened.
+- Verified unchanged: effective dates (sec. 25), 41-6a-102(21)/(23)/(32), 1505 helmet under 21 + rented
+  class 1 exception, 526 alcohol, 1512 program ($10 fee, online, ages 8/16, freeway, $150 cap in (9)),
+  1115.5 (old under-14 rule struck), 1511(1)(b) VIN carve-out, 53-3-202(5)(b)/(c)/(d) as 2027 text.
+
+### Illinois checked for the same pattern: holds
+
+Existing 625 ILCS 5/3-101(b) already requires title for "a motorcycle or motor driven cycle purchased new on
+and after January 1, 1980"; new (b-5) (underlined in the PA) adds an explicit rule for >750 W e-motor driven
+cycles bought from 2027 with a VIN. Card consistent. No change.
+
+### NJ fixture had a dropped word; HI manifest hash was not reproducible
+
+- Rebuilt NJ enacted text from today's R1a (126,970 bytes, Last-Modified 13 Jan 2026): remove every bold
+  "Albertus Extra Bold" bracket span pair (107 open / 107 close once `]<sup>1</sup>` closers are matched,
+  max nesting 2) and every `<sup>` marker, then `normalize()`. Word diff vs the old fixture: the header, and
+  **"as defined in section 1 of P.L.1991, c.465"**, where the fixture read "section of". Fixture replaced
+  with the derived text. All 11 bill quotes verbatim. Falsified: breaking one word of an exemption quote in
+  the fixture went red, restored green.
+- Justia 39:4-14.3e quote: verbatim in a real browser (curl 403s). Cornell N.J.A.C. 11:3-11.1: (b) verbatim;
+  (a) verbatim except Cornell renders "$ 15,000" with a space after the dollar sign. Left as "$15,000".
+- HI CD1: Last-Modified **Tue, 28 Apr 2026**, so the text predates the 8/24 check. All 4 quotes verbatim.
+  The 8/24 hash `9ab9c0de…` could not be reproduced from its notes under 20 normalization variants, so the
+  manifest now carries `70b01f83…` with the exact procedure written into its `_readme` and `lastVerified`
+  2026-09-16.
+
+### Carriers: every claim on all three cards, not just the headline lines
+
+Velosurance NJ page ($15k/$30k/$5k, both false legal summaries, the correct Class 1/2 line, Markel American
+underwriter, A.M. Best "A" in its JSON-LD, theft/crash/transit/medical/apparel/accessories); liability-only
+option + "limits up to $500,000" re-read on Bicycle Retailer (7/8/26) and the PR Newswire release (7/14/26).
+Sundays FAQ ("We do not offer cyclist liability insurance.", "as low as $8 per month", $1,000 medical, theft
+at/away from home, malicious damage) + homepage ($75 transportation). VOOM guide (waitlist, "launching soon",
+$35,000 ×2) + `/e-bike-insurance` (liability, physical damage, medical payments, theft, spare parts, apparel,
+accessories) + VOOM's 10/14/2024 launch release: "Coverage is provided by Markel American Insurance Company,
+NAIC# 38970" (VOOM's own site says only "Markel Insurance Company"). Markel direct now redirects to
+`markel.com/us/personal-insurance/bicycle` and has an `electric-bike` page; "New Jersey" 0 on both.
+Progressive has a live `progressive.com/e-bike-insurance/` page with no state list; its one "New Jersey" is
+the trademark list ("Drive New Jersey Insurance Company"). **NJ availability unverified** (only a ZIP quote
+form shows it; not submitted). All 3 carriers + VOOM prose → September 16.
+
+### ⚠️ Tailwind leak, second time today
+
+The manifest readme first spelled the struck-text selector literally; Tailwind emitted one unused rule for
+it and the CSS hash moved. Reworded, CSS back to the live `index-eJI1PfTe.css`. Same cause as the handoff
+note this morning: Tailwind v4 automatic source detection scans docs and JSON fixtures.
+
+### Proof
+
+312 green. Build diff vs the live page: JSON-LD FAQ text, JS hash, UT and WA one-liners, UT and WA date
+chips (Aug 24 → Sep 16), the UT and WA FAQ bullets, plus Cloudflare's live-only email obfuscation. CSS
+identical. Wrong strings in the build: "which already require all three" 0 (was 5 in live HTML), "which
+already require those" 0 (was 1), "13-20-2" 0. VOOM date guard falsified red and restored.
+
 ## ✅ September 16, 2026: PR #18 SHIPPED. The 9/9 through 9/16 syncs are live
 
 Paul authorized the deploy ("do what you need to do to make it fully updated 1:1"). **PR #18 merged as
