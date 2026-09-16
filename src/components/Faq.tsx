@@ -167,11 +167,13 @@ const GENERAL: ReadonlyArray<QA> = [
             assisted bicycle" from the "motor vehicle" definition; only
             reclassified "high power electric devices" and "electric
             motorcycles" (over 750 W, or capable of over 20 mph on the motor
-            alone — including a tampered e-bike) fall under motorcycle rules,
-            which already require all three. Utah's driver-licensing statute
-            says so outright: a rider 16 or older may ride an e-bike on a
-            highway without a driver license, a motorcycle endorsement, or a
-            safety certificate. What HB 381 does add for ordinary riders is
+            alone, including a tampered e-bike) are treated like motorcycles
+            under Utah's traffic code, and a high power electric device without
+            a VIN that is not a motorcycle is still exempt from liability
+            insurance. Utah's driver-licensing statute says outright that an
+            e-bike rider needs no class D driver license and no motorcycle
+            endorsement, and from May 5, 2027 that a rider 16 or older also
+            needs no safety certificate. What HB 381 does add for ordinary riders is
             safety rules, not vehicle paperwork: a helmet under 21 on highways
             and a ban on riding while drinking, both in effect now, and then
             from May 5, 2027 a minimum age of 8 to ride on a highway plus a
@@ -184,9 +186,12 @@ const GENERAL: ReadonlyArray<QA> = [
             does NOT add a license, registration, or insurance requirement for
             normal e-bikes. It keeps the Class 1/2/3 (≤750 W) framework and only
             narrows the definition, so a device that can exceed 20 mph on its
-            motor alone — or is built to be easily derestricted — is no longer an
-            "electric-assisted bicycle" and instead falls under Washington's
-            existing motorcycle/moped rules, which already require all three.
+            motor alone, or is built to be easily derestricted, is no longer an
+            "electric-assisted bicycle". Many of those devices fall under
+            Washington's existing motorcycle or moped rules, which already
+            require registration and a driver's license. Mandatory liability
+            insurance applies to motorcycles but not to mopeds or motor-driven
+            cycles.
           </li>
         </ul>
         See the splash page state grid for current status on each. The engine is
