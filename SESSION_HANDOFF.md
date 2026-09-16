@@ -198,6 +198,65 @@ Capitalized and rendered in an eyebrow; the same words in a sentence are prose a
 case-insensitive count conflates a stale label with correct history, and it fails in the direction
 that wastes a run chasing a phantom. Every prior run's 0 was right.
 
+## ✅ September 16, 2026: PR #18 SHIPPED. The 9/9 through 9/16 syncs are live
+
+Paul authorized the deploy ("do what you need to do to make it fully updated 1:1"). **PR #18 merged as
+`14d8a3d`** (5 commits; code diff = 3 files, 8 lines, dates only). CI on main: **test success, deploy
+success**. Merged branch deleted local and origin; **only `main` remains, zero open PRs.** Like PR #16 and
+PR #17, this corrected **no false status**: live was carrying the September 8 review date, now September 16.
+
+### Pre-flight
+
+githubstatus **All Systems Operational**; Git Operations, API Requests, Webhooks, Actions, Pages and Pull
+Requests all `operational`. It listed **1** incident, read before merging: "Degradation with Gemini 3.8
+Flash", component **Copilot AI Model Providers** only, status monitoring. Nothing on the deploy path. PR was
+`MERGEABLE` / `CLEAN`, CI `test` green on the exact head `d32c79b`, local == origin, `main` an ancestor.
+
+### Shipping diff read before merging
+
+`git diff origin/main...HEAD -- src public`: `public/sitemap.xml` (`2026-09-08` → `2026-09-16`),
+`src/data/site-meta.ts` (`LAST_REVIEWED` + its doc-comment example), `src/data/pending-bills.ts`
+(CA/FL/IL/MA/NY `lastVerified` only). **No legal copy, no `details`, no carrier, no UT/WA date moved.**
+
+### 1:1 proof
+
+Clean rebuild (`rm -rf dist dist-ssr`) of merged `main`, then downloaded the assets the live page
+references: **`cmp` IDENTICAL** for `index-CFOswQSo.js` (sha256 `0ae1b2891b93…`) and `index-eJI1PfTe.css`
+(`e38fe61ceea6…`). Live HTML **76,872** vs built artifact **76,594**: the same **+278** offset as the 9/8
+ship (76,866 vs 76,588), so live-to-live and artifact-to-artifact both moved **+6** (six `8` → `16`).
+A line diff of the live page before vs after the deploy shows exactly: the 2 asset names, the **5** card
+chips `Sep 8, 2026` → `Sep 16, 2026`, the footer `September 8` → `September 16`, and Cloudflare's
+email-protection `href`, which is re-obfuscated **on every request** and is not ours.
+
+### ⚠️⭐ The CSS hash moved for the first time since PR #15, and the cause is this doc
+
+The code diff had no style change, yet the CSS went `index-BYCnPguh` → `index-eJI1PfTe`. Checked, not
+waved through:
+
+1. Rebuilt the previous main (`eb3ce2d`) in a throwaway worktree: it reproduces **`index-BYCnPguh.css`
+   exactly**, so the build is deterministic and the old baseline is real.
+2. Rule-set diff old vs new CSS: **0** rules removed, **1** added: `.underline{text-decoration-line:underline}`.
+3. `grep -rnw underline src index.html` returns **nothing**, so no component uses it.
+4. Causal test: a worktree of `14d8a3d` with the word replaced in `SESSION_HANDOFF.md` (2 occurrences, both
+   added by the 9/10 Pennsylvania note) builds back to **`index-BYCnPguh.css`**.
+
+⇒ **Tailwind v4 (`@import "tailwindcss"` via `@tailwindcss/vite`, automatic source detection) scans this
+markdown file for class candidates.** A plain English word in a handoff note that happens to be a utility
+name becomes shipped CSS. The effect here is one unused 42-byte rule: **0** elements carry the class on the
+live page, nothing renders differently. ⚠️ **Rule: after any handoff-only commit, confirm the CSS hash did
+not move before claiming "dates only".** A permanent fix would be excluding docs from Tailwind's sources in
+`src/index.css`; that is a build-config change and was **not** made without Paul's go.
+
+### Live-verified in a real browser (fresh load)
+
+Assets `index-CFOswQSo.js` + `index-eJI1PfTe.css`; footer "last reviewed September 16, 2026"; `innerText`
+(CSS-uppercased) **5** `SEP 16, 2026` + **2** `AUG 24, 2026`, **0** `SEP 8` / `SEP 15`; NJ `DEADLINE PASSED`
+×1, "January 19, 2027" ×1, **0** calendar buttons; `IN EFFECT` ×4, **0** "Not in effect yet"; IL
+`ENACTED; EFFECTIVE JANUARY 1, 2027` ×1, CA `DEAD FOR THE SESSION` ×1, FL `VETOED BY GOVERNOR` ×1, MA
+`SENT TO STUDY` ×1, NY `IN SENATE TRANSPORTATION` ×1, UT/WA `ENACTED; IN EFFECT` ×2; **0** each of the six
+stale labels; FAQPage JSON-LD **16**; `.underline` elements **0**; live sitemap `2026-09-16`; console
+**0 errors**.
+
 ## ✅ September 8, 2026: PR #17 SHIPPED. The 9/7 + 9/8 syncs are live
 
 Paul authorized the deploy ("do what you need to do to update it"). **PR #17 merged as `d845428`**
